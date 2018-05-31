@@ -1,0 +1,35 @@
+.login-container {
+    position: absolute;
+    top: 15%;
+    left: 30%;
+    width: 40%;
+    height: 70%;
+    background: #ddd;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.header {
+    font-size: 36px;
+    text-align: center;
+    width: 100%;
+}
+
+.box {
+    text-align: center;
+    width: 100%;
+    margin-top: 5%;
+}
+
+.input-box {
+    padding: 10px 0px;
+}
+
+.warning {
+    color: #9b0044;
+}
+
+input, button {
+    margin: 0 20%;
+    width: 60%;
+    font-size: 24px;
+}

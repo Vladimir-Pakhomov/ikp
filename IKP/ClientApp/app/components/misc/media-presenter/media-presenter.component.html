@@ -1,0 +1,31 @@
+<link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+<script src="https://unpkg.com/video.js/dist/video.js"></script>
+<div class="videoWrapper">
+    <!--video #video [src]="mediaSource" autoplay class="videoElement" controls></video-->
+    <video
+    id="my-player"
+    class="video-js"
+    controls
+    preload="auto"
+    poster="//vjs.zencdn.net/v/oceans.png"
+    data-setup='{}'>
+    <source [src]="mediaSource" type="video/mp4" />
+  <!--source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"> />
+  <source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm" />
+  <source src="//vjs.zencdn.net/v/oceans.ogv" type="video/ogg" /-->
+  <p class="vjs-no-js">
+    To view this video please enable JavaScript, and consider upgrading to a
+    web browser that
+    <a href="http://videojs.com/html5-video-support/" target="_blank">
+      supports HTML5 video
+    </a>
+  </p>
+</video>
+    <div class="toolbar">
+        <button (click)="play()" [disabled]="!playEnabled">Play</button>
+        <button (click)="pause()" [disabled]="!pauseEnabled">Pause</button>
+        <button (click)="stop()" [disabled]="!stopEnabled">Stop</button>
+        <input type="file" #file style="display: none" (change)="fileSelected()"/>
+        <button (click)="open()">Open</button>
+    </div>
+</div>

@@ -1,0 +1,5 @@
+<div>
+    <div *ngFor="let button of config">
+        <button *ngIf="button.use" [class]="button.class" (click)="clickButton(button.index)">{{button.text}}</button>
+    </div>
+</div>

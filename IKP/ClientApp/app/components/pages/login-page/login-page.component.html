@@ -1,0 +1,20 @@
+<div class="login-container">
+<div class="header">Авторизация</div>
+<div class="box">
+    <div class="input-box">
+        <input class="input-lg" placeholder="Название организации" [(ngModel)]="company" />
+    </div>
+    <div class="input-box">
+        <input class="input-lg" placeholder="Логин" [(ngModel)]="login"/>
+    </div>
+    <div class="input-box">
+        <input class="input-lg" placeholder="Пароль" type="password" [(ngModel)]="password" />
+    </div>
+    <div class="input-box">
+        <button class="btn-lg btn-success" (click)="performLogin()">Войти</button>
+    </div>
+    <div class="input-box warning" *ngIf="showError">
+        Неверный логин или пароль. Убедитесь, что отключена клавиша CAPS LOCK и выбрана нужная раскладка клавиатуры.
+    </div>
+</div>
+</div>

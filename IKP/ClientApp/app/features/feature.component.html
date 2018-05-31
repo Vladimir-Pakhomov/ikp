@@ -1,0 +1,8 @@
+<div [ngSwitch]="currentStep">
+    <div *ngSwitchCase="'Login'">
+        <login-page (onLoginSuccess)="loginSuccess($event)"></login-page>
+    </div>
+    <div *ngSwitchCase="'Main'">
+        <main-page [currentUser]="currentUser"></main-page>
+    </div>
+</div>

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { User, UserRole, LicenseKeyKeyMap, DbKeyMap, AdminKeyMap, StuffKeyMap, StudentKeyMap, GroupKeyMap, HistoryItemKeyMap, LicenseKey, Db, Admin, Stuff, Student, Group, HistoryItem, ProgramKeyMap, ResultKeyMap } from '../../../services/models/main.model';
+import { User, UserRole, LicenseKeyKeyMap, AdminKeyMap, StuffKeyMap, StudentKeyMap, GroupKeyMap, HistoryItemKeyMap, LicenseKey, Admin, Stuff, Student, Group, HistoryItem, ProgramKeyMap, ResultKeyMap } from '../../../services/models/main.model';
 import { AdminService } from '../../../services/admin/admin.service';
 
 @Component({
@@ -12,7 +12,6 @@ export class MainPageComponent implements OnInit {
     role: UserRole;
 
     licenseKeyMap = LicenseKeyKeyMap;
-    dbKeyMap = DbKeyMap;
     adminsKeyMap = AdminKeyMap;
     stuffKeyMap = StuffKeyMap;
     studentsKeyMap = StudentKeyMap;
@@ -22,7 +21,6 @@ export class MainPageComponent implements OnInit {
     resultsKeyMap = ResultKeyMap;
 
     keys: LicenseKey[] = [];
-    databases: Db[] = [];
     admins: Admin[] = [];
     stuff: Stuff[] = [];
     students: Student[] = [];
@@ -45,36 +43,33 @@ export class MainPageComponent implements OnInit {
 
     goToModule(module: MainModule) {
         if(module == 'Keys' && !this.keys.length){
-            this.admin.getLicenseKeys().subscribe(x => this.keys = x);
-        }
-        if(module == 'Databases' && !this.databases.length){
-            this.admin.getDatabases().subscribe(x => this.databases = x);
+            this.admin.getLicenseKeys(this.currentUser.Company).subscribe(x => this.keys = x);
         }
         if(module == 'Admins' && !this.admins.length){
-            this.admin.getAdmins().subscribe(x => this.admins = x);
+            this.admin.getAdmins(this.currentUser.Company).subscribe(x => this.admins = x);
         }
         if(module == 'Stuff' && !this.stuff.length) {
-            this.admin.getStuff().subscribe(x => this.stuff = x);
+            this.admin.getStuff(this.currentUser.Company).subscribe(x => this.stuff = x);
         }
         if(module == 'Students' && !this.students.length){
-            this.admin.getStudents().subscribe(x => this.students = x);
+            this.admin.getStudents(this.currentUser.Company).subscribe(x => this.students = x);
         }
-        if(module == 'AllGroups' && !this.groups.length){
-            this.admin.getGroups().subscribe(x => this.groups = x);
+        if(module == 'Groups' && !this.groups.length){
+            this.admin.getGroups(this.currentUser.Company).subscribe(x => this.groups = x);
         }
         if(module == 'History' && !this.history.length){
-            this.admin.getHistory(new Date(), new Date()).subscribe(x => this.history = x);
+            this.admin.getHistory(this.currentUser.Company, new Date(), new Date()).subscribe(x => this.history = x);
         }
 
         if(module == 'MyGroups' && !this.myGroups.length){
             this.admin.getMyGroups(this.currentUser).subscribe(x => this.myGroups = x);
         }
         if(module == 'AllResults' && !this.allResults.length){
-            this.admin.getAllResults().subscribe(x => this.allResults = x);
+            this.admin.getAllResults(this.currentUser.Company).subscribe(x => this.allResults = x);
         }
 
         if(module == 'Programs' && !this.programs.length){
-            this.admin.getPrograms().subscribe(x => this.programs = x);
+            this.admin.getPrograms(this.currentUser.Company).subscribe(x => this.programs = x);
         }
         if(module == 'MyResults' && !this.myResults.length){
             this.admin.getMyResults(this.currentUser).subscribe(x => this.myResults = x);
@@ -101,6 +96,6 @@ export class MainPageComponent implements OnInit {
 }
 
 export type MainModule = 
-'Keys' | 'Databases' | 'Admins' | 'Stuff' | 'AllGroups' | 'Students' | 'History'|
+'Keys' | 'Admins' | 'Stuff' | 'Groups' | 'Students' | 'History'|
 'MyGroups' | 'AllResults' |
 'Programs' | 'MyResults';

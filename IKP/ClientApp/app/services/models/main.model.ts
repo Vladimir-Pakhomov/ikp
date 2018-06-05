@@ -26,17 +26,9 @@ export const LicenseKeyKeyMap = {
     ExpiryDate: 'Дата окончания',
 }
 
-export class Db {
-    Name: string;
-    ConnectionString: string;
-}
-
-export const DbKeyMap = {
-    Name: 'Наименование',
-    ConnectionString: 'Строка подключения'
-}
-
 export class User {
+    ID: number;
+    Company: string;
     FIO: string;
     Login: string;
     Password: string;

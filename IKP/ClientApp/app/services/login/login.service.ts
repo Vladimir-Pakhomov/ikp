@@ -12,6 +12,6 @@ export class LoginService {
     login(company: string, login: string, password: string): Observable<User|null> {
         // TODO md5 пароль
         return this.http.get(this.baseUrl + `api/LoginService/Login?company=${company}&login=${login}&password=${password}`)
-        .map(r => r.json().User as User);
+        .map(r => r.json()[0] as User);
     }
 }

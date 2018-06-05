@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-3">
-        <nav-menu [role]="role" (onSelected)="goToModule($event)"></nav-menu>
+        <nav-menu [currentUser]="currentUser" (onSelected)="goToModule($event)"></nav-menu>
     </div>
     <div class="col-sm-9">
         <table class="table table-bordered">
@@ -13,10 +13,9 @@
         </table>
         <div [ngSwitch]="currentModule">
             <linked-table *ngSwitchCase="'Keys'" [title]="'Лицензионные ключи'" [keyMap]="licenseKeyMap" [data]="keys"></linked-table>
-            <linked-table *ngSwitchCase="'Databases'" [title]="'Базы данных'" [keyMap]="dbKeyMap" [data]="databases"></linked-table>
             <linked-table *ngSwitchCase="'Admins'" [title]="'Администраторы'" [keyMap]="adminsKeyMap" [data]="admins"></linked-table>
             <linked-table *ngSwitchCase="'Stuff'" [title]="'Сотрудники'" [keyMap]="stuffKeyMap" [data]="stuff"></linked-table>
-            <linked-table *ngSwitchCase="'AllGroups'" [title]="'Группы'" [keyMap]="groupsKeyMap" [data]="groups"></linked-table>
+            <linked-table *ngSwitchCase="'Groups'" [title]="'Группы'" [keyMap]="groupsKeyMap" [data]="groups"></linked-table>
             <linked-table *ngSwitchCase="'Students'" [title]="'Учащиеся'" [keyMap]="studentsKeyMap" [data]="students"></linked-table>
             <linked-table *ngSwitchCase="'History'" [title]="'История изменений'" [keyMap]="historyKeyMap" [data]="history"></linked-table>
 

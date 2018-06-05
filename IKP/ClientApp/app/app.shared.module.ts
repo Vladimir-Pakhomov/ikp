@@ -43,8 +43,8 @@ import { LinkedTableComponent } from './components/misc/linked-table/linked-tabl
         ])
     ],
     providers: [
-        { provide: AdminService, useClass: AdminServiceStub },
-        { provide: LoginService, useClass: LoginServiceStub }
+        AdminService,
+        LoginService
     ]
 })
 export class AppModuleShared {

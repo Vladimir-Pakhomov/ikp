@@ -1,0 +1,100 @@
+create table if not exists `keys`
+(
+	ID int(11) not null primary key auto_increment,
+    Status int(2) not null,
+    Guid varchar(36) not null,
+    Admins int(4) not null default 0,
+    Stuff int(4) not null default 0,
+    Students int(4) not null default 0,
+    GivenDate varchar(50) not null,
+    Duration int(6) not null,
+    StartDate varchar(50),
+    ExpiryDate varchar(50)
+);
+
+create table if not exists `users`
+(
+	ID int(11) not null primary key auto_increment,
+    FIO varchar (256) not null,
+    Password varchar (256) not null,
+    Role int(2) not null,
+    Remarks varchar(256)
+);
+
+alter table `users`
+add column Company varchar(256) not null default 'ikp';
+
+create table if not exists `admins`
+(
+	ID int(11) not null primary key,
+    IsSA boolean not null default 0
+);
+
+create table if not exists `stuff`
+(
+	ID int(11) not null primary key,
+    Position varchar(256) not null
+);
+
+create table if not exists `students`
+(
+	ID int(11) not null primary key,
+    IDGroup int(11)
+);
+
+create table if not exists `groups`
+(
+	ID int(11) not null primary key auto_increment,
+    Name varchar(256) not null,
+    IDLead int(11)
+);
+
+create table if not exists `history`
+(
+	ID int(11) not null primary key auto_increment,
+    Date varchar(50) not null,
+    IDUser int(11) not null,
+    Description varchar(256)
+);
+
+create table if not exists `Programs`
+(
+	ID int(11) not null primary key auto_increment,
+    Name varchar(256) not null
+);
+
+create table if not exists `Blocks`
+(
+	ID int(11) not null primary key auto_increment,
+    Name varchar(256) not null
+);
+
+create table if not exists `Exersizes`
+(
+	ID int(11) not null primary key auto_increment,
+    Name varchar(256) not null,
+    GeneralQuestion varchar(256) not null
+);
+
+create table if not exists `Links`
+(
+	ID int(11) not null primary key auto_increment,
+    IDParent int(11) not null,
+    ParentType int(2) not null,
+    IDChild int(11) not null,
+    ChildType int(2) not null
+);
+
+create table if not exists `Results`
+(
+	ID int(11) primary key not null auto_increment,
+    Start varchar(50) not null,
+    End varchar(50) not null,
+    Elapsed int(6) not null,
+    IDUser int(11) not null,
+    IDProgram int(11) not null,
+    Blocks varchar(256),
+    IDExersize int(11) not null,
+    Correctness int(3) not null,
+    Rationality int(3) not null
+);

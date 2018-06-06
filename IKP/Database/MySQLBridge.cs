@@ -9,6 +9,8 @@ using IKP.Logging;
 
 namespace IKP.Database
 {
+    public enum ActionErrorCode { OK = 0, CompanyConnectionError = 1, Other = 99 };
+
     public static class MySQLBridge
     {
         private static Logger _dbLogger = new Logger("Database", "logs");
@@ -347,6 +349,94 @@ namespace IKP.Database
                 _dbLogger.Log($"GetHistory exception: {ex}");
                 return null;
             }
+        }
+
+        /* Actions Execution Commands */
+        private static ActionErrorCode PerformAction(string company, string cmdText)
+        {
+            try
+            {
+                var conn = CreateConnectionByCompany(company);
+                if (conn != null)
+                {
+                    var cmd = new MySqlCommand(cmdText, conn);
+                    cmd.ExecuteNonQuery();
+                    return ActionErrorCode.OK;
+                }
+                else return ActionErrorCode.CompanyConnectionError;
+            }
+            catch (Exception ex)
+            {
+                _dbLogger.Log($"PerformAction exception: {ex}");
+                return ActionErrorCode.Other;
+            }
+        }
+
+        public static ActionErrorCode AddAdmin(string company, string fio, string login, string password, int isSA)
+        {
+            string cmd =
+                $"start transaction; " +
+                $"insert into `Users` (FIO, Login, Password, Company, Role) " +
+                $"values ('{fio}', '{login}', '{password}', '{company}', 0); " +
+                $"select @lastID := max(ID) from `Users`; " +
+                $"insert into `Admins` (ID, IsSA) values (@lastID, {isSA}); " +
+                $"commit;";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode AddStuff(string company, string fio, string login, string password, string position)
+        {
+            string cmd =
+                $"start transaction; " +
+                $"insert into `Users` (FIO, Login, Password, Company, Role) " +
+                $"values ('{fio}', '{login}', '{password}', '{company}', 0); " +
+                $"select @lastID := max(ID) from `Users`; " +
+                $"insert into `Stuff` (ID, Position) values (@lastID, '{position}'); " +
+                $"commit;";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode AddStudent(string company, string fio, string login, string password, int idGroup)
+        {
+            string cmd =
+                $"start transaction; " +
+                $"insert into `Users` (FIO, Login, Password, Company, Role) " +
+                $"values ('{fio}', '{login}', '{password}', '{company}', 0); " +
+                $"select @lastID := max(ID) from `Users`; " +
+                $"insert into `Students` (ID, IDGroup) values (@lastID, {idGroup}); " +
+                $"commit;";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode EditUser(string id, string company, string fio, string login, string password)
+        {
+            string cmd =
+                $"update `Users` " +
+                $"set FIO = '{fio}', Login = '{login}, Password = '{password}' " +
+                $"where ID = {id}";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode AssignSA(string id, string company)
+        {
+            string cmd =
+                $"start transaction; " +
+                $"update `Admins` set IsSA = 0 where IsSA = 1; " +
+                $"update `Admins` set IsSA = 1 where ID={id}; " +
+                $"commit;";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode EditPosition(string id, string company, string position)
+        {
+            string cmd = $"update `Stuff` set Position='{position}' where ID={id}";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode EditGroup(string id, string company, int idGroup)
+        {
+            string cmd = $"update `Students` set IDGroup={idGroup} where ID={id}";
+            return PerformAction(company, cmd);
         }
     }
 }

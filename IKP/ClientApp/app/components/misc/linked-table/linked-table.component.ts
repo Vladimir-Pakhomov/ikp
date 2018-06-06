@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'linked-table',
@@ -10,11 +10,31 @@ export class LinkedTableComponent implements OnInit {
     @Input() title: string;
     @Input() keyMap: any;
 
+    /* actions */
+    @Input() addEnabled: boolean = true;
+    @Input() editEnabled: boolean = true;
+    @Input() deleteEnabled: boolean = true;
+
+    @Input() extraActions: any[] = [];
+
+    @Output() onAdd: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onEdit: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
+
+    @Output() onExtraAction: EventEmitter<any> = new EventEmitter<any>();
+
     keys: string[];
     values: string[];
 
     ngOnInit(){
         this.keys = Object.keys(this.keyMap);
         this.values = this.keys.map(x => this.keyMap[x]);
+    }
+
+    extra(key: string, data: any){
+        this.onExtraAction.next({
+            key: key,
+            data: data
+        });
     }
 }

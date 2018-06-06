@@ -1,15 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { User, UserRole, LicenseKeyKeyMap, AdminKeyMap, StuffKeyMap, StudentKeyMap, GroupKeyMap, HistoryItemKeyMap, LicenseKey, Admin, Stuff, Student, Group, HistoryItem, ProgramKeyMap, ResultKeyMap } from '../../../services/models/main.model';
 import { AdminService } from '../../../services/admin/admin.service';
+import { ActionService } from '../../../services/actions/action.service';
 
 @Component({
     selector: 'main-page',
     templateUrl: './main-page.component.html',
     styleUrls: ['./main-page.component.css']
 })
-export class MainPageComponent implements OnInit {
+export class MainPageComponent implements OnInit, OnDestroy {
     @Input() currentUser: User;
     role: UserRole;
+
+    destroy$: Subject<boolean> = new Subject<boolean>();
+    updater$: Subject<string> = new Subject<string>();
 
     licenseKeyMap = LicenseKeyKeyMap;
     adminsKeyMap = AdminKeyMap;
@@ -37,48 +42,74 @@ export class MainPageComponent implements OnInit {
 
     roleString: string;
 
-    constructor(private admin: AdminService){
+    adminExtraActions: any[] = [{ key: 'assignSA', value: 'Назначить СА' }];
+    stuffExtraActions: any[] = [{ key: 'changePosition', value: 'Изменить должность' }];
+    studentExtraActions: any[] = [{ key: 'changeGroup', value: 'Изменить группу' }];
+
+    constructor(private admin: AdminService, private action: ActionService){
 
     }
 
+    updateModule(module: MainModule) {
+        this.updater$.next(module);
+    }
+
     goToModule(module: MainModule) {
-        if(module == 'Keys' && !this.keys.length){
-            this.admin.getLicenseKeys(this.currentUser.Company).subscribe(x => this.keys = x);
-        }
-        if(module == 'Admins' && !this.admins.length){
-            this.admin.getAdmins(this.currentUser.Company).subscribe(x => this.admins = x);
-        }
-        if(module == 'Stuff' && !this.stuff.length) {
-            this.admin.getStuff(this.currentUser.Company).subscribe(x => this.stuff = x);
-        }
-        if(module == 'Students' && !this.students.length){
-            this.admin.getStudents(this.currentUser.Company).subscribe(x => this.students = x);
-        }
-        if(module == 'Groups' && !this.groups.length){
-            this.admin.getGroups(this.currentUser.Company).subscribe(x => this.groups = x);
-        }
-        if(module == 'History' && !this.history.length){
-            this.admin.getHistory(this.currentUser.Company, new Date(), new Date()).subscribe(x => this.history = x);
-        }
-
-        if(module == 'MyGroups' && !this.myGroups.length){
-            this.admin.getMyGroups(this.currentUser).subscribe(x => this.myGroups = x);
-        }
-        if(module == 'AllResults' && !this.allResults.length){
-            this.admin.getAllResults(this.currentUser.Company).subscribe(x => this.allResults = x);
-        }
-
-        if(module == 'Programs' && !this.programs.length){
-            this.admin.getPrograms(this.currentUser.Company).subscribe(x => this.programs = x);
-        }
-        if(module == 'MyResults' && !this.myResults.length){
-            this.admin.getMyResults(this.currentUser).subscribe(x => this.myResults = x);
-        }
-
+        this.updater$.next(module);
         this.currentModule = module;
     }
 
     ngOnInit() {
+        this.updater$
+        .concatMap(m => {
+            if(m == 'Keys') return Observable.zip(Observable.of(m), this.admin.getLicenseKeys(this.currentUser.Company).map(r => <any[]>r));
+            if(m == 'Admins') return Observable.zip(Observable.of(m), this.admin.getAdmins(this.currentUser.Company).map(r => <any[]>r));
+            if(m == 'Stuff') return Observable.zip(Observable.of(m), this.admin.getStuff(this.currentUser.Company).map(r => <any[]>r));
+            if(m == 'Students') return Observable.zip(Observable.of(m), this.admin.getStudents(this.currentUser.Company).map(r => <any[]>r));
+            if(m == 'Groups') return Observable.zip(Observable.of(m), this.admin.getGroups(this.currentUser.Company).map(r => <any[]>r));
+            if(m == 'History') return Observable.zip(Observable.of(m), this.admin.getHistory(this.currentUser.Company, new Date(), new Date()).map(r => <any[]>r));
+            if(m == 'MyGroups') return Observable.zip(Observable.of(m), this.admin.getMyGroups(this.currentUser).map(r => <any[]>r));
+            if(m == 'AllResults') return Observable.zip(Observable.of(m), this.admin.getAllResults(this.currentUser.Company).map(r => <any[]>r));
+            if(m == 'Programs') return Observable.zip(Observable.of(m), this.admin.getPrograms(this.currentUser.Company).map(r => <any[]>r));
+            if(m == 'MyResults') return Observable.zip(Observable.of(m), this.admin.getMyResults(this.currentUser).map(r => <any[]>r));
+            return Observable.zip(Observable.of(m), Observable.of([]));
+        })
+        .takeUntil(this.destroy$)
+        .subscribe(([m, data]) => {
+            switch(m){
+                case 'Keys':
+                    this.keys = data;
+                    break;
+                case 'Admins':
+                    this.admins = data;
+                    break;
+                case 'Stuff':
+                    this.stuff = data;
+                    break;
+                case 'Students':
+                    this.students = data;
+                    break;
+                case 'Groups':
+                    this.groups = data;
+                    break;
+                case 'History':
+                    this.history = data;
+                    break;
+                case 'MyGroups':
+                    this.myGroups = data;
+                    break;
+                case 'AllResults':
+                    this.allResults = data;
+                    break;
+                case 'Programs':
+                    this.programs = data;
+                    break;
+                case 'MyResults':
+                    this.myResults = data;
+                    break;
+            }
+        });
+
         this.role = this.currentUser.Role;
         this.roleString = UserRole[this.role];
         switch(this.role){
@@ -90,6 +121,21 @@ export class MainPageComponent implements OnInit {
                 break;
             case UserRole.Student:
                 this.goToModule('Programs');
+                break;
+        }
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next(true);
+        this.destroy$.unsubscribe();
+    }
+
+    onExtraAction(event: any){
+        switch(event.key){
+            case 'assignSA':
+                let targetAdmin = event.data as Admin;
+                this.action.assignSA(targetAdmin.ID, targetAdmin.Company)
+                .subscribe(() => this.updater$.next('Admins'));
                 break;
         }
     }

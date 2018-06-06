@@ -16,6 +16,7 @@ import { FeatureComponent } from './features/feature.component';
 import { ToolbarComponent } from './components/misc/toolbar/toolbar.component';
 import { MediaPresenterComponent } from './components/misc/media-presenter/media-presenter.component';
 import { LinkedTableComponent } from './components/misc/linked-table/linked-table.component';
+import { ActionService } from './services/actions/action.service';
 
 @NgModule({
     declarations: [
@@ -43,8 +44,9 @@ import { LinkedTableComponent } from './components/misc/linked-table/linked-tabl
         ])
     ],
     providers: [
+        ActionService,
         AdminService,
-        LoginService
+        LoginService,
     ]
 })
 export class AppModuleShared {

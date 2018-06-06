@@ -13,11 +13,11 @@
         </table>
         <div [ngSwitch]="currentModule">
             <linked-table *ngSwitchCase="'Keys'" [title]="'Лицензионные ключи'" [keyMap]="licenseKeyMap" [data]="keys"></linked-table>
-            <linked-table *ngSwitchCase="'Admins'" [title]="'Администраторы'" [keyMap]="adminsKeyMap" [data]="admins"></linked-table>
-            <linked-table *ngSwitchCase="'Stuff'" [title]="'Сотрудники'" [keyMap]="stuffKeyMap" [data]="stuff"></linked-table>
+            <linked-table *ngSwitchCase="'Admins'" [title]="'Администраторы'" [keyMap]="adminsKeyMap" [data]="admins" [extraActions]="adminExtraActions" (onExtraAction)="onExtraAction($event)"></linked-table>
+            <linked-table *ngSwitchCase="'Stuff'" [title]="'Сотрудники'" [keyMap]="stuffKeyMap" [data]="stuff" [extraActions]="stuffExtraActions"></linked-table>
             <linked-table *ngSwitchCase="'Groups'" [title]="'Группы'" [keyMap]="groupsKeyMap" [data]="groups"></linked-table>
-            <linked-table *ngSwitchCase="'Students'" [title]="'Учащиеся'" [keyMap]="studentsKeyMap" [data]="students"></linked-table>
-            <linked-table *ngSwitchCase="'History'" [title]="'История изменений'" [keyMap]="historyKeyMap" [data]="history"></linked-table>
+            <linked-table *ngSwitchCase="'Students'" [title]="'Учащиеся'" [keyMap]="studentsKeyMap" [data]="students" [extraActions]="studentExtraActions"></linked-table>
+            <linked-table *ngSwitchCase="'History'" [title]="'История изменений'" [keyMap]="historyKeyMap" [data]="history" [addEnabled]="false" [editEnabled]="false" [deleteEnabled]="false"></linked-table>
 
             <linked-table *ngSwitchCase="'MyGroups'" [title]="'Мои группы'" [keyMap]="groupsKeyMap" [data]="myGroups"></linked-table>
             <linked-table *ngSwitchCase="'AllResults'" [title]="'Все результаты'" [keyMap]="resultsKeyMap" [data]="allResults"></linked-table>

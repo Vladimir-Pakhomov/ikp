@@ -31,6 +31,14 @@ export class LinkedTableComponent implements OnInit {
         this.values = this.keys.map(x => this.keyMap[x]);
     }
 
+    add() {
+        this.onAdd.next();
+    }
+
+    edit(data: any){
+        this.onEdit.next(data);
+    }
+
     extra(key: string, data: any){
         this.onExtraAction.next({
             key: key,

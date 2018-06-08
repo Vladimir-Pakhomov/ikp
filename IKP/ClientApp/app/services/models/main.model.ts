@@ -44,7 +44,6 @@ export const AdminKeyMap = {
     FIO: 'ФИО',
     Login: 'Логин',
     Password: 'Пароль',
-    Role: 'Роль',
     Remarks: 'Примечание',
     IsSA: 'СА'
 }
@@ -57,7 +56,6 @@ export const StuffKeyMap = {
     FIO: 'ФИО',
     Login: 'Логин',
     Password: 'Пароль',
-    Role: 'Роль',
     Remarks: 'Примечание',
     Position: 'Должность'
 }
@@ -80,7 +78,6 @@ export const StudentKeyMap = {
     FIO: 'ФИО',
     Login: 'Логин',
     Password: 'Пароль',
-    Role: 'Роль',
     Remarks: 'Примечание',
     Group: 'Группа'
 }

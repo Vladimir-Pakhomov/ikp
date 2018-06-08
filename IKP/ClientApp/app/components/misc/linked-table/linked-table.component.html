@@ -1,6 +1,6 @@
 <h2>{{title}}</h2>
 <div *ngIf="addEnabled">
-    <button class="btn btn-success">Добавить</button>
+    <button class="btn btn-success" (click)="add()">Добавить</button>
 </div>
 <br>
 <div *ngIf="data.length > 0">
@@ -11,9 +11,9 @@
         </thead>
         <tbody>
             <tr *ngFor="let item of data">
-                <td *ngFor="let key of keys">{{item[key]}}</td>
+                <td *ngFor="let key of keys">{{item[key] | object}}</td>
                 <td>
-                    <button *ngIf="editEnabled" class="btn btn-info">Изменить</button>
+                    <button *ngIf="editEnabled" class="btn btn-info" (click)="edit(item)">Изменить</button>
                     <button *ngIf="deleteEnabled" class="btn btn-warning">Удалить</button>
                     <button *ngFor="let extraAction of extraActions" class="btn btn-secondary" (click)="extra(extraAction.key, item)">{{extraAction.value}}</button>
                 </td>

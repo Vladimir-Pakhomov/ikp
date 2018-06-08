@@ -1,0 +1,29 @@
+<div>
+    <h2 *ngIf="!editMode">Add User: {{user.Role | userRole}}</h2>
+    <h2 *ngIf="editMode">Edit User: {{user.FIO}}</h2>
+    <div class="itemGroup">
+        <div class="itemCaption">FIO</div>
+        <input class="itemInput" [ngClass]="{ 'invalid': !user.FIO }" [(ngModel)]="user.FIO" />
+        <div *ngIf="!user.FIO" class="validationMessage">This field is required</div>
+    </div>
+    <br>
+    <div class="itemGroup">
+        <div class="itemCaption">Login</div>
+        <input class="itemInput" [ngClass]="{ 'invalid': !user.Login }" [(ngModel)]="user.Login" />
+        <div *ngIf="!user.Login" class="validationMessage">This field is required</div>
+    </div>
+    <br>
+    <div class="itemGroup">
+        <div class="itemCaption">Password</div>
+        <input class="itemInput" [ngClass]="{ 'invalid': !user.Password }" [(ngModel)]="user.Password" />
+        <div *ngIf="!user.Password" class="validationMessage">This field is required</div>
+    </div>
+    <br>
+    <div class="itemGroup">
+        <div class="itemCaption">Remarks</div>
+        <textarea class="itemInput" [(ngModel)]="user.Remarks"></textarea>
+    </div>
+    <br>
+    <button *ngIf="valid" class="btn btn-success" (click)="ok()">Submit</button>
+    <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+</div>

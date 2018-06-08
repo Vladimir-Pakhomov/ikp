@@ -13,10 +13,10 @@
         </table>
         <div [ngSwitch]="currentModule">
             <linked-table *ngSwitchCase="'Keys'" [title]="'Лицензионные ключи'" [keyMap]="licenseKeyMap" [data]="keys"></linked-table>
-            <linked-table *ngSwitchCase="'Admins'" [title]="'Администраторы'" [keyMap]="adminsKeyMap" [data]="admins" [extraActions]="adminExtraActions" (onExtraAction)="onExtraAction($event)"></linked-table>
-            <linked-table *ngSwitchCase="'Stuff'" [title]="'Сотрудники'" [keyMap]="stuffKeyMap" [data]="stuff" [extraActions]="stuffExtraActions"></linked-table>
-            <linked-table *ngSwitchCase="'Groups'" [title]="'Группы'" [keyMap]="groupsKeyMap" [data]="groups"></linked-table>
-            <linked-table *ngSwitchCase="'Students'" [title]="'Учащиеся'" [keyMap]="studentsKeyMap" [data]="students" [extraActions]="studentExtraActions"></linked-table>
+            <linked-table *ngSwitchCase="'Admins'" [title]="'Администраторы'" [keyMap]="adminsKeyMap" [data]="admins" [extraActions]="adminExtraActions" (onAdd)="onAddAdmin()" (onEdit)="onEditAdmin($event)" (onExtraAction)="onExtraAction($event)"></linked-table>
+            <linked-table *ngSwitchCase="'Stuff'" [title]="'Сотрудники'" [keyMap]="stuffKeyMap" [data]="stuff" [extraActions]="stuffExtraActions" (onAdd)="onAddStuff()" (onEdit)="onEditStuff($event)"></linked-table>
+            <linked-table *ngSwitchCase="'Groups'" [title]="'Группы'" [keyMap]="groupsKeyMap" [data]="groups" (onAdd)="onAddGroup()" (onEdit)="onEditGroup($event)"></linked-table>
+            <linked-table *ngSwitchCase="'Students'" [title]="'Учащиеся'" [keyMap]="studentsKeyMap" [data]="students" [extraActions]="studentExtraActions" (onAdd)="onAddStudent()" (onEdit)="onEditStudent($event)"></linked-table>
             <linked-table *ngSwitchCase="'History'" [title]="'История изменений'" [keyMap]="historyKeyMap" [data]="history" [addEnabled]="false" [editEnabled]="false" [deleteEnabled]="false"></linked-table>
 
             <linked-table *ngSwitchCase="'MyGroups'" [title]="'Мои группы'" [keyMap]="groupsKeyMap" [data]="myGroups"></linked-table>
@@ -24,6 +24,18 @@
 
             <linked-table *ngSwitchCase="'Programs'" [title]="'Программы'" [keyMap]="programsKeyMap" [data]="programs"></linked-table>
             <linked-table *ngSwitchCase="'MyResults'" [title]="'Мои результаты'" [keyMap]="resultsKeyMap" [data]="myResults"></linked-table>
+
+            <user-form *ngSwitchCase="'AddAdmin'" [role]="0" (onFormCancelled)="goToModule('Admins')"></user-form>
+            <user-form *ngSwitchCase="'EditAdmin'" [user]="currentAdmin" [role]="0" (onFormCancelled)="goToModule('Admins')"></user-form>
+
+            <user-form *ngSwitchCase="'AddStuff'" [role]="1" (onFormCancelled)="goToModule('Stuff')"></user-form>
+            <user-form *ngSwitchCase="'EditStuff'" [user]="currentStuff" [role]="1" (onFormCancelled)="goToModule('Stuff')"></user-form>
+
+            <user-form *ngSwitchCase="'AddStudent'" [role]="2" (onFormCancelled)="goToModule('Students')"></user-form>
+            <user-form *ngSwitchCase="'EditStudent'" [user]="currentStudent" [role]="2" (onFormCancelled)="goToModule('Students')"></user-form>
+
+            <group-form *ngSwitchCase="'AddGroup'" [company]="currentUser.Company" (onFormCancelled)="goToModule('Groups')"></group-form>
+            <group-form *ngSwitchCase="'EditGroup'" [company]="currentUser.Company" [group]="currentGroup" (onFormCancelled)="goToModule('Groups')"></group-form>
         </div>
     </div>
 </div>

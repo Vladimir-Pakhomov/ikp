@@ -40,6 +40,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     currentModule: MainModule;
 
+    currentAdmin: any;
+    currentStuff: any;
+    currentStudent: any;
+    currentGroup: any;
+
     roleString: string;
 
     adminExtraActions: any[] = [{ key: 'assignSA', value: 'Назначить СА' }];
@@ -130,6 +135,42 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.destroy$.unsubscribe();
     }
 
+    onAddAdmin() {
+        this.goToModule('AddAdmin');
+    }
+
+    onEditAdmin(data: any){
+        this.currentAdmin = data;
+        this.goToModule('EditAdmin');
+    }
+
+    onAddStuff() {
+        this.goToModule('AddStuff');
+    }
+
+    onEditStuff(data: any){
+        this.currentStuff = data;
+        this.goToModule('EditStuff');
+    }
+
+    onAddStudent() {
+        this.goToModule('AddStudent');
+    }
+
+    onEditStudent(data: any){
+        this.currentStudent = data;
+        this.goToModule('EditStudent');
+    }
+
+    onAddGroup(){
+        this.goToModule('AddGroup');
+    }
+
+    onEditGroup(data: any){
+        this.currentGroup = data;
+        this.goToModule('EditGroup');
+    }
+
     onExtraAction(event: any){
         switch(event.key){
             case 'assignSA':
@@ -144,4 +185,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
 export type MainModule = 
 'Keys' | 'Admins' | 'Stuff' | 'Groups' | 'Students' | 'History'|
 'MyGroups' | 'AllResults' |
-'Programs' | 'MyResults';
+'Programs' | 'MyResults' |
+'AddAdmin' | 'AddStuff' | 'AddStudent' | 'AddGroup' |
+'EditAdmin' | 'EditStuff' | 'EditStudent' | 'EditGroup';

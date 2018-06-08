@@ -1,0 +1,18 @@
+<div>
+        <h2 *ngIf="!editMode">Add Group</h2>
+        <h2 *ngIf="editMode">Edit Group: {{group.Name}}</h2>
+        <div class="itemGroup">
+            <div class="itemCaption">Name</div>
+            <input class="itemInput" [ngClass]="{ 'invalid': !group.Name }" [(ngModel)]="group.Name" />
+            <div *ngIf="!group.Name" class="validationMessage">This field is required</div>
+        </div>
+        <br>
+        <div class="itemGroup">
+            <div class="itemCaption">Lead</div>
+            <lookup [type]="'Stuff'" [displayProperty]="'FIO'" [company]="company" (onOptionSelected)="leadSelected(event$)"></lookup>
+            <div *ngIf="!group.Lead" class="validationMessage">This field is required</div>
+        </div>
+        <br>
+        <button *ngIf="valid" class="btn btn-success" (click)="ok()">Submit</button>
+        <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </div>

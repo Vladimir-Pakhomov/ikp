@@ -1,0 +1,22 @@
+.itemGroup {
+
+}
+
+.itemCaption {
+    display: inline-block;
+    width: 100px;
+    vertical-align: top;
+}
+
+.itemInput {
+    width: 400px;
+}
+
+.invalid {
+    border: 2px solid red;
+}
+
+.validationMessage {
+    color: red;
+    text-decoration: underline;
+}

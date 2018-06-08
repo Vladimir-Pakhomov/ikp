@@ -17,6 +17,11 @@ import { ToolbarComponent } from './components/misc/toolbar/toolbar.component';
 import { MediaPresenterComponent } from './components/misc/media-presenter/media-presenter.component';
 import { LinkedTableComponent } from './components/misc/linked-table/linked-table.component';
 import { ActionService } from './services/actions/action.service';
+import { UserFormComponent } from './components/misc/user-form/user-form.component';
+import { UserRolePipe } from './components/misc/pipes/user-role.pipe';
+import { ObjectPipe } from './components/misc/pipes/object.pipe';
+import { GroupFormComponent } from './components/misc/group-form/group-form.component';
+import { LookupComponent } from './components/misc/lookup/lookup.component';
 
 @NgModule({
     declarations: [
@@ -30,8 +35,14 @@ import { ActionService } from './services/actions/action.service';
 
         MediaPresenterComponent,
         LinkedTableComponent,
+        UserFormComponent,
+        GroupFormComponent,
+        LookupComponent,
 
-        ToolbarComponent
+        ToolbarComponent,
+
+        UserRolePipe,
+        ObjectPipe
     ],
     imports: [
         CommonModule,
@@ -42,6 +53,10 @@ import { ActionService } from './services/actions/action.service';
             { path: 'home', component: FeatureComponent },
             { path: '**', redirectTo: 'home' }
         ])
+    ],
+    exports: [
+        UserRolePipe,
+        ObjectPipe
     ],
     providers: [
         ActionService,

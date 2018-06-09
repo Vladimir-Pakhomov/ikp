@@ -139,9 +139,19 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.goToModule('AddAdmin');
     }
 
+    performAddAdmin(data: Admin){
+        this.action.addAdmin(this.currentUser.Company, data.FIO, data.Login, data.Password, false)
+        .subscribe(() => this.goToModule('Admins'));
+    }
+
     onEditAdmin(data: any){
         this.currentAdmin = data;
         this.goToModule('EditAdmin');
+    }
+
+    performEditAdmin(data: Admin){
+        this.action.editUser(data.ID, this.currentUser.Company, data.FIO, data.Login, data.Password)
+        .subscribe(() => this.goToModule('Admins'));
     }
 
     onAddStuff() {
@@ -162,6 +172,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.goToModule('EditStudent');
     }
 
+    onDeleteUser(data: User){
+        this.action.deleteUser(data.ID, this.currentUser.Company).subscribe();
+    }
+
     onAddGroup(){
         this.goToModule('AddGroup');
     }
@@ -169,6 +183,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
     onEditGroup(data: any){
         this.currentGroup = data;
         this.goToModule('EditGroup');
+    }
+
+    onDeleteGroups(data: Group){
+        this.action.deleteGroup(data.ID, this.currentUser.Company).subscribe();
     }
 
     onExtraAction(event: any){

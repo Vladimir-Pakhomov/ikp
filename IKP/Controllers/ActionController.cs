@@ -87,6 +87,23 @@ namespace IKP.Controllers
         }
 
         [HttpGet("[action]")]
+        public JObject DeleteUser(string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.DeleteUser(id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"DeleteUser exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
         public JObject AssignSA(string id, string company)
         {
             JObject result = new JObject();
@@ -133,6 +150,23 @@ namespace IKP.Controllers
             catch (Exception ex)
             {
                 _actionLogger.Log($"EditGroup exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject DeleteGroup(string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.DeleteGroup(id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"DeleteGroup exception: {ex}");
                 result.Add("error", (int)ActionErrorCode.Other);
             }
             return result;

@@ -51,4 +51,16 @@ export class ActionService {
             `api/Action/EditGroup?id=${id}&company=${company}&idGroup=${idGroup}`)
         .map(r => Number(r.json().error));
     }
+
+    deleteUser(id: number, company: string){
+        return this.http.get(this.baseUrl + 
+            `api/Action/DeleteUser?id=${id}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
+    deleteGroup(id: number, company: string){
+        return this.http.get(this.baseUrl + 
+            `api/Action/DeleteGroup?id=${id}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
 }

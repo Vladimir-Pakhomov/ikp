@@ -14,7 +14,7 @@
                 <td *ngFor="let key of keys">{{item[key] | object}}</td>
                 <td>
                     <button *ngIf="editEnabled" class="btn btn-info" (click)="edit(item)">Изменить</button>
-                    <button *ngIf="deleteEnabled" class="btn btn-warning">Удалить</button>
+                    <button *ngIf="deleteEnabled" class="btn btn-warning" (click)="delete(item)">Удалить</button>
                     <button *ngFor="let extraAction of extraActions" class="btn btn-secondary" (click)="extra(extraAction.key, item)">{{extraAction.value}}</button>
                 </td>
             </tr>

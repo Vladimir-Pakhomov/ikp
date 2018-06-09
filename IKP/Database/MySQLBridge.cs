@@ -90,7 +90,7 @@ namespace IKP.Database
                 if (conn != null)
                 {
                     DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select * from Users where Login='{login}' and Password='{password}'", conn);
+                    var cmd = new MySqlCommand($"select * from Users where IsDeleted = 0 and Login='{login}' and Password='{password}'", conn);
                     MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
                     mySqlDataAdapter.Fill(ds);
                     return ds;
@@ -134,7 +134,7 @@ namespace IKP.Database
                 if (conn != null)
                 {
                     DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select u.*, a.IsSA from Users u inner join Admins a on u.ID = a.ID", conn);
+                    var cmd = new MySqlCommand($"select u.*, a.IsSA from (select * from Users where IsDeleted = 0) u inner join Admins a on u.ID = a.ID", conn);
                     MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
                     mySqlDataAdapter.Fill(ds);
                     return ds;
@@ -156,7 +156,7 @@ namespace IKP.Database
                 if (conn != null)
                 {
                     DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select u.*, s.Position from Stuff s inner join Users u on u.ID = s.ID", conn);
+                    var cmd = new MySqlCommand($"select u.*, s.Position from Stuff s inner join (select * from Users where IsDeleted = 0) u on u.ID = s.ID", conn);
                     MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
                     mySqlDataAdapter.Fill(ds);
                     return ds;
@@ -178,7 +178,7 @@ namespace IKP.Database
                 if (conn != null)
                 {
                     DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select u.*, s.Position from (select * from Stuff where ID={idStuff}) s inner join Users u on u.ID = s.ID", conn);
+                    var cmd = new MySqlCommand($"select u.*, s.Position from (select * from Stuff where ID={idStuff}) s inner join select * from Users u on u.ID = s.ID", conn);
                     MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
                     mySqlDataAdapter.Fill(ds);
                     return ds;
@@ -200,7 +200,7 @@ namespace IKP.Database
                 if (conn != null)
                 {
                     DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select u.*, s.IDGroup from Students s inner join Users u on s.ID = u.ID", conn);
+                    var cmd = new MySqlCommand($"select u.*, s.IDGroup from Students s inner join (select * from Users where IsDeleted = 0) u on s.ID = u.ID", conn);
                     MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
                     mySqlDataAdapter.Fill(ds);
                     return ds;
@@ -244,7 +244,7 @@ namespace IKP.Database
                 if (conn != null)
                 {
                     DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select * from `Groups`", conn);
+                    var cmd = new MySqlCommand($"select * from `Groups` where IsDeleted = 0", conn);
                     MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
                     mySqlDataAdapter.Fill(ds);
                     return ds;
@@ -412,7 +412,7 @@ namespace IKP.Database
         {
             string cmd =
                 $"update `Users` " +
-                $"set FIO = '{fio}', Login = '{login}, Password = '{password}' " +
+                $"set FIO = '{fio}', Login = '{login}', Password = '{password}' " +
                 $"where ID = {id}";
             return PerformAction(company, cmd);
         }
@@ -436,6 +436,18 @@ namespace IKP.Database
         public static ActionErrorCode EditGroup(string id, string company, int idGroup)
         {
             string cmd = $"update `Students` set IDGroup={idGroup} where ID={id}";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode DeleteUser(string id, string company)
+        {
+            string cmd = $"update `Users` set IsDeleted=1 where ID={id}";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode DeleteGroup(string id, string company)
+        {
+            string cmd = $"update `Groups` set IsDeleted=1 where ID={id}";
             return PerformAction(company, cmd);
         }
     }

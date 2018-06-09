@@ -22,6 +22,7 @@ import { UserRolePipe } from './components/misc/pipes/user-role.pipe';
 import { ObjectPipe } from './components/misc/pipes/object.pipe';
 import { GroupFormComponent } from './components/misc/group-form/group-form.component';
 import { LookupComponent } from './components/misc/lookup/lookup.component';
+import { RtComponent } from './components/misc/rt/rt.component';
 
 @NgModule({
     declarations: [
@@ -38,6 +39,7 @@ import { LookupComponent } from './components/misc/lookup/lookup.component';
         UserFormComponent,
         GroupFormComponent,
         LookupComponent,
+        RtComponent,
 
         ToolbarComponent,
 

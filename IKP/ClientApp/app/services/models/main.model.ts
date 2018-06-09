@@ -34,6 +34,7 @@ export class User {
     Password: string;
     Role: UserRole;
     Remarks: string;
+    IsDeleted: boolean;
 } 
 
 export class Admin extends User {
@@ -61,8 +62,10 @@ export const StuffKeyMap = {
 }
 
 export class Group {
+    ID: number;
     Name: string;
     Lead: Stuff;
+    IsDeleted: boolean;
 }
 
 export const GroupKeyMap = {

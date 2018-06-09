@@ -98,3 +98,6 @@ create table if not exists `Results`
     Correctness int(3) not null,
     Rationality int(3) not null
 );
+
+alter table `Users` add column `IsDeleted` boolean not null default 0;
+alter table `Groups` add column `IsDeleted` boolean not null default 0;

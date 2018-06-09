@@ -13,9 +13,9 @@ export const LicenseKeysStub: LicenseKey[] = [
 ];
 
 export const AdminsStub: Admin[] = [
-    { ID: 1, Company: 'ikp', FIO: 'Darnela Osmun', Login: 'darnela.osmun', Password: 'tw6WjT', Role: UserRole.Admin, Remarks: '', IsSA: true },
-    { ID: 2, Company: 'ikp', FIO: 'Shad Carolina', Login: 'shad.carolina', Password: 'rePXCm', Role: UserRole.Admin, Remarks: '', IsSA: false },
-    { ID: 3, Company: 'ikp', FIO: 'Ian Boyer', Login: 'ian.boyer', Password: 'C2MCYy', Role: UserRole.Admin, Remarks: '', IsSA: false }
+    { ID: 1, Company: 'ikp', FIO: 'Darnela Osmun', Login: 'darnela.osmun', Password: 'tw6WjT', Role: UserRole.Admin, Remarks: '', IsSA: true, IsDeleted: false },
+    { ID: 2, Company: 'ikp', FIO: 'Shad Carolina', Login: 'shad.carolina', Password: 'rePXCm', Role: UserRole.Admin, Remarks: '', IsSA: false, IsDeleted: false },
+    { ID: 3, Company: 'ikp', FIO: 'Ian Boyer', Login: 'ian.boyer', Password: 'C2MCYy', Role: UserRole.Admin, Remarks: '', IsSA: false, IsDeleted: false }
 ];
 
 export const HistoryItemsStub: HistoryItem[] = [];

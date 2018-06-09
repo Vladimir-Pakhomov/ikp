@@ -39,6 +39,10 @@ export class LinkedTableComponent implements OnInit {
         this.onEdit.next(data);
     }
 
+    delete(data: any){
+        this.onDelete.next(data);
+    }
+
     extra(key: string, data: any){
         this.onExtraAction.next({
             key: key,

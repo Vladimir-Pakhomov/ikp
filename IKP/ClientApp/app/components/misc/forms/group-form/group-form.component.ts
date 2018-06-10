@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { MainModule } from '../../pages/main-page/main-page.component';
-import { Group } from '../../../services/models/main.model';
+import { MainModule } from '../../../pages/main-page/main-page.component';
+import { Group } from '../../../../services/models/main.model';
 
 @Component({
     selector: 'group-form',
@@ -28,7 +28,7 @@ export class GroupFormComponent implements OnInit {
         }
     }
     leadSelected(data: any){
-        console.log(data);
+        this.group.Lead = data;
     }
 
     ok() {

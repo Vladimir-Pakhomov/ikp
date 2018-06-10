@@ -58,4 +58,9 @@ export class AdminService {
         return this.http.get(this.baseUrl + `api/AdminService/Results?company=${user.Company}&stud_id=${user.ID}`)
         .map(r => r.json() as Result[]);
     }
+
+    getDescendants(id: number, parentType: number, childrenType: number, company: string): Observable<any>{
+        return this.http.get(this.baseUrl + `api/AdminService/Descendants?id=${id}&parentType=${parentType}&type=${childrenType}&company=${company}`)
+        .map(r => r.json());
+    }
 }

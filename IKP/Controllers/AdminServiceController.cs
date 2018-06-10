@@ -125,7 +125,26 @@ namespace IKP.Controllers
         [HttpGet("[action]")]
         public JArray Programs(string company)
         {
-            return GetData(MySQLBridge.GetPrograms, company);
+            JArray temp = GetData(MySQLBridge.GetPrograms, company);
+            UseResolver(temp, "IDLicenseKey", "LicenseKey", MySQLBridge.GetLicenseKeyByID, company);
+            return temp;
+        }
+
+        [HttpGet("[action]")]
+        public JArray Descendants(string id, string parentType, string type, string company)
+        {
+            try
+            {
+                DataSet ds = MySQLBridge.GetDescendants(id, parentType, type, company);
+                if (ds != null)
+                    return JArray.FromObject(ds.Tables[0]);
+                else return new JArray();
+            }
+            catch (Exception ex)
+            {
+                _adminServiceLogger.Log($"GetDescendants exception: {ex}");
+                return new JArray();
+            }
         }
     }
 }

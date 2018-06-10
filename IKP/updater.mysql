@@ -101,3 +101,45 @@ create table if not exists `Results`
 
 alter table `Users` add column `IsDeleted` boolean not null default 0;
 alter table `Groups` add column `IsDeleted` boolean not null default 0;
+
+alter table `Programs` add column `IDLicenseKey` int(11) not null;
+
+create table if not exists `Questions`
+(
+	ID int(11) not null primary key auto_increment,
+    Content varchar(256)
+);
+
+create table if not exists `Resolvers`
+(
+	ID int(11) primary key not null auto_increment,
+    Type int(2) not null default 0,
+    Content varchar(256)
+);
+
+create table if not exists `Videos`
+(
+	ID int(11) primary key not null auto_increment,
+    Content1 varchar(256) not null,
+    Content2 varchar(256),
+    IsFirstCorrect boolean not null default 0,
+    PlaybackType int(2) not null default 0
+);
+
+create table if not exists `Conclusions`
+(
+	ID int(11) primary key not null auto_increment,
+    Name varchar(256) not null
+);
+
+create table if not exists `ConclusionItems`
+(
+	ID int(11) primary key not null auto_increment,
+    Content varchar(256) not null,
+    IsBranch boolean not null default 0,
+    IsCorrect boolean not null default 0
+);
+
+alter table `Keys` add column `Company` varchar(256) not null;
+
+

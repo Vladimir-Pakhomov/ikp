@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { MainModule } from '../../pages/main-page/main-page.component';
-import { UserRole, User } from '../../../services/models/main.model';
+import { MainModule } from '../../../pages/main-page/main-page.component';
+import { UserRole, User } from '../../../../services/models/main.model';
 
 @Component({
     selector: 'user-form',

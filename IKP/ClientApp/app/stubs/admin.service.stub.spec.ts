@@ -2,15 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs';
 import { LicenseKey, LicenseKeyStatus, User, UserRole, Admin, Stuff, Student, HistoryItem, Group, Program, Exersize, Result } from '../services/models/main.model';
-import { ProgramsStub, ResultsStub } from './programs.stub.spec';
+import { ProgramsStub, ResultsStub, LicenseKeysStub } from './programs.stub.spec';
 import { StuffStub, GroupsStub, StudentsStub } from './students.stub.spec';
-
-export const LicenseKeysStub: LicenseKey[] = [
-    { Status: LicenseKeyStatus.NotActivated, Guid: '00000000-0000-0000-0000000A', Admins: 3, Stuff: 2, Students: 10, GivenDate: new Date(2018, 1, 1), Duration: 30 },
-    { Status: LicenseKeyStatus.NotActivated, Guid: '00000000-0000-0000-0000000A', Admins: 3, Stuff: 2, Students: 10, GivenDate: new Date(2018, 1, 1), Duration: 30 },
-    { Status: LicenseKeyStatus.NotActivated, Guid: '00000000-0000-0000-0000000A', Admins: 3, Stuff: 2, Students: 10, GivenDate: new Date(2018, 1, 1), Duration: 30 },
-    { Status: LicenseKeyStatus.NotActivated, Guid: '00000000-0000-0000-0000000A', Admins: 3, Stuff: 2, Students: 10, GivenDate: new Date(2018, 1, 1), Duration: 30 },
-];
 
 export const AdminsStub: Admin[] = [
     { ID: 1, Company: 'ikp', FIO: 'Darnela Osmun', Login: 'darnela.osmun', Password: 'tw6WjT', Role: UserRole.Admin, Remarks: '', IsSA: true, IsDeleted: false },

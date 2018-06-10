@@ -16,20 +16,22 @@ export class LookupComponent implements OnInit {
 
     list: any[];
 
-    selectedItem: any;
+    selectedIndex: number;
 
     constructor(private adminService: AdminService) { }
 
     ngOnInit() {
-        console.log(this.type);
         switch(this.type){
             case 'Stuff':
                 this.adminService.getStuff(this.company).subscribe(x => this.list = x);
+                break;
+            case 'LicenseKey':
+                this.adminService.getLicenseKeys(this.company).subscribe(x => this.list = x);
                 break;
         }
     }
 
     onSelected(){
-        this.onOptionSelected.next(this.selectedItem);
+        this.onOptionSelected.next(this.list[this.selectedIndex]);
     }
 }

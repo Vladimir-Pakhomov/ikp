@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { User, UserRole, LicenseKeyKeyMap, AdminKeyMap, StuffKeyMap, StudentKeyMap, GroupKeyMap, HistoryItemKeyMap, LicenseKey, Admin, Stuff, Student, Group, HistoryItem, ProgramKeyMap, ResultKeyMap } from '../../../services/models/main.model';
+import { User, UserRole, LicenseKeyKeyMap, AdminKeyMap, StuffKeyMap, StudentKeyMap, GroupKeyMap, HistoryItemKeyMap, LicenseKey, Admin, Stuff, Student, Group, HistoryItem, ProgramKeyMap, ResultKeyMap, Program, Block, Exersize } from '../../../services/models/main.model';
 import { AdminService } from '../../../services/admin/admin.service';
 import { ActionService } from '../../../services/actions/action.service';
 
@@ -44,12 +44,19 @@ export class MainPageComponent implements OnInit, OnDestroy {
     currentStuff: any;
     currentStudent: any;
     currentGroup: any;
+    currentProgram: any;
+    currentBlock: any;
+    currentExersize: any;
 
     roleString: string;
+
+    /* extra actions */
 
     adminExtraActions: any[] = [{ key: 'assignSA', value: 'Назначить СА' }];
     stuffExtraActions: any[] = [{ key: 'changePosition', value: 'Изменить должность' }];
     studentExtraActions: any[] = [{ key: 'changeGroup', value: 'Изменить группу' }];
+
+    programExtraActions: any[] = [{ key: 'viewBlockStructure', value: 'Структура...' }];
 
     constructor(private admin: AdminService, private action: ActionService){
 
@@ -135,6 +142,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.destroy$.unsubscribe();
     }
 
+    onAddLicenseKey() {
+        this.action.generateKey(this.currentUser.Company)
+        .subscribe(() => this.goToModule('Keys'));
+    }
+
     onAddAdmin() {
         this.goToModule('AddAdmin');
     }
@@ -189,12 +201,61 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.action.deleteGroup(data.ID, this.currentUser.Company).subscribe();
     }
 
+    onAddProgram() {
+        this.goToModule('AddProgram');
+    }
+
+    performAddProgram(data: Program) {
+        this.action.addProgram(data.Name, data.LicenseKey.ID, this.currentUser.Company)
+        .subscribe(() => this.goToModule('Programs'));
+    }
+
+    onAddBlock(data: Block){
+        this.currentBlock = data;
+        this.goToModule('AddBlock');
+    }
+
+    onAddExersize(data: Exersize){
+        this.currentBlock = data;
+        this.goToModule('AddExersize');
+    }
+
+    addBlockToParent(data: any){
+        let parentType = this.currentBlock instanceof Program ? "0" : "1";
+        this.action.addBlockAsDescendant(data.parentID, parentType, data.Block.Name, this.currentUser.Company)
+        .subscribe(() => this.goToModule('BlockStructure'));
+    }
+
+    addExersizeToParent(data: any){
+        let parentType = this.currentBlock instanceof Program ? "0" : "1";
+        this.action.addExersizeAsDescendant(data.parentID, parentType, data.Exersize.Name, data.Exersize.GeneralQuestion, this.currentUser.Company)
+        .subscribe(() => this.goToModule('BlockStructure'));
+    }
+
+    onViewDescendantBlock(data: any){
+        this.currentBlock = data;
+        this.goToModule('BlockStructure');
+    }
+
+    onViewDescendantExersize(data: any){
+        this.currentExersize = data;
+        this.goToModule('ExersizeStructure');
+    }
+
+    /* Extra Actions */
+
+
     onExtraAction(event: any){
         switch(event.key){
             case 'assignSA':
                 let targetAdmin = event.data as Admin;
                 this.action.assignSA(targetAdmin.ID, targetAdmin.Company)
                 .subscribe(() => this.updater$.next('Admins'));
+                break;
+            case 'viewBlockStructure':
+                this.currentBlock = event.data;
+                this.goToModule('Idle'); // hack
+                this.goToModule('BlockStructure');
                 break;
         }
     }
@@ -205,4 +266,8 @@ export type MainModule =
 'MyGroups' | 'AllResults' |
 'Programs' | 'MyResults' |
 'AddAdmin' | 'AddStuff' | 'AddStudent' | 'AddGroup' |
-'EditAdmin' | 'EditStuff' | 'EditStudent' | 'EditGroup';
+'EditAdmin' | 'EditStuff' | 'EditStudent' | 'EditGroup' |
+'AddProgram' | 'AddBlock' | 'AddExersize' |
+'EditProgram' | 'EditBlock' | 'EditExersize' |
+'BlockStructure' | 'ExersizeStructure' |
+'Idle';

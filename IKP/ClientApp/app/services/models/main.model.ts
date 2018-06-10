@@ -3,6 +3,7 @@ export enum LicenseKeyStatus { NotActivated, Active, Expired }
 export enum UserRole { Admin, Stuff, Student }
 
 export class LicenseKey {
+    ID: number;
     Status: LicenseKeyStatus;
     Guid: string;
     Admins: number;
@@ -12,6 +13,7 @@ export class LicenseKey {
     Duration: number;
     StartDate?: Date;
     ExpiryDate?: Date;
+    Company: string;
 }
 
 export const LicenseKeyKeyMap = {
@@ -23,7 +25,7 @@ export const LicenseKeyKeyMap = {
     GivenDate: 'Дата выдачи',
     Duration: 'Срок действия',
     StartDate: 'Дата запуска',
-    ExpiryDate: 'Дата окончания',
+    ExpiryDate: 'Дата окончания'
 }
 
 export class User {
@@ -97,22 +99,50 @@ export const HistoryItemKeyMap = {
     Description: 'Описание'
 }
 
-export class Program {
+export class Block {
+    ID: number;
     Name: string;
-    Blocks: Block[];
+}
+
+export const BlockKeyMap = {
+    Name: 'Наименование'
+}
+
+export class Program extends Block {
+    Name: string;
+    LicenseKey: LicenseKey;
 }
 
 export const ProgramKeyMap = {
     Name: 'Наименование',
-    Blocks: 'Блоки'
-}
-
-export class Block extends Program {
+    LicenseKey: 'Ключ'
 }
 
 export class Exersize extends Block {
     GeneralQuestion: string;
-    Questions: any[]; //later
+}
+
+export const ExersizeKeyMap = {
+    Name: 'Наименование',
+    GeneralQuestion: 'Главный вопрос'
+}
+
+export class Question {
+    ID: number;
+    Content: string;
+}
+
+export const QuestionKeyMap = {
+    Content: "Содержимое"
+}
+
+export class Conclusion {
+    ID: number;
+    Name: string;
+}
+
+export const ConclusionKeyMap = {
+    Name: "Наименование"
 }
 
 export class Result {

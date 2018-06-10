@@ -1,4 +1,4 @@
-import { Exersize, Block, Program, Result } from "../services/models/main.model";
+import { Exersize, Block, Program, Result, LicenseKeyStatus, LicenseKey } from "../services/models/main.model";
 import { StudentsStub } from "./students.stub.spec";
 
 /**
@@ -6,87 +6,75 @@ import { StudentsStub } from "./students.stub.spec";
  */
 
 let ExersizeStub1: Exersize = {
+    ID: 1,
     Name: 'Lorem ipsum',
-    Blocks: [],
     GeneralQuestion: 'Dolor sit amet?',
-    Questions: []
 }
 
 let ExersizeStub2: Exersize = {
+    ID: 2,
     Name: 'Consectetur adipiscing',
-    Blocks: [],
     GeneralQuestion: 'Elit, sed do?',
-    Questions: []
 }
 
 let ExersizeStub3: Exersize = {
+    ID: 3,
     Name: 'Euismod tempor',
-    Blocks: [],
     GeneralQuestion: 'Incididunt ut labore?',
-    Questions: []
 }
 
 let ExersizeStub4: Exersize = {
+    ID: 4,
     Name: 'Et dolore',
-    Blocks: [],
     GeneralQuestion: 'Magna aliqua. Ut?',
-    Questions: []
 }
 
 let ExersizeStub5: Exersize = {
+    ID: 5,
     Name: 'Enim ad',
-    Blocks: [],
     GeneralQuestion: 'Minim veniam, quis?',
-    Questions: []
 }
 
 let ExersizeStub6: Exersize = {
+    ID: 6,
     Name: 'Nostrud exercitation',
-    Blocks: [],
     GeneralQuestion: 'Ullamco laboris nisi?',
-    Questions: []
 }
 
 let ExersizeStub7: Exersize = {
+    ID: 7,
     Name: 'Ut aliquip',
-    Blocks: [],
     GeneralQuestion: 'Ex ea commodo?',
-    Questions: []
 }
 
 let ExersizeStub8: Exersize = {
+    ID: 8,
     Name: 'Consequat. Duis',
-    Blocks: [],
     GeneralQuestion: 'Aute irure dolor?',
-    Questions: []
 }
 
 let ExersizeStub9: Exersize = {
+    ID: 9,
     Name: 'In reprehenderit',
-    Blocks: [],
     GeneralQuestion: 'In voluptate verit?',
-    Questions: []
 }
 
 let ExersizeStub10: Exersize = {
+    ID: 10,
     Name: 'Esse cillum',
-    Blocks: [],
     GeneralQuestion: 'Dolore eu fugiat?',
-    Questions: []
 }
 
 let ExersizeStub11: Exersize = {
+    ID: 11,
     Name: 'Nulla pariatur',
-    Blocks: [],
     GeneralQuestion: 'Excepteur sint occaecat?',
-    Questions: []
 }
 
 let ExersizeStub12: Exersize = {
+    ID: 12,
     Name: 'Mollit anim',
-    Blocks: [],
     GeneralQuestion: 'Anim id est laborum?',
-    Questions: []
 }
 
 
@@ -95,59 +83,83 @@ let ExersizeStub12: Exersize = {
  */
 
 let BlockStub1: Block = {
-    Name: 'Cupidatat',
+    ID: 1,
+    Name: 'Cupidatat'
+    /*
     Blocks: [
         ExersizeStub1,
         ExersizeStub2,
         ExersizeStub3
     ]
+    */
 }
 
 let BlockStub2: Block = {
-    Name: 'Non proident',
+    ID: 2,
+    Name: 'Non proident'
+    /*
     Blocks: [
         ExersizeStub4,
         ExersizeStub5,
         ExersizeStub6
     ]
+    */
 }
 
 let BlockStub3: Block = {
-    Name: 'Sunt',
+    ID: 3,
+    Name: 'Sunt'
+    /*
     Blocks: [
         ExersizeStub7,
         ExersizeStub8,
         ExersizeStub9
     ]
+    */
 }
 
 let BlockStub4: Block = {
-    Name: 'Culpa',
+    ID: 4,
+    Name: 'Culpa'
+    /*
     Blocks: [
         ExersizeStub10,
         ExersizeStub11,
         ExersizeStub12
     ]
+    */
 }
 
 /**
  * Programs
  */
 
+export const LicenseKeysStub: LicenseKey[] = [
+    { ID: 1, Status: LicenseKeyStatus.NotActivated, Guid: '00000000-0000-0000-0000000A', Admins: 3, Stuff: 2, Students: 10, GivenDate: new Date(2018, 1, 1), Duration: 30, Company: 'ikp' }
+];
+
 let ProgramStub1: Program = {
+    ID: 1,
     Name: 'Officia',
+    LicenseKey: LicenseKeysStub[0]
+    /*
     Blocks: [
         BlockStub1,
         BlockStub2
     ]
+    */
 }
 
 let ProgramStub2: Program = {
+    ID: 2,
     Name: 'Deserunt',
+    LicenseKey: LicenseKeysStub[0]
+    /*
     Blocks: [
         BlockStub3,
         BlockStub4
     ]
+    */
 }
 
 export const ProgramsStub: Program[] = [ ProgramStub1, ProgramStub2 ];

@@ -10,6 +10,18 @@ export class ActionService {
         this.baseUrl = baseUrl;
     }
 
+    generateKey(company: string){
+        return this.http.get(this.baseUrl +
+            `api/Action/GenerateKey?company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
+    addProgram(name: string, idLicenseKey: number, company: string){
+        return this.http.get(this.baseUrl + 
+            `api/Action/AddProgram?name=${name}&idLicenseKey=${idLicenseKey}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
     addAdmin(company: string, fio: string, login: string, password: string, isSA: boolean): Observable<number> {
         return this.http.get(this.baseUrl + 
             `api/Action/AddAdmin?company=${company}&fio=${fio}&login=${login}&password=${password}&isSA=${isSA ? 1 : 0}`)
@@ -25,6 +37,18 @@ export class ActionService {
     addStudent(company: string, fio: string, login: string, password: string, idGroup: number): Observable<number> {
         return this.http.get(this.baseUrl + 
             `api/Action/AddStudent?company=${company}&fio=${fio}&login=${login}&password=${password}&idGroup=${idGroup}`)
+        .map(r => Number(r.json().error));
+    }
+
+    addBlockAsDescendant(idParent: string, parentType: string, name: string, company: string): Observable<number>{
+        return this.http.get(this.baseUrl +
+            `api/Action/AddBlockAsDescendant?idParent=${idParent}&parentType=${parentType}&name=${name}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
+    addExersizeAsDescendant(idParent: string, parentType: string, name: string, generalQuestion: string, company: string): Observable<number> {
+        return this.http.get(this.baseUrl +
+            `api/Action/AddExersizeAsDescendant?idParent=${idParent}&parentType=${parentType}&name=${name}&generalQuestion=${generalQuestion}&company=${company}`)
         .map(r => Number(r.json().error));
     }
 

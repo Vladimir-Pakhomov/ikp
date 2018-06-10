@@ -126,6 +126,28 @@ namespace IKP.Database
             }
         }
 
+        public static DataSet GetLicenseKeyByID(string company, string idLicenseKey)
+        {
+            try
+            {
+                var conn = CreateConnectionByCompany(company);
+                if (conn != null)
+                {
+                    DataSet ds = new DataSet();
+                    var cmd = new MySqlCommand($"select * from `Keys` where ID={idLicenseKey}", conn);
+                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                    mySqlDataAdapter.Fill(ds);
+                    return ds;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _dbLogger.Log($"GetLicenseKeyByID exception: {ex}");
+                return null;
+            }
+        }
+
         public static DataSet GetAdmins(string company)
         {
             try
@@ -351,6 +373,42 @@ namespace IKP.Database
             }
         }
 
+        private static Dictionary<string, string> nodeTypes = new Dictionary<string, string>()
+        {
+            { "0", "Programs" },
+            { "1", "Blocks" },
+            { "2", "Exersizes" },
+            { "3", "Questions" },
+            { "4", "Resolvers" },
+            { "5", "Videos" },
+            { "6", "Conclusions" },
+            { "7", "ConclusionItems" }
+        };
+
+        public static DataSet GetDescendants(string id, string parentType, string type, string company)
+        {
+            try
+            {
+                var conn = CreateConnectionByCompany(company);
+                if (conn != null)
+                {
+                    string cmdText = $"select * from `{nodeTypes[type]}` where ID in " +
+                        $"(select IDChild from Links where IDParent={id} and ParentType={parentType} and ChildType={type});";
+                    DataSet ds = new DataSet();
+                    var cmd = new MySqlCommand(cmdText, conn);
+                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                    mySqlDataAdapter.Fill(ds);
+                    return ds;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _dbLogger.Log($"GetHistory exception: {ex}");
+                return null;
+            }
+        }
+
         /* Actions Execution Commands */
         private static ActionErrorCode PerformAction(string company, string cmdText)
         {
@@ -370,6 +428,21 @@ namespace IKP.Database
                 _dbLogger.Log($"PerformAction exception: {ex}");
                 return ActionErrorCode.Other;
             }
+        }
+
+        public static ActionErrorCode AddProgram(string company, string name, string idLicenseKey)
+        {
+            string cmd = $"insert into `Programs` (Name, IDLicenseKey) values ('{name}', {idLicenseKey});";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode GenerateKey(string company)
+        {
+            string cmd = $"insert into `Keys` " +
+                $"(Status, Guid, Admins, Stuff, Students, GivenDate, Duration, StartDate, ExpiryDate, Company)" +
+                $"values(0, '{Guid.NewGuid().ToString()}', 2, 5, 10, '{DateTime.Now.ToString("dd.MM.yyyy")}', " +
+                $"30, null, null, '{company}');";
+            return PerformAction(company, cmd);
         }
 
         public static ActionErrorCode AddAdmin(string company, string fio, string login, string password, int isSA)
@@ -450,5 +523,28 @@ namespace IKP.Database
             string cmd = $"update `Groups` set IsDeleted=1 where ID={id}";
             return PerformAction(company, cmd);
         }
+
+        public static ActionErrorCode AddBlockAsDescendant(string idParent, string parentType, string name, string company)
+        {
+            string cmd =
+                $"start transaction; " +
+                $"insert into `Blocks` (Name) values ('{name}'); " +
+                $"select @lastID := max(ID) from `Blocks`;" +
+                $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values ({idParent}, {parentType}, @lastID, 1); " +
+                $"commit;";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode AddExersizeAsDescendant(string idParent, string parentType, string name, string generalQuestion, string company)
+        {
+            string cmd =
+                $"start transaction; " +
+                $"insert into `Exersizes` (Name, GeneralQuestion) values ('{name}', '{generalQuestion}'); " +
+                $"select @lastID := max(ID) from `Exersizes`;" +
+                $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values ({idParent}, {parentType}, @lastID, 2); " +
+                $"commit;";
+            return PerformAction(company, cmd);
+        }
+
     }
 }

@@ -17,6 +17,40 @@ namespace IKP.Controllers
         private Logger _actionLogger = new Logger("Action", "logs");
 
         [HttpGet("[action]")]
+        public JObject GenerateKey(string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.GenerateKey(company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"GenerateKey exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject AddProgram(string name, string idLicenseKey, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.AddProgram(company, name, idLicenseKey);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"AddProgram exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
         public JObject AddAdmin(string company, string fio, string login, string password, string isSA)
         {
             JObject result = new JObject();
@@ -167,6 +201,40 @@ namespace IKP.Controllers
             catch (Exception ex)
             {
                 _actionLogger.Log($"DeleteGroup exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject AddBlockAsDescendant(string idParent, string parentType, string name, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.AddBlockAsDescendant(idParent, parentType, name, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"AddBlockAsDescendant exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject AddExersizeAsDescendant(string idParent, string parentType, string name, string generalQuestion, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.AddExersizeAsDescendant(idParent, parentType, name, generalQuestion, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"AddExersizeAsDescendant exception: {ex}");
                 result.Add("error", (int)ActionErrorCode.Other);
             }
             return result;

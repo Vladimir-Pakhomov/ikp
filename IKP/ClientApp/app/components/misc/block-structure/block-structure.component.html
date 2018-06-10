@@ -1,0 +1,9 @@
+<h2>Структура: {{block.Name}}</h2>
+<br>
+<linked-table (onAdd)="addDescBlock()" [title]="'Блоки'" 
+    [data]="descendantBlocks" [keyMap]="blocksKeyMap" 
+    [extraActions]="blockExtraActions" (onExtraAction)="onExtraAction($event)"></linked-table>
+<br>
+<linked-table (onAdd)="addDescExersize()" [title]="'Упражнения'" 
+    [data]="descendantExersizes" [keyMap]="exersizesKeyMap"
+    [extraActions]="exersizeExtraActions" (onExtraAction)="onExtraAction($event)"></linked-table>

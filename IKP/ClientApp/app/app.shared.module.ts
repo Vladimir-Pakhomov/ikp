@@ -17,12 +17,17 @@ import { ToolbarComponent } from './components/misc/toolbar/toolbar.component';
 import { MediaPresenterComponent } from './components/misc/media-presenter/media-presenter.component';
 import { LinkedTableComponent } from './components/misc/linked-table/linked-table.component';
 import { ActionService } from './services/actions/action.service';
-import { UserFormComponent } from './components/misc/user-form/user-form.component';
+import { UserFormComponent } from './components/misc/forms/user-form/user-form.component';
 import { UserRolePipe } from './components/misc/pipes/user-role.pipe';
 import { ObjectPipe } from './components/misc/pipes/object.pipe';
-import { GroupFormComponent } from './components/misc/group-form/group-form.component';
+import { GroupFormComponent } from './components/misc/forms/group-form/group-form.component';
 import { LookupComponent } from './components/misc/lookup/lookup.component';
 import { RtComponent } from './components/misc/rt/rt.component';
+import { ProgramFormComponent } from './components/misc/forms/program-form/program-form.component';
+import { BlockStructureComponent } from './components/misc/block-structure/block-structure.component';
+import { BlockFormComponent } from './components/misc/forms/block-form/block-form.component';
+import { ExersizeFormComponent } from './components/misc/forms/exersize-form/exersize-form.component';
+import { ExersizeStructureComponent } from './components/misc/exersize-structure/exersize-structure.component';
 
 @NgModule({
     declarations: [
@@ -38,8 +43,13 @@ import { RtComponent } from './components/misc/rt/rt.component';
         LinkedTableComponent,
         UserFormComponent,
         GroupFormComponent,
+        ProgramFormComponent,
         LookupComponent,
         RtComponent,
+        BlockStructureComponent,
+        BlockFormComponent,
+        ExersizeFormComponent,
+        ExersizeStructureComponent,
 
         ToolbarComponent,
 

@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { User, UserRole, LicenseKeyKeyMap, AdminKeyMap, StuffKeyMap, StudentKeyMap, GroupKeyMap, HistoryItemKeyMap, LicenseKey, Admin, Stuff, Student, Group, HistoryItem, ProgramKeyMap, ResultKeyMap, Program, Block, Exersize } from '../../../services/models/main.model';
 import { AdminService } from '../../../services/admin/admin.service';
 import { ActionService } from '../../../services/actions/action.service';
+import { checkProgram } from '../../misc/pipes/object.pipe';
 
 @Component({
     selector: 'main-page',
@@ -221,13 +222,13 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     addBlockToParent(data: any){
-        let parentType = this.currentBlock instanceof Program ? "0" : "1";
+        let parentType = checkProgram(this.currentBlock) ? "0" : "1";
         this.action.addBlockAsDescendant(data.parentID, parentType, data.Block.Name, this.currentUser.Company)
         .subscribe(() => this.goToModule('BlockStructure'));
     }
 
     addExersizeToParent(data: any){
-        let parentType = this.currentBlock instanceof Program ? "0" : "1";
+        let parentType = checkProgram(this.currentBlock) ? "0" : "1";
         this.action.addExersizeAsDescendant(data.parentID, parentType, data.Exersize.Name, data.Exersize.GeneralQuestion, this.currentUser.Company)
         .subscribe(() => this.goToModule('BlockStructure'));
     }

@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Block, Exersize, BlockKeyMap, ExersizeKeyMap, Program } from '../../../services/models/main.model';
 import { AdminService } from '../../../services/admin/admin.service';
+import { checkProgram } from '../pipes/object.pipe';
 
 @Component({
     selector: 'block-structure',
@@ -31,15 +32,17 @@ export class BlockStructureComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
-        let parentType = this.block instanceof Program ? 0 : 1;
-        this.adminService.getDescendants(this.block.ID, parentType, 1, this.company)
-        .subscribe((x) => this.descendantBlocks = x);
-        this.adminService.getDescendants(this.block.ID, parentType, 2, this.company)
-        .subscribe((x) => this.descendantExersizes = x);
+        
     }
 
-    ngOnChanges() {
-        this.ngOnInit();
+    ngOnChanges(changes: SimpleChanges) {
+        if(changes.block) {
+            let parentType = checkProgram(this.block) ? 0 : 1;
+            this.adminService.getDescendants(this.block.ID, parentType, 1, this.company)
+            .subscribe((x) => this.descendantBlocks = x);
+            this.adminService.getDescendants(this.block.ID, parentType, 2, this.company)
+            .subscribe((x) => this.descendantExersizes = x);
+        }
     }
 
     addDescBlock(){

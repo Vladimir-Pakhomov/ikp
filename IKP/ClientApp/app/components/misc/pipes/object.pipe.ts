@@ -1,9 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Group, User, Stuff, LicenseKey } from '../../../services/models/main.model';
+import { Group, User, Stuff, LicenseKey, Program } from '../../../services/models/main.model';
 
-const checkUser = (p: any): p is User => p && p.hasOwnProperty('FIO');
-const checkGroup = (p: any): p is Group => p && p.hasOwnProperty('IDLead');
-const checkKey = (p: any): p is LicenseKey => p && p.hasOwnProperty('Guid');
+export const checkUser = (p: any): p is User => p && p.hasOwnProperty('FIO');
+export const checkGroup = (p: any): p is Group => p && p.hasOwnProperty('IDLead');
+export const checkKey = (p: any): p is LicenseKey => p && p.hasOwnProperty('Guid');
+export const checkProgram = (p: any): p is Program => p && p.hasOwnProperty('IDLicenseKey');
 
 @Pipe({
     name: 'object'

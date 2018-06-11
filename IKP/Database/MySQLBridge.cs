@@ -64,16 +64,18 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select * from {tableName}", conn);
-                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
-                    mySqlDataAdapter.Fill(ds);
-                    return ds;
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select * from {tableName}", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    else return null;
                 }
-                else return null;
             }
             catch(Exception ex)
             {
@@ -86,16 +88,18 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select * from Users where IsDeleted = 0 and Login='{login}' and Password='{password}'", conn);
-                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
-                    mySqlDataAdapter.Fill(ds);
-                    return ds;
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select * from Users where IsDeleted = 0 and Login='{login}' and Password='{password}'", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -108,16 +112,18 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select * from `Keys`", conn);
-                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
-                    mySqlDataAdapter.Fill(ds);
-                    return ds;
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select * from `Keys`", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -130,16 +136,18 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select * from `Keys` where ID={idLicenseKey}", conn);
-                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
-                    mySqlDataAdapter.Fill(ds);
-                    return ds;
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select * from `Keys` where ID={idLicenseKey}", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -152,16 +160,18 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select u.*, a.IsSA from (select * from Users where IsDeleted = 0) u inner join Admins a on u.ID = a.ID", conn);
-                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
-                    mySqlDataAdapter.Fill(ds);
-                    return ds;
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select u.*, a.IsSA from (select * from Users where IsDeleted = 0) u inner join Admins a on u.ID = a.ID", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -174,16 +184,18 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select u.*, s.Position from Stuff s inner join (select * from Users where IsDeleted = 0) u on u.ID = s.ID", conn);
-                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
-                    mySqlDataAdapter.Fill(ds);
-                    return ds;
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select u.*, s.Position from Stuff s inner join (select * from Users where IsDeleted = 0) u on u.ID = s.ID", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -196,16 +208,18 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select u.*, s.Position from (select * from Stuff where ID={idStuff}) s inner join select * from Users u on u.ID = s.ID", conn);
-                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
-                    mySqlDataAdapter.Fill(ds);
-                    return ds;
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select u.*, s.Position from (select * from Stuff where ID={idStuff}) s inner join select * from Users u on u.ID = s.ID", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -218,16 +232,18 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select u.*, s.IDGroup from Students s inner join (select * from Users where IsDeleted = 0) u on s.ID = u.ID", conn);
-                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
-                    mySqlDataAdapter.Fill(ds);
-                    return ds;
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select u.*, s.IDGroup from Students s inner join (select * from Users where IsDeleted = 0) u on s.ID = u.ID", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -240,16 +256,18 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select * from Programs", conn);
-                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
-                    mySqlDataAdapter.Fill(ds);
-                    return ds;
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select * from Programs", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -262,16 +280,18 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select * from `Groups` where IsDeleted = 0", conn);
-                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
-                    mySqlDataAdapter.Fill(ds);
-                    return ds;
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select * from `Groups` where IsDeleted = 0", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -289,16 +309,18 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select * from `Groups` where {condition}", conn);
-                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
-                    mySqlDataAdapter.Fill(ds);
-                    return ds;
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select * from `Groups` where {condition}", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -311,16 +333,18 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select * from Results", conn);
-                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
-                    mySqlDataAdapter.Fill(ds);
-                    return ds;
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select * from Results", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -333,16 +357,18 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select * from Results where {condition}", conn);
-                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
-                    mySqlDataAdapter.Fill(ds);
-                    return ds;
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select * from Results where {condition}", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -355,16 +381,18 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand($"select * from History", conn);
-                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
-                    mySqlDataAdapter.Fill(ds);
-                    return ds;
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select * from History", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -389,18 +417,20 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    string cmdText = $"select * from `{nodeTypes[type]}` where ID in " +
-                        $"(select IDChild from Links where IDParent={id} and ParentType={parentType} and ChildType={type});";
-                    DataSet ds = new DataSet();
-                    var cmd = new MySqlCommand(cmdText, conn);
-                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
-                    mySqlDataAdapter.Fill(ds);
-                    return ds;
+                    if (conn != null)
+                    {
+                        string cmdText = $"select * from `{nodeTypes[type]}` where ID in " +
+                            $"(select IDChild from Links where IDParent={id} and ParentType={parentType} and ChildType={type});";
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand(cmdText, conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
                 }
-                return null;
             }
             catch (Exception ex)
             {
@@ -414,14 +444,16 @@ namespace IKP.Database
         {
             try
             {
-                var conn = CreateConnectionByCompany(company);
-                if (conn != null)
+                using (var conn = CreateConnectionByCompany(company))
                 {
-                    var cmd = new MySqlCommand(cmdText, conn);
-                    cmd.ExecuteNonQuery();
-                    return ActionErrorCode.OK;
+                    if (conn != null)
+                    {
+                        var cmd = new MySqlCommand(cmdText, conn);
+                        cmd.ExecuteNonQuery();
+                        return ActionErrorCode.OK;
+                    }
+                    else return ActionErrorCode.CompanyConnectionError;
                 }
-                else return ActionErrorCode.CompanyConnectionError;
             }
             catch (Exception ex)
             {

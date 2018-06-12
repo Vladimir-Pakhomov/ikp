@@ -1,0 +1,17 @@
+.results {
+    float: right;
+    align-items: center;
+    width: 50%;
+}
+
+.results th, .results td {
+    text-align: center;
+}
+
+.results td {
+    cursor: pointer;
+}
+
+.results td.current {
+    background-color: deepskyblue;
+}

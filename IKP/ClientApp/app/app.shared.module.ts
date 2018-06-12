@@ -36,6 +36,7 @@ import { ImagePresenterComponent } from './components/misc/image-presenter/image
 import { FileService } from './services/file/file.service';
 import { VideoFormComponent } from './components/misc/forms/video-form/video-form.component';
 import { ResolverVideosComponent } from './components/misc/structure/resolver-videos/resolver-videos.component';
+import { ExecutionComponent } from './components/execution/execution.component';
 
 @NgModule({
     declarations: [
@@ -65,6 +66,7 @@ import { ResolverVideosComponent } from './components/misc/structure/resolver-vi
         ImagePresenterComponent,
         VideoFormComponent,
         ResolverVideosComponent,
+        ExecutionComponent,
 
         ToolbarComponent,
 

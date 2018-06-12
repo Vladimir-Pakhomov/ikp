@@ -1,0 +1,64 @@
+<div *ngIf="blockData">
+    <button class="btn btn-secondary" (click)="back()">Прекратить выполнение</button>
+    <br>
+    <div>
+        <span *ngIf="countdown.days > 0">{{countdown.days}}.</span>
+        <span *ngIf="countdown.hours > 0">{{countdown.hours}} :</span>
+        <span>{{countdown.minutes}} :</span>
+        <span>{{countdown.seconds}}</span>
+    </div>
+    <br>
+    <div class="results">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <th *ngFor="let exersize of blockData">{{exersize.Name}}</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td *ngFor="let exersize of blockData; let i = index;" 
+                    [ngClass]="{'current': currentEx == i}" (click)="switchEx(i)">
+                        0/{{exersize.Questions.length}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <h2>{{blockData[currentEx].GeneralQuestion}}</h2>
+    <br>
+    <div *ngIf="currentResolver >= 0" style="width: 100%; height: 350px;">
+        <div style="float: left;">
+            <media-presenter [mediaSource]="media1"></media-presenter>
+            <div *ngIf="media2">
+                <button class="btn btn-secoundary" style="width: 390px; margin: 5px;">Выбрать</button>
+            </div>
+            <div *ngIf="!media2">
+                    <button class="btn btn-secoundary" style="float: left; width: 190px; margin: 5px;">Норма</button>
+                    <button class="btn btn-secoundary" style="float: right; width: 190px; margin: 5px;">Нарушение</button>
+            </div>
+        </div>
+        <div *ngIf="media2" style="float: right;">
+            <media-presenter [mediaSource]="media2"></media-presenter>
+            <div>
+                <button class="btn btn-secoundary" style="width: 390px; margin: 5px;">Выбрать</button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div style="width: 100%;">
+        <div style="float: left;" *ngIf="currentEx >= 0">
+            <select [(ngModel)]="currentQuestion">
+                <option *ngFor="let question of blockData[currentEx].Questions; let i = index;" [value]="i">
+                    {{question.Content}}
+                </option>
+            </select>
+        </div>
+        <div style="float: left;" *ngIf="currentQuestion >= 0">
+            <select [(ngModel)]="currentResolver" (change)="resolverSelected()">
+                <option *ngFor="let resolver of blockData[currentEx].Questions[currentQuestion].Resolvers; let i = index;" [value]="i">
+                    {{resolver.Content}}
+                </option>
+            </select>
+        </div>
+    </div>
+</div>

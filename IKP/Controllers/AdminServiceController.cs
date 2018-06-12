@@ -146,5 +146,39 @@ namespace IKP.Controllers
                 return new JArray();
             }
         }
+
+        [HttpGet("[action]")]
+        public JArray BlockData(string id, string company)
+        {
+            try
+            {
+                DataSet ds1 = MySQLBridge.GetDescendants(id, "1", "2", company);
+                JArray result = JArray.FromObject(ds1.Tables[0]);
+                foreach(JObject exersize in result)
+                {
+                    DataSet ds2 = MySQLBridge.GetDescendants(exersize["ID"].ToString(), "2", "3", company);
+                    JArray questions = JArray.FromObject(ds2.Tables[0]);
+                    foreach(JObject question in questions)
+                    {
+                        DataSet ds3 = MySQLBridge.GetDescendants(question["ID"].ToString(), "3", "4", company);
+                        JArray resolvers = JArray.FromObject(ds3.Tables[0]);
+                        foreach(JObject resolver in resolvers)
+                        {
+                            DataSet ds4 = MySQLBridge.GetDescendants(resolver["ID"].ToString(), "4", "5", company);
+                            JArray videos = JArray.FromObject(ds4.Tables[0]);
+                            resolver.Add("Videos", videos);
+                        }
+                        question.Add("Resolvers", resolvers);
+                    }
+                    exersize.Add("Questions", questions);
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _adminServiceLogger.Log($"GetBlockData exception: {ex}");
+                return new JArray();
+            }
+        }
     }
 }

@@ -5,6 +5,6 @@
     [data]="descendantBlocks" [keyMap]="blocksKeyMap" 
     [extraActions]="blockExtraActions" (onExtraAction)="onExtraAction($event)"></linked-table>
 <br>
-<linked-table (onAdd)="addDescExersize()" [title]="'Упражнения'" 
+<linked-table *ngIf="role == 0" (onAdd)="addDescExersize()" [title]="'Упражнения'" 
     [data]="descendantExersizes" [keyMap]="exersizesKeyMap"
     [extraActions]="exersizeExtraActions" (onExtraAction)="onExtraAction($event)"></linked-table>

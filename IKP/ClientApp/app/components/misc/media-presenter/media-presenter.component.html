@@ -7,8 +7,7 @@
     class="video-js"
     controls
     preload="auto"
-    poster="//vjs.zencdn.net/v/oceans.png"
-    data-setup='{}'>
+    data-setup='{}' width="400" height="300">
     <source [src]="mediaSource" type="video/mp4" />
   <!--source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"> />
   <source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm" />
@@ -21,11 +20,4 @@
     </a>
   </p>
 </video>
-    <div class="toolbar">
-        <button (click)="play()" [disabled]="!playEnabled">Play</button>
-        <button (click)="pause()" [disabled]="!pauseEnabled">Pause</button>
-        <button (click)="stop()" [disabled]="!stopEnabled">Stop</button>
-        <input type="file" #file style="display: none" (change)="fileSelected()"/>
-        <button (click)="open()">Open</button>
-    </div>
 </div>

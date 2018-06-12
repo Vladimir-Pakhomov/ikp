@@ -439,6 +439,31 @@ namespace IKP.Database
             }
         }
 
+        public static DataSet GetVideoByID(string id, string company)
+        {
+            try
+            {
+                using (var conn = CreateConnectionByCompany(company))
+                {
+                    if (conn != null)
+                    {
+                        string cmdText = $"select * from `Videos` where ID={id}";
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand(cmdText, conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _dbLogger.Log($"GetVideoUrl exception: {ex}");
+                return null;
+            }
+        }
+
         /* Actions Execution Commands */
         private static ActionErrorCode PerformAction(string company, string cmdText)
         {

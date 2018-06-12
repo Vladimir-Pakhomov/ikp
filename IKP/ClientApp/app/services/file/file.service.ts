@@ -23,4 +23,8 @@ export class FileService {
                    .map(response => response.json())
                    .catch(error => Observable.throw(error));
     }
+
+    getVideo(link: string, company: string): string {
+        return this._baseURL + `api/FileService/GetVideo?link=${link}&company=${company}`;
+    }
 }

@@ -39,6 +39,7 @@
             <linked-table *ngSwitchCase="'Programs'" [title]="'Программы'" [keyMap]="programsKeyMap" 
                 [data]="programs" (onAdd)="onAddProgram()" [extraActions]="programExtraActions" 
                 (onExtraAction)="onExtraAction($event)"></linked-table>
+            
             <linked-table *ngSwitchCase="'MyResults'" [title]="'Мои результаты'" [keyMap]="resultsKeyMap" 
                 [data]="myResults"></linked-table>
 
@@ -69,11 +70,13 @@
             <program-form *ngSwitchCase="'EditProgram'"
                 [program]="currentProgram" (onFormCancelled)="goToModule('Programs')"></program-form>
 
-            <block-structure *ngSwitchCase="'BlockStructure'" [block]="currentBlock" 
+            <block-structure *ngSwitchCase="'BlockStructure'" [block]="currentBlock"
+                [role]="currentUser.Role" 
                 [company]="currentUser.Company" (onAddBlock)="onAddBlock($event)" 
                 (onAddExersize)="onAddExersize($event)"
                 (onViewDescendantBlock)="onViewDescendantBlock($event)" 
                 (onViewDescendantExersize)="onViewDescendantExersize($event)"
+                (onStartExecution)="onStartExecution($event)"
                 (onBack)="onBack()"></block-structure>
 
             <block-form *ngSwitchCase="'AddBlock'" [parentID]="currentBlock.ID" 
@@ -125,6 +128,8 @@
                 (onFormCompleted)="addVideoToResolver($event)"
                 (onFormCancelled)="goToModule('ResolverVideos')"></video-form>
             
+            <execution *ngSwitchCase="'BlockExecution'" [block]="currentBlock"
+                [company]="currentUser.Company" (onBack)="onBack()"></execution>
         </div>
     </div>
 </div>

@@ -13,6 +13,11 @@
         <div class='navbar-collapse collapse'>
             <ul *ngIf="myRole == 'Student'" class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
+                    <a (click)="fire('Programs')">
+                        <span class='glyphicon glyphicon-education'></span> Программы
+                    </a>
+                </li>
+                <li [routerLinkActive]="['link-active']">
                     <a (click)="fire('MyResults')">
                         <span class='glyphicon glyphicon-star-empty'></span> Мои результаты
                     </a>
@@ -64,11 +69,6 @@
                 <li [routerLinkActive]="['link-active']">
                     <a (click)="fire('History')">
                         <span class='glyphicon glyphicon-calendar'></span> История изменений
-                    </a>
-                </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a (click)="fire('Test')">
-                        <span class='glyphicon glyphicon-star-empty'></span> Тест
                     </a>
                 </li>
             </ul>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using IKP.Database;
 using IKP.Logging;
 
 namespace IKP.Controllers
@@ -16,33 +18,21 @@ namespace IKP.Controllers
     {
         private Logger _fileServiceLogger = new Logger("FileService", "logs");
 
-        [HttpPost("[action]")]
-        public JObject Upload(string company)
+        [HttpGet("[action]")]
+        public IActionResult GetVideo(string link, string company)
         {
-            var result = new JObject();
             try
             {
-                var uploadedFiles = HttpContext.Request.Body as IFormFileCollection;
-                _fileServiceLogger.Log($"Upload: company={company}, file={uploadedFiles}");
-                if (!Directory.Exists("assets"))
-                    Directory.CreateDirectory("assets");
-                if (!Directory.Exists("assets/" + company))
-                    Directory.CreateDirectory("assets/" + company);
-                string name = Guid.NewGuid().ToString();
-                string path = $"assets/{company}/{name}";
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    uploadedFiles[0].CopyTo(fileStream);
-                }
-                _fileServiceLogger.Log($"Upload result: {path}");
-                result.Add("imagerSrc", path);
+                byte[] buffer = System.IO.File.ReadAllBytes($"assets/{company}/videos/{link}");
+                var content = new MemoryStream(buffer);
+                var contentType = "APPLICATION/octet-stream";
+                return File(content, contentType, link);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                _fileServiceLogger.Log($"Upload Exception: {ex}");
-                result.Add("error", 30);
+                _fileServiceLogger.Log($"GetVideo Exception: {ex}");
+                return null;
             }
-            return result;
         }
     }
 }

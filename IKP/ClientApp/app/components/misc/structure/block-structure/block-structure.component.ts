@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { Block, Exersize, BlockKeyMap, ExersizeKeyMap, Program } from '../../../../services/models/main.model';
+import { Block, Exersize, BlockKeyMap, ExersizeKeyMap, Program, UserRole } from '../../../../services/models/main.model';
 import { AdminService } from '../../../../services/admin/admin.service';
 import { checkProgram } from '../../pipes/object.pipe';
 
@@ -9,6 +9,7 @@ import { checkProgram } from '../../pipes/object.pipe';
     styleUrls: ['./block-structure.component.css']
 })
 export class BlockStructureComponent implements OnInit, OnChanges {
+    @Input() role: UserRole;
     @Input() company: string;
     @Input() block: Block;
 
@@ -17,6 +18,7 @@ export class BlockStructureComponent implements OnInit, OnChanges {
 
     @Output() onViewDescendantBlock: EventEmitter<any> = new EventEmitter<any>();
     @Output() onViewDescendantExersize: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onStartExecution: EventEmitter<any> = new EventEmitter<any>();
 
     @Output() onBack: EventEmitter<any> = new EventEmitter<any>();
 
@@ -26,7 +28,8 @@ export class BlockStructureComponent implements OnInit, OnChanges {
     descendantExersizes: Exersize[] = [];
     exersizesKeyMap = ExersizeKeyMap;
 
-    blockExtraActions = [{ key: 'viewBlockStructure', value: 'Структура...' }];
+    blockExtraActions: any; 
+
     exersizeExtraActions = [{ key: 'viewQuestions', value: 'Состав упражнения..' }];
 
     constructor(private adminService: AdminService){
@@ -34,7 +37,10 @@ export class BlockStructureComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
-        
+        this.blockExtraActions =
+        this.role == UserRole.Student
+        ? [{ key: 'startBlockExecution', value: 'Начать выполнение!' }]
+        : [{ key: 'viewBlockStructure', value: 'Структура...' }];
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -62,6 +68,9 @@ export class BlockStructureComponent implements OnInit, OnChanges {
                 break;
             case 'viewQuestions':
                 this.onViewDescendantExersize.next(event.data);
+                break;
+            case 'startBlockExecution':
+                this.onStartExecution.next(event.data);
                 break;
         }
     }

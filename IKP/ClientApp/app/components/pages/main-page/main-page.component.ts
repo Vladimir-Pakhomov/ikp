@@ -301,9 +301,15 @@ export class MainPageComponent implements OnInit, OnDestroy {
         .subscribe(() => this.goToModule('ResolverVideos'));
     }
 
+    onStartExecution(data: any){
+        this.currentBlock = data;
+        this.goToModule('BlockExecution');
+    }
+
     onBack() {
         switch(this.currentModule){
             case 'BlockStructure':
+            case 'BlockExecution':
                 this.currentBlock = null;
                 this.goToModule('Programs');
                 break;
@@ -336,6 +342,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
                 this.currentBlock = event.data;
                 this.goToModule('BlockStructure');
                 break;
+            case 'startBlockExecution':
+                this.currentBlock = event.data;
+                this.goToModule('BlockExecution');
+                break;
         }
     }
 }
@@ -354,4 +364,5 @@ export type MainModule =
 'QuestionResolvers' | 'ConclusionStructure' |
 'AddResolver' | 'AddConclusionItem' |
 'EditResolver' | 'EditConclusionItem' |
-'ResolverVideos' | 'AddVideo' | 'EditVideo' | 'Test';
+'ResolverVideos' | 'AddVideo' | 'EditVideo' |
+'BlockExecution';

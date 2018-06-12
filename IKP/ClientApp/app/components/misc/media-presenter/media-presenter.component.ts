@@ -7,7 +7,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
     styleUrls: ['./media-presenter.component.css']
 })
 export class MediaPresenterComponent {
-    mediaSource: SafeResourceUrl;
+    @Input() mediaSource: SafeResourceUrl;
     playEnabled: false;
     pauseEnabled: false;
     stopEnabled: false;
@@ -17,26 +17,5 @@ export class MediaPresenterComponent {
 
     constructor(private sanitizer: DomSanitizer) {
 
-    }
-
-    play() {
-
-    }
-
-    pause() {
-
-    }
-
-    stop() {
-
-    }
-
-    open() {
-        (this.file.nativeElement as HTMLElement).click();
-    }
-
-    fileSelected() {
-        //this.mediaSource = this.sanitizer.bypassSecurityTrustResourceUrl((this.file.nativeElement as HTMLInputElement).value);
-        this.mediaSource = "/dist/bb.mp4";
     }
 }

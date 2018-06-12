@@ -1,0 +1,6 @@
+<h2>Материалы направления</h2>
+<button class="btn btn-secondary" (click)="back()">Назад</button>
+<br>
+<linked-table (onAdd)="addResolver()" [title]="'Материалы'" 
+    [data]="descendantResolvers" [keyMap]="resolversKeyMap" [extraActions]="resolverExtraActions" (onExtraAction)="onExtraAction($event)"></linked-table>
+<br>

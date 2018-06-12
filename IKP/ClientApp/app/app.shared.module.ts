@@ -24,10 +24,18 @@ import { GroupFormComponent } from './components/misc/forms/group-form/group-for
 import { LookupComponent } from './components/misc/lookup/lookup.component';
 import { RtComponent } from './components/misc/rt/rt.component';
 import { ProgramFormComponent } from './components/misc/forms/program-form/program-form.component';
-import { BlockStructureComponent } from './components/misc/block-structure/block-structure.component';
+import { BlockStructureComponent } from './components/misc/structure/block-structure/block-structure.component';
 import { BlockFormComponent } from './components/misc/forms/block-form/block-form.component';
 import { ExersizeFormComponent } from './components/misc/forms/exersize-form/exersize-form.component';
-import { ExersizeStructureComponent } from './components/misc/exersize-structure/exersize-structure.component';
+import { ExersizeStructureComponent } from './components/misc/structure/exersize-structure/exersize-structure.component';
+import { QuestionFormComponent } from './components/misc/forms/question-form/question-form.component';
+import { ConclusionFormComponent } from './components/misc/forms/conclusion-form/conclusion-form.conponent';
+import { ResolverFormComponent } from './components/misc/forms/resolver-form/resolver-form.component';
+import { QuestionResolversComponent } from './components/misc/structure/question-resolvers/question-resolvers.component';
+import { ImagePresenterComponent } from './components/misc/image-presenter/image-presenter.component';
+import { FileService } from './services/file/file.service';
+import { VideoFormComponent } from './components/misc/forms/video-form/video-form.component';
+import { ResolverVideosComponent } from './components/misc/structure/resolver-videos/resolver-videos.component';
 
 @NgModule({
     declarations: [
@@ -50,6 +58,13 @@ import { ExersizeStructureComponent } from './components/misc/exersize-structure
         BlockFormComponent,
         ExersizeFormComponent,
         ExersizeStructureComponent,
+        QuestionFormComponent,
+        ConclusionFormComponent,
+        QuestionResolversComponent,
+        ResolverFormComponent,
+        ImagePresenterComponent,
+        VideoFormComponent,
+        ResolverVideosComponent,
 
         ToolbarComponent,
 
@@ -74,6 +89,7 @@ import { ExersizeStructureComponent } from './components/misc/exersize-structure
         ActionService,
         AdminService,
         LoginService,
+        FileService
     ]
 })
 export class AppModuleShared {

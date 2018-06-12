@@ -578,5 +578,48 @@ namespace IKP.Database
             return PerformAction(company, cmd);
         }
 
+        public static ActionErrorCode AddQuestionAsDescendant(string idParent, string parentType, string content, string company)
+        {
+            string cmd =
+                $"start transaction; " +
+                $"insert into `Questions` (Content) values ('{content}'); " +
+                $"select @lastID := max(ID) from `Questions`;" +
+                $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values ({idParent}, {parentType}, @lastID, 3); " +
+                $"commit;";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode AddConclusionAsDescendant(string idParent, string parentType, string name, string company)
+        {
+            string cmd =
+                $"start transaction; " +
+                $"insert into `Conclusions` (Name) values ('{name}'); " +
+                $"select @lastID := max(ID) from `Conclusions`;" +
+                $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values ({idParent}, {parentType}, @lastID, 6); " +
+                $"commit;";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode AddResolverAsDescendant(string idParent, string parentType, string type, string content, string company)
+        {
+            string cmd =
+                $"start transaction; " +
+                $"insert into `Resolvers` (Type, Content) values ({type}, '{content}'); " +
+                $"select @lastID := max(ID) from `Resolvers`;" +
+                $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values ({idParent}, {parentType}, @lastID, 4); " +
+                $"commit;";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode AddVideoAsDescendant(string idParent, string parentType, string content1, string content2, string isFirstCorrect, string playbackType, string company)
+        {
+            string cmd =
+                $"start transaction; " +
+                $"insert into `Videos` (Content1, Content2, IsFirstCorrect, PlaybackType) values ('{content1}', '{content2}', {isFirstCorrect}, {playbackType}); " +
+                $"select @lastID := max(ID) from `Videos`;" +
+                $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values ({idParent}, {parentType}, @lastID, 5); " +
+                $"commit;";
+            return PerformAction(company, cmd);
+        }
     }
 }

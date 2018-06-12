@@ -52,6 +52,30 @@ export class ActionService {
         .map(r => Number(r.json().error));
     }
 
+    addQuestionAsDescendant(idParent: string, parentType: string, content: string, company: string): Observable<number>{
+        return this.http.get(this.baseUrl +
+            `api/Action/AddQuestionAsDescendant?idParent=${idParent}&parentType=${parentType}&content=${content}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
+    addConclusionAsDescendant(idParent: string, parentType: string, name: string, company: string): Observable<number>{
+        return this.http.get(this.baseUrl +
+            `api/Action/AddConclusionAsDescendant?idParent=${idParent}&parentType=${parentType}&name=${name}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
+    addResolverAsDescendant(idParent: string, parentType: string, type: number, content: string, company: string): Observable<number>{
+        return this.http.get(this.baseUrl +
+            `api/Action/AddResolverAsDescendant?idParent=${idParent}&parentType=${parentType}&type=${type}&content=${content}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
+    addVideoAsDescendant(idParent: string, parentType: string, content1: string, content2: string, isFirstCorrect: boolean, playbackType: number, company: string): Observable<number> {
+        return this.http.get(this.baseUrl +
+            `api/Action/AddVideoAsDescendant?idParent=${idParent}&parentType=${parentType}&content1=${content1}&content2=${content2}&isFirstCorrect=${isFirstCorrect ? 1 : 0}&playbackType=${playbackType}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
     editUser(id: number, company: string, fio: string, login: string, password: string): Observable<number> {
         return this.http.get(this.baseUrl + 
             `api/Action/EditUser?id=${id}&company=${company}&fio=${fio}&login=${login}&password=${password}`)

@@ -1,0 +1,11 @@
+<div>
+    <h2 *ngIf="!editMode">Add Question</h2>
+    <h2 *ngIf="editMode">Edit Question</h2>
+    <div class="itemGroup">
+        <div class="itemCaption">Content</div>
+        <textarea class="itemInput" [ngClass]="{ 'invalid': !question.Content }" [(ngModel)]="question.Content"></textarea>
+        <div *ngIf="!question.Content" class="validationMessage">This field is required</div>
+    </div>
+    <button *ngIf="valid" class="btn btn-success" (click)="ok()">Submit</button>
+    <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+</div>

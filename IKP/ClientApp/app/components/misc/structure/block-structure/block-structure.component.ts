@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { Block, Exersize, BlockKeyMap, ExersizeKeyMap, Program } from '../../../services/models/main.model';
-import { AdminService } from '../../../services/admin/admin.service';
-import { checkProgram } from '../pipes/object.pipe';
+import { Block, Exersize, BlockKeyMap, ExersizeKeyMap, Program } from '../../../../services/models/main.model';
+import { AdminService } from '../../../../services/admin/admin.service';
+import { checkProgram } from '../../pipes/object.pipe';
 
 @Component({
     selector: 'block-structure',
@@ -17,6 +17,8 @@ export class BlockStructureComponent implements OnInit, OnChanges {
 
     @Output() onViewDescendantBlock: EventEmitter<any> = new EventEmitter<any>();
     @Output() onViewDescendantExersize: EventEmitter<any> = new EventEmitter<any>();
+
+    @Output() onBack: EventEmitter<any> = new EventEmitter<any>();
 
     descendantBlocks: Block[] = [];
     blocksKeyMap = BlockKeyMap;
@@ -62,5 +64,9 @@ export class BlockStructureComponent implements OnInit, OnChanges {
                 this.onViewDescendantExersize.next(event.data);
                 break;
         }
+    }
+
+    back() {
+        this.onBack.next();
     }
 }

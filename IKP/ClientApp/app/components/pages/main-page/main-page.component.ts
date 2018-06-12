@@ -48,6 +48,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
     currentProgram: any;
     currentBlock: any;
     currentExersize: any;
+    currentQuestion: any;
+    currentConclusion: any;
+    currentResolver: any;
 
     roleString: string;
 
@@ -243,6 +246,82 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.goToModule('ExersizeStructure');
     }
 
+    onAddQuestion() {
+        this.goToModule('AddQuestion');
+    }
+
+    onAddConclusion() {
+        this.goToModule('AddConclusion');
+    }
+
+    addQuestionToExersize(data: any){
+        this.action.addQuestionAsDescendant(data.parentID, "2", data.Question.Content, this.currentUser.Company)
+        .subscribe(() => this.goToModule('ExersizeStructure'));
+    }
+
+    addConclusionToExresize(data: any){
+        this.action.addConclusionAsDescendant(data.parentID, "2", data.Conclusion.Name, this.currentUser.Company)
+        .subscribe(() => this.goToModule('ExersizeStructure'));
+    }
+
+    onViewQuestionResolvers(data: any){
+        this.currentQuestion = data;
+        this.goToModule('QuestionResolvers');
+    }
+
+    onViewConclusionStructure(data: any){
+        this.currentConclusion = data;
+        this.goToModule('ConclusionStructure');
+    }
+
+    onAddResolver() {
+        this.goToModule('AddResolver');
+    }
+
+    onViewResolverVideos(data: any){
+        this.currentResolver = data;
+        this.goToModule('ResolverVideos');
+    }
+
+    onAddConclusionItem() {
+        this.goToModule('AddConclusionItem');
+    }
+
+    addResolverToQuestion(data: any){
+        this.action.addResolverAsDescendant(data.parentID, "3", data.Resolver.Type, data.Resolver.Content, this.currentUser.Company)
+        .subscribe(() => this.goToModule('QuestionResolvers'));
+    }
+
+    onAddVideo(){
+        this.goToModule('AddVideo');
+    }
+
+    addVideoToResolver(data: any){
+        this.action.addVideoAsDescendant(data.parentID, "4", data.Video.Content1, data.Video.Content2, data.Video.IsFirstCorrect, data.Video.PlaybackType, this.currentUser.Company)
+        .subscribe(() => this.goToModule('ResolverVideos'));
+    }
+
+    onBack() {
+        switch(this.currentModule){
+            case 'BlockStructure':
+                this.currentBlock = null;
+                this.goToModule('Programs');
+                break;
+            case 'ExersizeStructure':
+                this.currentExersize = null;
+                this.goToModule('BlockStructure');
+                break;
+            case 'QuestionResolvers':
+                this.currentQuestion = null;
+                this.goToModule('ExersizeStructure');
+                break;
+            case 'ResolverVideos':
+                this.currentResolver = null;
+                this.goToModule('QuestionResolvers');
+                break;
+        }
+    }
+
     /* Extra Actions */
 
 
@@ -255,7 +334,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
                 break;
             case 'viewBlockStructure':
                 this.currentBlock = event.data;
-                this.goToModule('Idle'); // hack
                 this.goToModule('BlockStructure');
                 break;
         }
@@ -271,4 +349,9 @@ export type MainModule =
 'AddProgram' | 'AddBlock' | 'AddExersize' |
 'EditProgram' | 'EditBlock' | 'EditExersize' |
 'BlockStructure' | 'ExersizeStructure' |
-'Idle';
+'AddQuestion'  | 'AddConclusion' |
+'EditQuestion' | 'EditConclusion' |
+'QuestionResolvers' | 'ConclusionStructure' |
+'AddResolver' | 'AddConclusionItem' |
+'EditResolver' | 'EditConclusionItem' |
+'ResolverVideos' | 'AddVideo' | 'EditVideo' | 'Test';

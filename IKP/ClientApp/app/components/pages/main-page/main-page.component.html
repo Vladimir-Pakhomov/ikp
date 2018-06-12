@@ -12,41 +12,119 @@
             </tr>
         </table>
         <div [ngSwitch]="currentModule">
-            <linked-table *ngSwitchCase="'Keys'" [title]="'Лицензионные ключи'" [keyMap]="licenseKeyMap" [data]="keys" (onAdd)="onAddLicenseKey()"></linked-table>
-            <linked-table *ngSwitchCase="'Admins'" [title]="'Администраторы'" [keyMap]="adminsKeyMap" [data]="admins" [extraActions]="adminExtraActions" (onAdd)="onAddAdmin()" (onEdit)="onEditAdmin($event)" (onDelete)="onDeleteUser($event)" (onExtraAction)="onExtraAction($event)"></linked-table>
-            <linked-table *ngSwitchCase="'Stuff'" [title]="'Сотрудники'" [keyMap]="stuffKeyMap" [data]="stuff" [extraActions]="stuffExtraActions" (onAdd)="onAddStuff()" (onEdit)="onEditStuff($event)" (onDelete)="onDeleteUser($event)"></linked-table>
-            <linked-table *ngSwitchCase="'Groups'" [title]="'Группы'" [keyMap]="groupsKeyMap" [data]="groups" (onAdd)="onAddGroup()" (onEdit)="onEditGroup($event)" (onDelete)="onDeleteGroup($event)"></linked-table>
-            <linked-table *ngSwitchCase="'Students'" [title]="'Учащиеся'" [keyMap]="studentsKeyMap" [data]="students" [extraActions]="studentExtraActions" (onAdd)="onAddStudent()" (onEdit)="onEditStudent($event)" (onDelete)="onDeleteUser($event)"></linked-table>
-            <linked-table *ngSwitchCase="'History'" [title]="'История изменений'" [keyMap]="historyKeyMap" [data]="history" [addEnabled]="false" [editEnabled]="false" [deleteEnabled]="false"></linked-table>
+            <linked-table *ngSwitchCase="'Keys'" [title]="'Лицензионные ключи'" [keyMap]="licenseKeyMap" 
+                [data]="keys" (onAdd)="onAddLicenseKey()"></linked-table>
+            <linked-table *ngSwitchCase="'Admins'" [title]="'Администраторы'" [keyMap]="adminsKeyMap" 
+                [data]="admins" [extraActions]="adminExtraActions" (onAdd)="onAddAdmin()" 
+                (onEdit)="onEditAdmin($event)" (onDelete)="onDeleteUser($event)" 
+                (onExtraAction)="onExtraAction($event)"></linked-table>
+            <linked-table *ngSwitchCase="'Stuff'" [title]="'Сотрудники'" [keyMap]="stuffKeyMap" 
+                [data]="stuff" [extraActions]="stuffExtraActions" (onAdd)="onAddStuff()" 
+                (onEdit)="onEditStuff($event)" (onDelete)="onDeleteUser($event)"></linked-table>
+            <linked-table *ngSwitchCase="'Groups'" [title]="'Группы'" [keyMap]="groupsKeyMap" 
+                [data]="groups" (onAdd)="onAddGroup()" (onEdit)="onEditGroup($event)" 
+                (onDelete)="onDeleteGroup($event)"></linked-table>
+            <linked-table *ngSwitchCase="'Students'" [title]="'Учащиеся'" [keyMap]="studentsKeyMap" 
+                [data]="students" [extraActions]="studentExtraActions" (onAdd)="onAddStudent()" 
+                (onEdit)="onEditStudent($event)" (onDelete)="onDeleteUser($event)"></linked-table>
+            <linked-table *ngSwitchCase="'History'" [title]="'История изменений'" [keyMap]="historyKeyMap"
+                [data]="history" [addEnabled]="false" [editEnabled]="false" 
+                [deleteEnabled]="false"></linked-table>
 
-            <linked-table *ngSwitchCase="'MyGroups'" [title]="'Мои группы'" [keyMap]="groupsKeyMap" [data]="myGroups"></linked-table>
-            <linked-table *ngSwitchCase="'AllResults'" [title]="'Все результаты'" [keyMap]="resultsKeyMap" [data]="allResults"></linked-table>
+            <linked-table *ngSwitchCase="'MyGroups'" [title]="'Мои группы'" [keyMap]="groupsKeyMap" 
+                [data]="myGroups"></linked-table>
+            <linked-table *ngSwitchCase="'AllResults'" [title]="'Все результаты'" [keyMap]="resultsKeyMap" 
+                [data]="allResults"></linked-table>
 
-            <linked-table *ngSwitchCase="'Programs'" [title]="'Программы'" [keyMap]="programsKeyMap" [data]="programs" (onAdd)="onAddProgram()" [extraActions]="programExtraActions" (onExtraAction)="onExtraAction($event)"></linked-table>
-            <linked-table *ngSwitchCase="'MyResults'" [title]="'Мои результаты'" [keyMap]="resultsKeyMap" [data]="myResults"></linked-table>
+            <linked-table *ngSwitchCase="'Programs'" [title]="'Программы'" [keyMap]="programsKeyMap" 
+                [data]="programs" (onAdd)="onAddProgram()" [extraActions]="programExtraActions" 
+                (onExtraAction)="onExtraAction($event)"></linked-table>
+            <linked-table *ngSwitchCase="'MyResults'" [title]="'Мои результаты'" [keyMap]="resultsKeyMap" 
+                [data]="myResults"></linked-table>
 
-            <user-form *ngSwitchCase="'AddAdmin'" [role]="0" (onFormCompleted)="performAddAdmin($event)" (onFormCancelled)="goToModule('Admins')"></user-form>
-            <user-form *ngSwitchCase="'EditAdmin'" [user]="currentAdmin" [role]="0" (onFormCompleted)="performEditAdmin($event)" (onFormCancelled)="goToModule('Admins')"></user-form>
+            <user-form *ngSwitchCase="'AddAdmin'" [role]="0" (onFormCompleted)="performAddAdmin($event)" 
+                (onFormCancelled)="goToModule('Admins')"></user-form>
+            <user-form *ngSwitchCase="'EditAdmin'" [user]="currentAdmin" [role]="0" 
+                (onFormCompleted)="performEditAdmin($event)" 
+                (onFormCancelled)="goToModule('Admins')"></user-form>
 
-            <user-form *ngSwitchCase="'AddStuff'" [role]="1" (onFormCancelled)="goToModule('Stuff')"></user-form>
-            <user-form *ngSwitchCase="'EditStuff'" [user]="currentStuff" [role]="1" (onFormCancelled)="goToModule('Stuff')"></user-form>
+            <user-form *ngSwitchCase="'AddStuff'" [role]="1" 
+                (onFormCancelled)="goToModule('Stuff')"></user-form>
+            <user-form *ngSwitchCase="'EditStuff'" [user]="currentStuff" [role]="1" 
+                (onFormCancelled)="goToModule('Stuff')"></user-form>
 
-            <user-form *ngSwitchCase="'AddStudent'" [role]="2" (onFormCancelled)="goToModule('Students')"></user-form>
-            <user-form *ngSwitchCase="'EditStudent'" [user]="currentStudent" [role]="2" (onFormCancelled)="goToModule('Students')"></user-form>
+            <user-form *ngSwitchCase="'AddStudent'" [role]="2" 
+                (onFormCancelled)="goToModule('Students')"></user-form>
+            <user-form *ngSwitchCase="'EditStudent'" [user]="currentStudent" [role]="2" 
+                (onFormCancelled)="goToModule('Students')"></user-form>
 
-            <group-form *ngSwitchCase="'AddGroup'" [company]="currentUser.Company" (onFormCancelled)="goToModule('Groups')"></group-form>
-            <group-form *ngSwitchCase="'EditGroup'" [company]="currentUser.Company" [group]="currentGroup" (onFormCancelled)="goToModule('Groups')"></group-form>
+            <group-form *ngSwitchCase="'AddGroup'" 
+                (onFormCancelled)="goToModule('Groups')"></group-form>
+            <group-form *ngSwitchCase="'EditGroup'" 
+                [group]="currentGroup" (onFormCancelled)="goToModule('Groups')"></group-form>
 
-            <program-form *ngSwitchCase="'AddProgram'" [company]="currentUser.Company" (onFormCompleted)="performAddProgram($event)" (onFormCancelled)="goToModule('Programs')"></program-form>
-            <program-form *ngSwitchCase="'EditProgram'" [company]="currentUser.Company" [program]="currentProgram" (onFormCancelled)="goToModule('Programs')"></program-form>
+            <program-form *ngSwitchCase="'AddProgram'"
+                (onFormCompleted)="performAddProgram($event)" 
+                (onFormCancelled)="goToModule('Programs')"></program-form>
+            <program-form *ngSwitchCase="'EditProgram'"
+                [program]="currentProgram" (onFormCancelled)="goToModule('Programs')"></program-form>
 
-            <block-structure *ngSwitchCase="'BlockStructure'" [block]="currentBlock" [company]="currentUser.Company" (onAddBlock)="onAddBlock($event)" (onAddExersize)="onAddExersize($event)"
-                (onViewDescendantBlock)="onViewDescendantBlock($event)" (onViewDescendantExersize)="onViewDescendantExersize($event)"></block-structure>
+            <block-structure *ngSwitchCase="'BlockStructure'" [block]="currentBlock" 
+                [company]="currentUser.Company" (onAddBlock)="onAddBlock($event)" 
+                (onAddExersize)="onAddExersize($event)"
+                (onViewDescendantBlock)="onViewDescendantBlock($event)" 
+                (onViewDescendantExersize)="onViewDescendantExersize($event)"
+                (onBack)="onBack()"></block-structure>
 
-            <block-form *ngSwitchCase="'AddBlock'" [parentID]="currentBlock.ID" [company]="currentUser.Company" (onFormCompleted)="addBlockToParent($event)" (onFormCancelled)="goToModule('BlockStructure')"></block-form>
-            <exersize-form *ngSwitchCase="'AddExersize'" [parentID]="currentBlock.ID" [company]="currentUser.Company" (onFormCompleted)="addExersizeToParent($event)" (onFormCancelled)="goToModule('BlockStructure')"></exersize-form>
+            <block-form *ngSwitchCase="'AddBlock'" [parentID]="currentBlock.ID" 
+                (onFormCompleted)="addBlockToParent($event)" 
+                (onFormCancelled)="goToModule('BlockStructure')"></block-form>
+            <exersize-form *ngSwitchCase="'AddExersize'" [parentID]="currentBlock.ID" 
+                (onFormCompleted)="addExersizeToParent($event)"
+                (onFormCancelled)="goToModule('BlockStructure')"></exersize-form>
 
-            <exersize-structure *ngSwitchCase="'ExersizeStructure'" [exersize]="currentExersize"></exersize-structure>
+            <exersize-structure *ngSwitchCase="'ExersizeStructure'" [exersize]="currentExersize" 
+                [company]="currentUser.Company" (onAddQuestion)="onAddQuestion()" 
+                (onAddConclusion)="onAddConclusion()" 
+                (onViewQuestionResolvers)="onViewQuestionResolvers($event)"
+                (onViewConclusionStructure)="onViewConclusionStructure($event)"
+                (onBack)="onBack()"></exersize-structure>
+
+            <question-form *ngSwitchCase="'AddQuestion'" [parentID]="currentExersize.ID" 
+                (onFormCompleted)="addQuestionToExersize($event)" 
+                (onFormCancelled)="goToModule('ExersizeStructure')"></question-form>
+            <question-form *ngSwitchCase="'EditQuestion'" [parentID]="currentExersize.ID" 
+                [question]="currentQuestion"></question-form>
+
+            <conclusion-form *ngSwitchCase="'AddConclusion'" [parentID]="currentExersize.ID" 
+                (onFormCompleted)="addConclusionToExersize($event)" 
+                (onFormCancelled)="goToModule('ExersizeStructure')"></conclusion-form>
+            <conclusion-form *ngSwitchCase="'EditConclusion'" [parentID]="currentExersize.ID" 
+                [conclusion]="currentConclusion"></conclusion-form>
+
+            <question-resolvers *ngSwitchCase="'QuestionResolvers'" [question]="currentQuestion"
+                [company]="currentUser.Company" (onAddResolver)="onAddResolver()"
+                (onViewResolverVideos)="onViewResolverVideos($event)"
+                (onBack)="onBack()"></question-resolvers>
+
+            <!--conclusion-structure *ngSwitchCase="'ConclusionStructure'" [conclusion]="currentConclusion"
+                [company]="currentUser.Company" (onAddItem)="onAddConclusionItem()">
+            </conclusion-structure-->
+
+            <resolver-form *ngSwitchCase="'AddResolver'" [parentID]="currentQuestion.ID"
+                (onFormCompleted)="addResolverToQuestion($event)"
+                (onFormCancelled)="goToModule('QuestionResolvers')"></resolver-form>
+            <resolver-form *ngSwitchCase="'EditResolver'" [parentID]="currentQuestion.ID"
+                ></resolver-form>
+
+            <resolver-videos *ngSwitchCase="'ResolverVideos'" [resolver]="currentResolver"
+                [company]="currentUser.Company" (onAddVideo)="onAddVideo()"
+                (onBack)="onBack()"></resolver-videos>
+
+            <video-form *ngSwitchCase="'AddVideo'" [parentID]="currentResolver.ID"
+                (onFormCompleted)="addVideoToResolver($event)"
+                (onFormCancelled)="goToModule('ResolverVideos')"></video-form>
+            
         </div>
     </div>
 </div>

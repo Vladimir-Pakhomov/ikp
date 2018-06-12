@@ -145,6 +145,31 @@ export const ConclusionKeyMap = {
     Name: "Наименование"
 }
 
+export class Resolver {
+    ID: number;
+    Type: number;
+    Content: string;
+}
+
+export const ResolverKeyMap = {
+    Content: "Содержимое"
+}
+
+export class Video {
+    ID: number;
+    Content1: string;
+    Content2: string;
+    IsFirstCorrect: boolean;
+    PlaybackType: number;
+}
+
+export const VideoKeyMap = {
+    Content1: "Видео 1",
+    Content2: "Видео 2",
+    IsFirstCorrect: "Видео 1 верное?",
+    PlaybackType: "Режим воспроизведения"
+}
+
 export class Result {
     Start: string;
     End: string;

@@ -8,7 +8,6 @@ import { Block } from '../../../../services/models/main.model';
     styleUrls: ['./block-form.component.css']
 })
 export class BlockFormComponent implements OnInit {
-    @Input() company: string;
     @Input() parentID: number;
 
     @Output() onFormCompleted: EventEmitter<any> = new EventEmitter<any>();

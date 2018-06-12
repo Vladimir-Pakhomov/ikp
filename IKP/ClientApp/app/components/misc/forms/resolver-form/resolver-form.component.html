@@ -1,0 +1,16 @@
+<div>
+    <h2 *ngIf="!editMode">Add Resolver</h2>
+    <h2 *ngIf="editMode">Edit Resolver</h2>
+    <div class="itemGroup">
+        <div class="itemCaption">Use image path</div>
+        <input type="checkbox" [(ngModel)]="checked" />
+    </div>
+    <br>
+    <div class="itemGroup">
+        <div class="itemCaption">Content</div>
+        <textarea class="itemInput" [ngClass]="{ 'invalid': !resolver.Content }" [(ngModel)]="resolver.Content"></textarea>
+        <div *ngIf="!resolver.Content" class="validationMessage">This field is required</div>
+    </div>
+    <button *ngIf="valid" class="btn btn-success" (click)="ok()">Submit</button>
+    <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+</div>

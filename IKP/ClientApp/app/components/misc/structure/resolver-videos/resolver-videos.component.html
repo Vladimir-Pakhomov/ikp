@@ -1,0 +1,6 @@
+<h2>Видео для материала</h2>
+<button class="btn btn-secondary" (click)="back()">Назад</button>
+<br>
+<linked-table (onAdd)="addVideo()" [title]="'Видео'" 
+    [data]="descendantVideos" [keyMap]="videosKeyMap"></linked-table>
+<br>

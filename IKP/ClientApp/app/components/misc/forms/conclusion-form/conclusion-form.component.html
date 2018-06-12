@@ -1,0 +1,11 @@
+<div>
+    <h2 *ngIf="!editMode">Add Conclusion</h2>
+    <h2 *ngIf="editMode">Edit Conclusion: {{conclusion.Name}}</h2>
+    <div class="itemGroup">
+        <div class="itemCaption">Name</div>
+        <input class="itemInput" [ngClass]="{ 'invalid': !conclusion.Name }" [(ngModel)]="conclusion.Name" />
+        <div *ngIf="!conclusion.Name" class="validationMessage">This field is required</div>
+    </div>
+    <button *ngIf="valid" class="btn btn-success" (click)="ok()">Submit</button>
+    <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+</div>

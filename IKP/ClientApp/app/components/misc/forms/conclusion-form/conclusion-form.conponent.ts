@@ -1,35 +1,35 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { MainModule } from '../../../pages/main-page/main-page.component';
-import { Exersize } from '../../../../services/models/main.model';
+import { Conclusion } from '../../../../services/models/main.model';
 
 @Component({
-    selector: 'exersize-form',
-    templateUrl: './exersize-form.component.html',
-    styleUrls: ['./exersize-form.component.css']
+    selector: 'conclusion-form',
+    templateUrl: './conclusion-form.component.html',
+    styleUrls: ['./conclusion-form.component.css']
 })
-export class ExersizeFormComponent implements OnInit {
+export class ConclusionFormComponent implements OnInit {
     @Input() parentID: number;
 
     @Output() onFormCompleted: EventEmitter<any> = new EventEmitter<any>();
     @Output() onFormCancelled: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    @Input() exersize: Exersize;
+    @Input() conclusion: Conclusion;
 
     editMode: boolean;
 
     get valid(): boolean {
-        return !!this.exersize.Name && !!this.exersize.GeneralQuestion;
+        return !!this.conclusion.Name;
     }
 
     ngOnInit() {
-        this.editMode = this.exersize != null;
+        this.editMode = this.conclusion != null;
         if(!this.editMode){
-            this.exersize = new Exersize();
+            this.conclusion = new Conclusion();
         }
     }
 
     ok() {
-        this.onFormCompleted.next({ parentID: this.parentID, Exersize: this.exersize });
+        this.onFormCompleted.next({ parentID: this.parentID, Conclusion: this.conclusion });
     }
 
     cancel() {

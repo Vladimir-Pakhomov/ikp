@@ -39,7 +39,7 @@ export class BlockStructureComponent implements OnInit, OnChanges {
     ngOnInit() {
         this.blockExtraActions =
         this.role == UserRole.Student
-        ? [{ key: 'startBlockExecution', value: 'Начать выполнение!' }]
+        ? [{ key: 'startBlockExecution', value: 'Начать выполнение!' }, { key: 'viewBlockStructure', value: 'Структура...' }]
         : [{ key: 'viewBlockStructure', value: 'Структура...' }];
     }
 

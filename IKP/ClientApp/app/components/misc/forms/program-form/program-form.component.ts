@@ -7,6 +7,7 @@ import { Program } from '../../../../services/models/main.model';
     styleUrls: ['./program-form.component.css']
 })
 export class ProgramFormComponent implements OnInit {
+    @Input() company: string;
 
     @Output() onFormCompleted: EventEmitter<Program> = new EventEmitter<Program>();
     @Output() onFormCancelled: EventEmitter<boolean> = new EventEmitter<boolean>();

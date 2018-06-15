@@ -8,7 +8,8 @@ import { Group } from '../../../../services/models/main.model';
     styleUrls: ['./group-form.component.css']
 })
 export class GroupFormComponent implements OnInit {
-
+    @Input() company: string;
+    
     @Output() onFormCompleted: EventEmitter<Group> = new EventEmitter<Group>();
     @Output() onFormCancelled: EventEmitter<boolean> = new EventEmitter<boolean>();
 

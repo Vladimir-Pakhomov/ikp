@@ -59,15 +59,15 @@
             <user-form *ngSwitchCase="'EditStudent'" [user]="currentStudent" [role]="2" 
                 (onFormCancelled)="goToModule('Students')"></user-form>
 
-            <group-form *ngSwitchCase="'AddGroup'" 
+            <group-form *ngSwitchCase="'AddGroup'" [company]="currentUser.Company"
                 (onFormCancelled)="goToModule('Groups')"></group-form>
-            <group-form *ngSwitchCase="'EditGroup'" 
+            <group-form *ngSwitchCase="'EditGroup'" [company]="currentUser.Company"
                 [group]="currentGroup" (onFormCancelled)="goToModule('Groups')"></group-form>
 
-            <program-form *ngSwitchCase="'AddProgram'"
+            <program-form *ngSwitchCase="'AddProgram'" [company]="currentUser.Company"
                 (onFormCompleted)="performAddProgram($event)" 
                 (onFormCancelled)="goToModule('Programs')"></program-form>
-            <program-form *ngSwitchCase="'EditProgram'"
+            <program-form *ngSwitchCase="'EditProgram'" [company]="currentUser.Company"
                 [program]="currentProgram" (onFormCancelled)="goToModule('Programs')"></program-form>
 
             <block-structure *ngSwitchCase="'BlockStructure'" [block]="currentBlock"

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChange, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 
 @Component({
@@ -6,16 +6,29 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
     templateUrl: './media-presenter.component.html',
     styleUrls: ['./media-presenter.component.css']
 })
-export class MediaPresenterComponent {
-    @Input() mediaSource: SafeResourceUrl;
-    playEnabled: false;
-    pauseEnabled: false;
-    stopEnabled: false;
+export class MediaPresenterComponent implements OnInit, OnChanges {
+    @Input() mediaSource: string;
 
     @ViewChild('video') video: ElementRef;
-    @ViewChild('file') file: ElementRef;
+
+    ready: boolean = false;
+
+    mediaSourceSecure() {
+        return this.sanitizer.bypassSecurityTrustResourceUrl(this.mediaSource);
+    }
 
     constructor(private sanitizer: DomSanitizer) {
 
+    }
+
+    ngOnInit() {
+        
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if(changes.mediaSource) {
+            this.mediaSource = changes.mediaSource.currentValue.replace('.avi', '.mp4');
+            (this.video.nativeElement as HTMLVideoElement).load();
+        }
     }
 }

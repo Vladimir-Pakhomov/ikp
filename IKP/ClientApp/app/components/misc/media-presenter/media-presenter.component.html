@@ -1,17 +1,17 @@
 <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 <script src="https://unpkg.com/video.js/dist/video.js"></script>
-<div class="videoWrapper">
-    <!--video #video [src]="mediaSource" autoplay class="videoElement" controls></video-->
-    <video
-    id="my-player"
+<div class="videoWrapper">    
+    <video #video
+    id="my-player" 
     class="video-js"
     controls
     preload="auto"
     data-setup='{}' width="400" height="300">
-    <source [src]="mediaSource" type="video/mp4" />
-  <!--source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"> />
-  <source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm" />
-  <source src="//vjs.zencdn.net/v/oceans.ogv" type="video/ogg" /-->
+  
+    <source [src]="mediaSource" type="video/mp4">
+    <source [src]="mediaSource" type="video/webm">
+    <source [src]="mediaSource" type="video/ogg">
+    
   <p class="vjs-no-js">
     To view this video please enable JavaScript, and consider upgrading to a
     web browser that

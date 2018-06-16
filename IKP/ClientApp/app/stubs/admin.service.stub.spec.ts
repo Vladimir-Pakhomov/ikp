@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs';
 import { LicenseKey, LicenseKeyStatus, User, UserRole, Admin, Stuff, Student, HistoryItem, Group, Program, Exersize, Result } from '../services/models/main.model';
-import { ProgramsStub, ResultsStub, LicenseKeysStub } from './programs.stub.spec';
+import { ProgramsStub, LicenseKeysStub } from './programs.stub.spec';
 import { StuffStub, GroupsStub, StudentsStub } from './students.stub.spec';
 
 export const AdminsStub: Admin[] = [
@@ -44,7 +44,7 @@ export class AdminServiceStub {
     }
 
     getAllResults(): Observable<Result[]> {
-        return Observable.of(ResultsStub);
+        return Observable.of([]);
     }
 
     getPrograms(): Observable<Program[]> {
@@ -52,6 +52,6 @@ export class AdminServiceStub {
     }
 
     getMyResults(user: User): Observable<Result[]> {
-        return Observable.of(ResultsStub.filter(r => r.User.Login == user.Login));
+        return Observable.of([].filter((r: any) => r.User.Login == user.Login));
     }
 }

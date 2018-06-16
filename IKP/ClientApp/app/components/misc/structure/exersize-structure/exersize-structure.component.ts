@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Exersize, Question, QuestionKeyMap, Conclusion, ConclusionKeyMap } from '../../../../services/models/main.model';
+import { Exersize, Question, Conclusion, ContentObjectKeyMap, NamedObjectKeyMap } from '../../../../services/models/main.model';
 import { AdminService } from '../../../../services/admin/admin.service';
 
 @Component({
@@ -20,10 +20,10 @@ export class ExersizeStructureComponent implements OnInit {
     @Output() onBack: EventEmitter<any> = new EventEmitter<any>();
 
     descendantQuestions: Question[] = [];
-    questionsKeyMap = QuestionKeyMap;
+    questionsKeyMap = ContentObjectKeyMap;
 
     descendantConclusions: Exersize[] = [];
-    conclusionsKeyMap = ConclusionKeyMap;
+    conclusionsKeyMap = NamedObjectKeyMap;
 
     questionExtraActions = [{ key: 'viewQuestionResolvers', value: 'Материалы...' }];
     conclusionExtraActions = [{ key: 'viewConclusionStructure', value: 'Структура...' }];

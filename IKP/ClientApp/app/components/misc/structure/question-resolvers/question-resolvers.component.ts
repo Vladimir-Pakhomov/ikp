@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Question, Resolver, ResolverKeyMap } from '../../../../services/models/main.model';
+import { Question, Resolver, ContentObjectKeyMap } from '../../../../services/models/main.model';
 import { AdminService } from '../../../../services/admin/admin.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class QuestionResolversComponent implements OnInit {
     @Output() onBack: EventEmitter<any> = new EventEmitter<any>();
 
     descendantResolvers: Resolver[] = [];
-    resolversKeyMap = ResolverKeyMap;
+    resolversKeyMap = ContentObjectKeyMap;
 
     resolverExtraActions = [{ key: 'viewResolverVideos', value: 'Видео...' }];
 

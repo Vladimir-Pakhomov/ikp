@@ -276,6 +276,78 @@ namespace IKP.Database
             }
         }
 
+        public static DataSet GetProgramByID(string company, string idProgram)
+        {
+            try
+            {
+                using (var conn = CreateConnectionByCompany(company))
+                {
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select * from Programs where ID={idProgram};", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _dbLogger.Log($"GetProgramByID exception: {ex}");
+                return null;
+            }
+        }
+
+        public static DataSet GetBlockByID(string company, string idBlock)
+        {
+            try
+            {
+                using (var conn = CreateConnectionByCompany(company))
+                {
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select * from Blocks where ID={idBlock};", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _dbLogger.Log($"GetBlockByID exception: {ex}");
+                return null;
+            }
+        }
+
+        public static DataSet GetUserByID(string company, string idUser)
+        {
+            try
+            {
+                using (var conn = CreateConnectionByCompany(company))
+                {
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select * from `Users` where ID={idUser};", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _dbLogger.Log($"GetUserByID exception: {ex}");
+                return null;
+            }
+        }
+
         public static DataSet GetGroups(string company)
         {
             try
@@ -644,6 +716,16 @@ namespace IKP.Database
                 $"select @lastID := max(ID) from `Videos`;" +
                 $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values ({idParent}, {parentType}, @lastID, 5); " +
                 $"commit;";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode SendResult(string start, string end, string idProgram, string idBlock, string idUser, string correctness, string rationality,
+            string totalPercentage, string company)
+        {
+            DateTime _start = DateTime.Parse(start);
+            DateTime _end = DateTime.Parse(end);
+            string cmd = $"insert into `Results` (Start, End, Elapsed, IDUser, IDProgram, IDBlock, Correctness, Rationality, TotalPercentage)" +
+                $"values ('{start}', '{end}', {(int)((_end - _start).TotalMinutes)}, {idUser}, {idProgram}, {idBlock}, '{correctness}', '{rationality}', '{totalPercentage}');";
             return PerformAction(company, cmd);
         }
     }

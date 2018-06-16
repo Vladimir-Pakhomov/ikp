@@ -36,11 +36,14 @@
             <linked-table *ngSwitchCase="'AllResults'" [title]="'Все результаты'" [keyMap]="resultsKeyMap" 
                 [data]="allResults"></linked-table>
 
-            <linked-table *ngSwitchCase="'Programs'" [title]="'Программы'" [keyMap]="programsKeyMap" 
+            <linked-table *ngSwitchCase="'Programs'" [title]="'Программы'" [keyMap]="programsKeyMap"
+                [addEnabled]="currentUser.Role == 0" [editEnabled]="currentUser.Role == 0"
+                [deleteEnabled]="currentUser.Role == 0" 
                 [data]="programs" (onAdd)="onAddProgram()" [extraActions]="programExtraActions" 
                 (onExtraAction)="onExtraAction($event)"></linked-table>
             
-            <linked-table *ngSwitchCase="'MyResults'" [title]="'Мои результаты'" [keyMap]="resultsKeyMap" 
+            <linked-table *ngSwitchCase="'MyResults'" [title]="'Мои результаты'" [keyMap]="resultsKeyMap"
+                [addEnabled]="false" [editEnabled]="false" [deleteEnabled]="false" 
                 [data]="myResults"></linked-table>
 
             <user-form *ngSwitchCase="'AddAdmin'" [role]="0" (onFormCompleted)="performAddAdmin($event)" 
@@ -128,8 +131,8 @@
                 (onFormCompleted)="addVideoToResolver($event)"
                 (onFormCancelled)="goToModule('ResolverVideos')"></video-form>
             
-            <execution *ngSwitchCase="'BlockExecution'" [block]="currentBlock"
-                [company]="currentUser.Company" (onBack)="onBack()"></execution>
+            <execution *ngSwitchCase="'BlockExecution'" [programID]="currentProgram.ID" [block]="currentBlock"
+                [currentUser]="currentUser" (onBack)="onBack()"></execution>
         </div>
     </div>
 </div>

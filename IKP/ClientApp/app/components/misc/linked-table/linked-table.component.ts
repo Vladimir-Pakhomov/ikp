@@ -16,12 +16,14 @@ export class LinkedTableComponent implements OnInit {
     @Input() deleteEnabled: boolean = true;
 
     @Input() extraActions: any[] = [];
+    @Input() topActions: any[] = [];
 
     @Output() onAdd: EventEmitter<any> = new EventEmitter<any>();
     @Output() onEdit: EventEmitter<any> = new EventEmitter<any>();
     @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
 
     @Output() onExtraAction: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onTopAction: EventEmitter<any> = new EventEmitter<any>();
 
     keys: string[];
     values: string[];
@@ -48,5 +50,9 @@ export class LinkedTableComponent implements OnInit {
             key: key,
             data: data
         });
+    }
+
+    top(key: string){
+        this.onTopAction.next(key);
     }
 }

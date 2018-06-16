@@ -104,7 +104,7 @@ export class Block {
     Name: string;
 }
 
-export const BlockKeyMap = {
+export const NamedObjectKeyMap = {
     Name: 'Наименование'
 }
 
@@ -113,26 +113,20 @@ export class Program extends Block {
     LicenseKey: LicenseKey;
 }
 
-export const ProgramKeyMap = {
-    Name: 'Наименование',
-    LicenseKey: 'Ключ'
-}
+export const ProgramKeyMap = Object.assign({ LicenseKey: 'Ключ' }, NamedObjectKeyMap);
 
 export class Exersize extends Block {
     GeneralQuestion: string;
 }
 
-export const ExersizeKeyMap = {
-    Name: 'Наименование',
-    GeneralQuestion: 'Главный вопрос'
-}
+export const ExersizeKeyMap = Object.assign({ GeneralQuestion: 'Главный вопрос' }, NamedObjectKeyMap);
 
 export class Question {
     ID: number;
     Content: string;
 }
 
-export const QuestionKeyMap = {
+export const ContentObjectKeyMap = {
     Content: "Содержимое"
 }
 
@@ -141,18 +135,10 @@ export class Conclusion {
     Name: string;
 }
 
-export const ConclusionKeyMap = {
-    Name: "Наименование"
-}
-
 export class Resolver {
     ID: number;
     Type: number;
     Content: string;
-}
-
-export const ResolverKeyMap = {
-    Content: "Содержимое"
 }
 
 export class Video {
@@ -176,20 +162,21 @@ export class Result {
     Elapsed: number;
     User: User;
     Program: Program;
-    Blocks: string[];
-    Exersize: Exersize;
-    Correntness: number;
-    Rationality: number;
+    Block: Block;
+    Correctness: string;
+    Rationality: string;
+    TotalPercentage: string;
 }
 
-export const ResultKeyMap = {
+export const ResultKeyMapLite = {
     Start: 'Время начала',
     End: 'Время окончания',
-    Elapsed: 'Затрачено',
-    User: 'Учащийся',
+    Elapsed: 'Затрачено (мин.)',
     Program: 'Программа',
-    Blocks: 'Блоки',
-    Exersize: 'Упражнение',
-    Correntness: 'Правильность',
-    Rationality: 'Рациональность'
+    Block: 'Раздел',
+    Correctness: 'Правильность',
+    Rationality: 'Рациональность',
+    TotalPercentage: 'Общий процент выполнения'
 }
+
+export const ResultKeyMap = Object.assign({ User: 'Учащийся' }, ResultKeyMapLite);

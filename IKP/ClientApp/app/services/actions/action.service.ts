@@ -111,4 +111,10 @@ export class ActionService {
             `api/Action/DeleteGroup?id=${id}&company=${company}`)
         .map(r => Number(r.json().error));
     }
+
+    sendResult(start: string, end: string, idProgram: number, idBlock: number, correctness: string, 
+        rationality: string, totalPercentage: string, user: User): Observable<any> {
+            return this.http.get(this.baseUrl + `api/Action/SendResult?start=${start}&end=${end}&idProgram=${idProgram}&idBlock=${idBlock}&idUser=${user.ID}&correctness=${correctness}&rationality=${rationality}&totalPercentage=${totalPercentage}&company=${user.Company}`)
+        .map(r => r.json());
+    }
 }

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
@@ -91,7 +91,8 @@ import { ExecutionComponent } from './components/execution/execution.component';
         ActionService,
         AdminService,
         LoginService,
-        FileService
+        FileService,
+        DatePipe
     ]
 })
 export class AppModuleShared {

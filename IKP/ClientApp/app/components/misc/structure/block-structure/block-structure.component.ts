@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { Block, Exersize, BlockKeyMap, ExersizeKeyMap, Program, UserRole } from '../../../../services/models/main.model';
+import { Block, Exersize, ExersizeKeyMap, Program, UserRole, NamedObjectKeyMap } from '../../../../services/models/main.model';
 import { AdminService } from '../../../../services/admin/admin.service';
 import { checkProgram } from '../../pipes/object.pipe';
 
@@ -23,24 +23,25 @@ export class BlockStructureComponent implements OnInit, OnChanges {
     @Output() onBack: EventEmitter<any> = new EventEmitter<any>();
 
     descendantBlocks: Block[] = [];
-    blocksKeyMap = BlockKeyMap;
+    blocksKeyMap = NamedObjectKeyMap;
 
     descendantExersizes: Exersize[] = [];
     exersizesKeyMap = ExersizeKeyMap;
 
     blockExtraActions: any; 
 
-    exersizeExtraActions = [{ key: 'viewQuestions', value: 'Состав упражнения..' }];
+    exersizeExtraActions: any[] = [];
+
+    topActions: any[] = [];
 
     constructor(private adminService: AdminService){
 
     }
 
     ngOnInit() {
-        this.blockExtraActions =
-        this.role == UserRole.Student
-        ? [{ key: 'startBlockExecution', value: 'Начать выполнение!' }, { key: 'viewBlockStructure', value: 'Структура...' }]
-        : [{ key: 'viewBlockStructure', value: 'Структура...' }];
+        this.blockExtraActions = [{ key: 'viewBlockStructure', value: 'Структура...' }];
+        this.exersizeExtraActions = this.role == 0 ? [{ key: 'viewQuestions', value: 'Состав упражнения..' }] : [];
+        this.topActions = this.role == 2 ? [{ key: 'startBlockExecution', value: 'Начать выполнение!' }] : [];
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -71,6 +72,14 @@ export class BlockStructureComponent implements OnInit, OnChanges {
                 break;
             case 'startBlockExecution':
                 this.onStartExecution.next(event.data);
+                break;
+        }
+    }
+
+    onTopAction(event: any) {
+        switch(event){
+            case 'startBlockExecution':
+                this.onStartExecution.next(this.block);
                 break;
         }
     }

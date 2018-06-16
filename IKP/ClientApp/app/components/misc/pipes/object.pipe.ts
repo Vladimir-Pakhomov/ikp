@@ -5,6 +5,7 @@ export const checkUser = (p: any): p is User => p && p.hasOwnProperty('FIO');
 export const checkGroup = (p: any): p is Group => p && p.hasOwnProperty('IDLead');
 export const checkKey = (p: any): p is LicenseKey => p && p.hasOwnProperty('Guid');
 export const checkProgram = (p: any): p is Program => p && p.hasOwnProperty('IDLicenseKey');
+export const checkNamedObject = (p: any) => p && p.hasOwnProperty('Name');
 
 @Pipe({
     name: 'object'
@@ -14,11 +15,11 @@ export class ObjectPipe implements PipeTransform {
         if(checkUser(value)){
             return value.FIO;
         }
-        else if(checkGroup(value)){
-            return value.Name;
-        }
         else if(checkKey(value)){
             return value.Guid;
+        }
+        else if(checkNamedObject(value)){
+            return value.Name;
         }
         else return value;
     }

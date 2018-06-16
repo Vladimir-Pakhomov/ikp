@@ -10,8 +10,8 @@ import { LoginService } from '../../../services/login/login.service';
 })
 export class LoginPageComponent {
     company: string = 'ikp';
-    login: string = 'darnela.osmun';
-    password: string = 'tw6WjT';
+    login: string;
+    password: string;
 
     showError: boolean;
 

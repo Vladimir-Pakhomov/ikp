@@ -164,6 +164,7 @@ let ProgramStub2: Program = {
 
 export const ProgramsStub: Program[] = [ ProgramStub1, ProgramStub2 ];
 
+/*
 let ResultStub1: Result = {
     Start: '12.05.2018 20:38',
     End: '12.05.2018 21:05',
@@ -573,3 +574,4 @@ export const ResultsStub: Result[] = [
     ResultStub30,
     ResultStub31
 ];
+*/

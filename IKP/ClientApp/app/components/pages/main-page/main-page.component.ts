@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { User, UserRole, LicenseKeyKeyMap, AdminKeyMap, StuffKeyMap, StudentKeyMap, GroupKeyMap, HistoryItemKeyMap, LicenseKey, Admin, Stuff, Student, Group, HistoryItem, ProgramKeyMap, ResultKeyMap, Program, Block, Exersize } from '../../../services/models/main.model';
+import { User, UserRole, LicenseKeyKeyMap, AdminKeyMap, StuffKeyMap, StudentKeyMap, GroupKeyMap, HistoryItemKeyMap, LicenseKey, Admin, Stuff, Student, Group, HistoryItem, ProgramKeyMap, ResultKeyMap, Program, Block, Exersize, NamedObjectKeyMap, ResultKeyMapLite } from '../../../services/models/main.model';
 import { AdminService } from '../../../services/admin/admin.service';
 import { ActionService } from '../../../services/actions/action.service';
 import { checkProgram } from '../../misc/pipes/object.pipe';
@@ -23,8 +23,14 @@ export class MainPageComponent implements OnInit, OnDestroy {
     studentsKeyMap = StudentKeyMap;
     groupsKeyMap = GroupKeyMap;
     historyKeyMap = HistoryItemKeyMap;
-    programsKeyMap = ProgramKeyMap;
-    resultsKeyMap = ResultKeyMap;
+
+    get programsKeyMap(): any {
+        return this.role == 0 ? ProgramKeyMap : NamedObjectKeyMap;
+    }
+
+    get resultsKeyMap(): any {
+        return this.role < 2 ? ResultKeyMap : ResultKeyMapLite;
+    }
 
     keys: LicenseKey[] = [];
     admins: Admin[] = [];
@@ -340,6 +346,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
                 break;
             case 'viewBlockStructure':
                 this.currentBlock = event.data;
+                if(checkProgram(this.currentBlock))
+                    this.currentProgram = Object.assign({}, event.data);
                 this.goToModule('BlockStructure');
                 break;
             case 'startBlockExecution':

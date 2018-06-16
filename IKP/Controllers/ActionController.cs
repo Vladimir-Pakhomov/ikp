@@ -308,5 +308,24 @@ namespace IKP.Controllers
             }
             return result;
         }
+
+        [HttpGet("[action]")]
+        public JObject SendResult(string start, string end, string idProgram, string idBlock, string idUser, string correctness, string rationality,
+            string totalPercentage, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.SendResult(start, end, idProgram, idBlock, idUser, correctness, rationality,
+                    totalPercentage, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"AddVideoAsDescendant exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
     }
 }

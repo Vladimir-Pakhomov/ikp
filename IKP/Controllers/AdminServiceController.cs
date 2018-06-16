@@ -117,9 +117,13 @@ namespace IKP.Controllers
         [HttpGet("[action]")]
         public JArray Results(string company, string stud_id)
         {
-            return !string.IsNullOrEmpty(stud_id) 
-                ? GetDataByCondition(MySQLBridge.GetMyResults, company, $"IDStudent = {stud_id}")
+            JArray temp = !string.IsNullOrEmpty(stud_id) 
+                ? GetDataByCondition(MySQLBridge.GetMyResults, company, $"IDUser = {stud_id}")
                 : GetData(MySQLBridge.GetResults, company);
+            UseResolver(temp, "IDProgram", "Program", MySQLBridge.GetProgramByID, company);
+            UseResolver(temp, "IDBlock", "Block", MySQLBridge.GetBlockByID, company);
+            UseResolver(temp, "IDUser", "User", MySQLBridge.GetUserByID, company);
+            return temp;
         }
 
         [HttpGet("[action]")]

@@ -6,4 +6,5 @@ h2 {
 th, td {
     text-align: center;
     padding: 5px;
+    vertical-align: middle !important;
 }

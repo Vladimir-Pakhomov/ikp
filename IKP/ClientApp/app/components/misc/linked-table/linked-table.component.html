@@ -2,17 +2,20 @@
 <div *ngIf="addEnabled">
     <button class="btn btn-success" (click)="add()">Добавить</button>
 </div>
+<div *ngIf="topActions.length > 0 && data.length > 0">
+    <button *ngFor="let topAction of topActions" class="btn btn-secondary" (click)="top(topAction.key)">{{topAction.value}}</button>
+</div>
 <br>
 <div *ngIf="data.length > 0">
     <table class="table table-striped table-bordered">
         <thead>
             <th *ngFor="let val of values">{{val}}</th>
-            <th>Действия</th>
+            <th *ngIf="editEnabled || deleteEnabled || extraActions.length > 0">Действия</th>
         </thead>
         <tbody>
             <tr *ngFor="let item of data">
                 <td *ngFor="let key of keys">{{item[key] | object}}</td>
-                <td>
+                <td *ngIf="editEnabled || deleteEnabled || extraActions.length > 0">
                     <button *ngIf="editEnabled" class="btn btn-info" (click)="edit(item)">Изменить</button>
                     <button *ngIf="deleteEnabled" class="btn btn-warning" (click)="delete(item)">Удалить</button>
                     <button *ngFor="let extraAction of extraActions" class="btn btn-secondary" (click)="extra(extraAction.key, item)">{{extraAction.value}}</button>

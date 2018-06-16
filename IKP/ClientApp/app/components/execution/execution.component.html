@@ -1,15 +1,40 @@
 <div *ngIf="blockData">
     <button class="btn btn-secondary" (click)="back()">Прекратить выполнение</button>
     <br>
-    <div>
-        <span *ngIf="countdown.days > 0">{{countdown.days}}.</span>
-        <span *ngIf="countdown.hours > 0">{{countdown.hours}} :</span>
-        <span>{{countdown.minutes}} :</span>
-        <span>{{countdown.seconds}}</span>
-    </div>
+    <div *ngIf="displayResults" class="results">
+            <table class="table table-striped table-bordered table-results">
+                <thead>
+                    <th>Правильных ответов</th>
+                    <th>Неправильных ответов</th>
+                    <th>Пересмотров</th>
+                    <th>Правильность</th>
+                    <th>Рациональность</th>
+                    <th>Общий процент выполнения</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{successSelections}}</td>
+                        <td>{{errorSelections}}</td>
+                        <td>{{resolverChanges}}</td>
+                        <td>{{correctness}} %</td>
+                        <td>{{rationality}} %</td>
+                        <td>{{totalPercentage}} %</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     <br>
+    <div>Начало выполнения: {{start | date: 'dd.MM.yyyy HH:mm:ss'}}</div>
+    <div>Затрачено: 
+        <span *ngIf="countdown.days > 0">{{countdown.days}}.</span>
+        <span *ngIf="countdown.hours > 0">{{countdown.hours}}:</span>
+        <span>{{countdown.minutes}}:{{countdown.seconds}}</span>
+    </div>
+    <div *ngIf="displayResults">Конец выполнения: {{end | date: 'dd.MM.yyyy HH:mm:ss'}}</div>
+    <br>
+    <div *ngIf="!displayResults">
     <div class="results">
-        <table class="table table-striped table-bordered">
+        <table class="table table-striped table-bordered table-results">
             <thead>
                 <th *ngFor="let exersize of blockData">{{exersize.Name}}</th>
             </thead>
@@ -17,7 +42,7 @@
                 <tr>
                     <td *ngFor="let exersize of blockData; let i = index;" 
                     [ngClass]="{'current': currentEx == i}" (click)="switchEx(i)">
-                        0/{{exersize.Questions.length}}
+                        {{questionsCompletedCount(i)}} / {{exersize.Questions.length}}
                     </td>
                 </tr>
             </tbody>
@@ -30,35 +55,37 @@
         <div style="float: left;">
             <media-presenter [mediaSource]="media1"></media-presenter>
             <div *ngIf="media2">
-                <button class="btn btn-secoundary" style="width: 390px; margin: 5px;">Выбрать</button>
+                <button *ngIf="media2State == ''" [ngClass]="{ 'success': media1State == 'success', 'error': media1State == 'error'}" class="btn btn-secoundary" style="width: 400px; margin-top: 5px;" (click)="selectMedia1()">Выбрать</button>
             </div>
             <div *ngIf="!media2">
-                    <button class="btn btn-secoundary" style="float: left; width: 190px; margin: 5px;">Норма</button>
-                    <button class="btn btn-secoundary" style="float: right; width: 190px; margin: 5px;">Нарушение</button>
+                    <button *ngIf="abuseState == ''" [ngClass]="{ 'success': normalState == 'success', 'error': normalState == 'error'}" class="btn btn-secoundary" style="float: left; width: 190px; margin: 5px;" (click)="selectNormal()">Норма</button>
+                    <button *ngIf="normalState == ''" [ngClass]="{ 'success': abuseState == 'success', 'error': abuseState == 'error'}" class="btn btn-secoundary" style="float: right; width: 190px; margin: 5px;" (click)="selectAbuse()">Нарушение</button>
             </div>
         </div>
         <div *ngIf="media2" style="float: right;">
             <media-presenter [mediaSource]="media2"></media-presenter>
             <div>
-                <button class="btn btn-secoundary" style="width: 390px; margin: 5px;">Выбрать</button>
+                <button *ngIf="media1State == ''" [ngClass]="{ 'success': media2State == 'success', 'error': media2State == 'error'}" class="btn btn-secoundary" style="width: 400px; margin-top: 5px;" (click)="selectMedia2()">Выбрать</button>
             </div>
         </div>
     </div>
     <br>
     <div style="width: 100%;">
-        <div style="float: left;" *ngIf="currentEx >= 0">
-            <select [(ngModel)]="currentQuestion">
-                <option *ngFor="let question of blockData[currentEx].Questions; let i = index;" [value]="i">
-                    {{question.Content}}
-                </option>
-            </select>
+        <div style="text-align: center; width: 100%;" *ngIf="currentExSuccess">Вы успешно завершили данное упражнение.</div>
+        <div style="float: left; width: calc(50% - 20px); margin: 0 10px;" *ngIf="currentEx >= 0">
+            <table class="table table-striped table-bordered">
+                <tr *ngFor="let question of blockData[currentEx].Questions; let i = index;" [ngClass]="{'hidden': isSuccess(question)}">
+                    <td [ngClass]="{'current': currentQuestion == i }" (click)="selectQuestion(i)">{{question.Content}}</td>
+                </tr>
+            </table>
         </div>
-        <div style="float: left;" *ngIf="currentQuestion >= 0">
-            <select [(ngModel)]="currentResolver" (change)="resolverSelected()">
-                <option *ngFor="let resolver of blockData[currentEx].Questions[currentQuestion].Resolvers; let i = index;" [value]="i">
-                    {{resolver.Content}}
-                </option>
-            </select>
+        <div style="float: left; width: calc(50% - 20px); margin: 0 10px;" *ngIf="currentQuestion >= 0">
+            <table class="table table-striped table-bordered">
+                <tr *ngFor="let resolver of blockData[currentEx].Questions[currentQuestion].Resolvers; let i = index;" [ngClass]="{'hidden': resolver.IsSuccess}" >
+                    <td [ngClass]="{'current': currentResolver == i }" (click)="selectResolver(i)">{{resolver.Content}}</td>
+                </tr>
+            </table>
         </div>
+    </div>
     </div>
 </div>

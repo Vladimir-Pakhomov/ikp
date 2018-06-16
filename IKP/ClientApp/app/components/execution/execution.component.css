@@ -1,17 +1,32 @@
 .results {
-    float: right;
     align-items: center;
-    width: 50%;
+    width: 100%;
+    position: relative;
 }
 
-.results th, .results td {
+.table-results {
+    width: 70%;
+    float: right;
+}
+
+th, td {
     text-align: center;
 }
 
-.results td {
+td {
     cursor: pointer;
 }
 
-.results td.current {
+td.current {
     background-color: deepskyblue;
+    font-weight: bold;
+    color: #fff;
+}
+
+.success {
+    background-color: lightgreen;
+}
+
+.error {
+    background-color: crimson;
 }

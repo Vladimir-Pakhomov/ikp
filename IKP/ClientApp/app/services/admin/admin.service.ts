@@ -64,8 +64,8 @@ export class AdminService {
         .map(r => r.json());
     }
 
-    getBlockData(id: number, company: string): Observable<any> {
-        return this.http.get(this.baseUrl + `api/AdminService/BlockData?id=${id}&company=${company}`)
+    getBlockData(id: number, blockType: string, company: string): Observable<any> {
+        return this.http.get(this.baseUrl + `api/AdminService/BlockData?id=${id}&blockType=${blockType}&company=${company}`)
         .map(r => r.json());
     }
 }

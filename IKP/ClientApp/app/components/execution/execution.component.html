@@ -42,8 +42,8 @@
                 <tr>
                     <td *ngFor="let exersize of blockData; let i = index;" 
                     [ngClass]="{'current': currentEx == i}" (click)="switchEx(i)">
-                        <span *ngIf="!conclusionMode">{{questionsCompletedCount(i)}} / {{exersize.Questions.length}}</span>
-                        <span *ngIf="conclusionMode">Формирование заключения</span>
+                        <span *ngIf="!blockData[i].Conclusions.length">{{questionsCompletedCount(i)}} / {{exersize.Questions.length}}</span>
+                        <span *ngIf="blockData[i].Conclusions && blockData[i].Conclusions.length > 0">Формирование заключения</span>
                     </td>
                 </tr>
             </tbody>

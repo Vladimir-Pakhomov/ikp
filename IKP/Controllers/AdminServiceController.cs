@@ -152,11 +152,11 @@ namespace IKP.Controllers
         }
 
         [HttpGet("[action]")]
-        public JArray BlockData(string id, string company)
+        public JArray BlockData(string id, string blockType, string company)
         {
             try
             {
-                DataSet ds1 = MySQLBridge.GetDescendants(id, "1", "2", company);
+                DataSet ds1 = MySQLBridge.GetDescendants(id, blockType, "2", company);
                 JArray result = JArray.FromObject(ds1.Tables[0]);
                 foreach(JObject exersize in result)
                 {

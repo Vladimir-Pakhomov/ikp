@@ -8,6 +8,7 @@ import { AdminService } from '../../services/admin/admin.service';
 import { FileService } from '../../services/file/file.service';
 import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import { ActionService } from '../../services/actions/action.service';
+import { checkProgram } from '../misc/pipes/object.pipe';
 
 @Component({
     selector: 'execution',
@@ -117,7 +118,8 @@ export class ExecutionComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.adminService.getBlockData(this.block.ID, this.currentUser.Company)
+        let blockType = checkProgram(this.block) ? "0" : "1";
+        this.adminService.getBlockData(this.block.ID, blockType, this.currentUser.Company)
         .subscribe(x => { 
             this.blockData = x;
             this.currentEx = 0;

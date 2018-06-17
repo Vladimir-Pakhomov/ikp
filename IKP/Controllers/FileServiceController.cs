@@ -21,18 +21,18 @@ namespace IKP.Controllers
         private Logger _fileServiceLogger = new Logger("FileService", "logs");
 
         [HttpGet("[action]")]
-        public IActionResult GetVideo(string link, string company)
+        public IActionResult GetFile(string link, string folder, string company)
         {
             try
             {
-                byte[] buffer = System.IO.File.ReadAllBytes($"assets/{company}/videos/{link}");
+                byte[] buffer = System.IO.File.ReadAllBytes($"assets/{company}/{folder}/{link}");
                 var content = new MemoryStream(buffer);
                 var contentType = "APPLICATION/octet-stream";
                 return File(content, contentType, link);
             }
             catch (Exception ex)
             {
-                _fileServiceLogger.Log($"GetVideo Exception: {ex}");
+                _fileServiceLogger.Log($"GetFile Exception: {ex}");
                 return null;
             }
         }

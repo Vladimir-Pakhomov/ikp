@@ -18,13 +18,12 @@ export class FileService {
                  .catch(error => Observable.throw(error));
 
     }
-    getImages(){
-        return this.http.get(this._baseURL + "api/FileService/GetImages")
-                   .map(response => response.json())
-                   .catch(error => Observable.throw(error));
-    }
 
     getVideo(link: string, company: string): string {
-        return this._baseURL + `api/FileService/GetVideo?link=${link}&company=${company}`;
+        return this._baseURL + `api/FileService/GetFile?link=${link}&folder=videos&company=${company}`;
+    }
+
+    getImage(link: string, company: string): string {
+        return this._baseURL + `api/FileService/GetFile?link=${link}&folder=images&company=${company}`;
     }
 }

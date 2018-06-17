@@ -39,3 +39,10 @@ td.current {
     overflow: auto;
     background-color: darkgray;
 }
+
+.videoContainer {
+    width: 100%;
+    height: 350px;
+    position: relative;
+    border: 5px dashed deepskyblue;
+}

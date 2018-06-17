@@ -91,6 +91,10 @@ export class ExecutionComponent implements OnInit, OnDestroy {
     media1: string = '';
     media2: string = '';
 
+    getImageSrc(resolver: any): string {
+        return this.fileService.getImage(resolver.Content, this.currentUser.Company);
+    }
+
     start: Date;
     end: Date;
 

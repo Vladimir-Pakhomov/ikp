@@ -52,7 +52,7 @@
     <br>
     <h2>{{blockData[currentEx].GeneralQuestion}}</h2>
     <br>
-    <div style="width: 100%; height: 350px; position: relative;">
+    <div class="videoContainer">
     <div *ngIf="currentResolver >= 0">
         <div style="float: left;">
             <media-presenter [mediaSource]="media1"></media-presenter>
@@ -75,6 +75,9 @@
         <rt [level]="blockData[currentEx].Conclusions[0].ConclusionItems" [displayProperty]="'Content'"
         [childrenProperty]="'ConclusionItems'" (onItemSelected)="conclusionItemSelected($event)"></rt>
     </div>
+    <div style="text-align: center; line-height: 350px;" *ngIf="currentResolver < 0 && !conclusionMode">
+        Выберите направление обследования и материал для просмотра соответствующих видео.
+    </div>
     </div>
     <br>
     <div style="width: 100%;">
@@ -89,7 +92,12 @@
         <div style="float: left; width: calc(50% - 20px); margin: 0 10px;" *ngIf="currentQuestion >= 0">
             <table class="table table-striped table-bordered">
                 <tr *ngFor="let resolver of blockData[currentEx].Questions[currentQuestion].Resolvers; let i = index;" [ngClass]="{'hidden': resolver.IsSuccess}" >
-                    <td [ngClass]="{'current': currentResolver == i }" (click)="selectResolver(i)">{{resolver.Content}}</td>
+                    <td [ngClass]="{'current': currentResolver == i }" (click)="selectResolver(i)">
+                        <span *ngIf="resolver.Type == 0">{{resolver.Content}}</span>
+                        <span *ngIf="resolver.Type == 1">
+                            <img width="100" height="100" [src]="getImageSrc(resolver)" />
+                        </span>
+                    </td>
                 </tr>
             </table>
         </div>

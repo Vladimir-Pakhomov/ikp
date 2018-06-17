@@ -1,12 +1,13 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs';
+import { PendingInterceptorService } from '../interceptors/pending-interceptor.service';
 
 @Injectable()
 export class FileService {
 
     _baseURL: string;
-    constructor(private http: Http, @Inject('BASE_URL') baseUrl: string) {
+    constructor(private http: PendingInterceptorService, @Inject('BASE_URL') baseUrl: string) {
         this._baseURL = baseUrl;
     }
 

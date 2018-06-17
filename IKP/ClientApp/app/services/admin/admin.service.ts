@@ -2,11 +2,12 @@ import { Injectable, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs';
 import { LicenseKey, User, Admin, Stuff, Student, HistoryItem, Group, Program, Result } from '../models/main.model';
+import { PendingInterceptorService } from '../interceptors/pending-interceptor.service';
 
 @Injectable()
 export class AdminService {
     baseUrl: string;
-    constructor(private http: Http, @Inject('BASE_URL') baseUrl: string) {
+    constructor(private http: PendingInterceptorService, @Inject('BASE_URL') baseUrl: string) {
         this.baseUrl = baseUrl;
     }
     getLicenseKeys(company: string): Observable<LicenseKey[]> {

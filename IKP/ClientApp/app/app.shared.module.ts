@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, ConnectionBackend, XHRBackend, RequestOptions } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './components/app/app.component';
@@ -39,6 +39,8 @@ import { ResolverVideosComponent } from './components/misc/structure/resolver-vi
 import { ExecutionComponent } from './components/execution/execution.component';
 import { ConclusionItemFormComponent } from './components/misc/forms/conclusion-item-form/conclusion-item-form.component';
 import { ConclusionStructureComponent } from './components/misc/structure/conclusion-structure/conclusion-structure.component';
+import { PendingInterceptorService } from './services/interceptors/pending-interceptor.service';
+import { LoaderComponent } from './components/pages/loader/loader.component';
 
 @NgModule({
     declarations: [
@@ -74,6 +76,7 @@ import { ConclusionStructureComponent } from './components/misc/structure/conclu
         RtComponent,
 
         ToolbarComponent,
+        LoaderComponent,
 
         UserRolePipe,
         ObjectPipe
@@ -97,7 +100,8 @@ import { ConclusionStructureComponent } from './components/misc/structure/conclu
         AdminService,
         LoginService,
         FileService,
-        DatePipe
+        DatePipe,
+        PendingInterceptorService
     ]
 })
 export class AppModuleShared {

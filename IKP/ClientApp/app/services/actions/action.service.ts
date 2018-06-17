@@ -64,6 +64,12 @@ export class ActionService {
         .map(r => Number(r.json().error));
     }
 
+    addConclusionItemAsDescendant(idParent: string, parentType: string, content: string, isBranch: boolean, isCorrect: boolean, company: string): Observable<number> {
+        return this.http.get(this.baseUrl +
+            `api/Action/AddConclusionItemAsDescendant?idParent=${idParent}&parentType=${parentType}&content=${content}&isBranch=${isBranch ? 1 : 0}&isCorrect=${isCorrect ? 1 : 0}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
     addResolverAsDescendant(idParent: string, parentType: string, type: number, content: string, company: string): Observable<number>{
         return this.http.get(this.baseUrl +
             `api/Action/AddResolverAsDescendant?idParent=${idParent}&parentType=${parentType}&type=${type}&content=${content}&company=${company}`)

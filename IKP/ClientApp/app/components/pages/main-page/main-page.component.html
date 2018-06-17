@@ -113,9 +113,16 @@
                 (onViewResolverVideos)="onViewResolverVideos($event)"
                 (onBack)="onBack()"></question-resolvers>
 
-            <!--conclusion-structure *ngSwitchCase="'ConclusionStructure'" [conclusion]="currentConclusion"
-                [company]="currentUser.Company" (onAddItem)="onAddConclusionItem()">
-            </conclusion-structure-->
+            <conclusion-structure *ngSwitchCase="'ConclusionStructure'" [conclusionItem]="currentConclusionItem"
+                [company]="currentUser.Company" (onAddConclusionItem)="onAddConclusionItem()" 
+                (onViewDescendantConclusionItems)="onViewConclusionStructure($event)" (onBack)="onBack()">
+            </conclusion-structure>
+
+            <conclusion-item-form *ngSwitchCase="'AddConclusionItem'" [parentID]="currentConclusionItem.ID"
+                (onFormCompleted)="addConclusionItemToParent($event)"
+                (onFormCancelled)="goToModule('ConclusionStructure')"></conclusion-item-form>
+            <conclusion-item-form  *ngSwitchCase="'EditConclusionItem'" [parentID]="currentConclusionItem.ID"
+                [conclusionItem]="currentConclusionItem"></conclusion-item-form>
 
             <resolver-form *ngSwitchCase="'AddResolver'" [parentID]="currentQuestion.ID"
                 (onFormCompleted)="addResolverToQuestion($event)"

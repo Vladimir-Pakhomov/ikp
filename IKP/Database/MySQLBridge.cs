@@ -697,6 +697,17 @@ namespace IKP.Database
             return PerformAction(company, cmd);
         }
 
+        public static ActionErrorCode AddConclusionItemAsDescendant(string idParent, string parentType, string content, string isBranch, string isCorrect, string company)
+        {
+            string cmd =
+                $"start transaction; " +
+                $"insert into `ConclusionItems` (Content, IsBranch, IsCorrect) values ('{content}', {isBranch}, {isCorrect}); " +
+                $"select @lastID := max(ID) from `ConclusionItems`;" +
+                $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values ({idParent}, {parentType}, @lastID, 7); " +
+                $"commit;";
+            return PerformAction(company, cmd);
+        }
+
         public static ActionErrorCode AddResolverAsDescendant(string idParent, string parentType, string type, string content, string company)
         {
             string cmd =

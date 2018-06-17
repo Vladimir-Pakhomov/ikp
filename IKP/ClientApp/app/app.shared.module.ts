@@ -37,6 +37,8 @@ import { FileService } from './services/file/file.service';
 import { VideoFormComponent } from './components/misc/forms/video-form/video-form.component';
 import { ResolverVideosComponent } from './components/misc/structure/resolver-videos/resolver-videos.component';
 import { ExecutionComponent } from './components/execution/execution.component';
+import { ConclusionItemFormComponent } from './components/misc/forms/conclusion-item-form/conclusion-item-form.component';
+import { ConclusionStructureComponent } from './components/misc/structure/conclusion-structure/conclusion-structure.component';
 
 @NgModule({
     declarations: [
@@ -61,12 +63,15 @@ import { ExecutionComponent } from './components/execution/execution.component';
         ExersizeStructureComponent,
         QuestionFormComponent,
         ConclusionFormComponent,
+        ConclusionStructureComponent,
+        ConclusionItemFormComponent,
         QuestionResolversComponent,
         ResolverFormComponent,
         ImagePresenterComponent,
         VideoFormComponent,
         ResolverVideosComponent,
         ExecutionComponent,
+        RtComponent,
 
         ToolbarComponent,
 

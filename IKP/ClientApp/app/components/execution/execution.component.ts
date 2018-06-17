@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Subject, Observable } from 'rxjs';
-import { User } from '../../services/models/main.model';
+import { User, ConclusionItem } from '../../services/models/main.model';
 import { LoginService } from '../../services/login/login.service';
 import { Block } from '../../services/models/main.model';
 import { AdminService } from '../../services/admin/admin.service';
@@ -38,6 +38,11 @@ export class ExecutionComponent implements OnInit, OnDestroy {
     normalState = '';
     abuseState = '';
 
+    get conclusionMode(): boolean {
+        return this.blockData[this.currentEx].Conclusions != null &&
+        this.blockData[this.currentEx].Conclusions.length > 0;
+    }
+
     get correctness(): string {
         let a = this.successSelections + this.errorSelections;
         let result = a > 0 ? this.successSelections / a : 0;
@@ -50,16 +55,31 @@ export class ExecutionComponent implements OnInit, OnDestroy {
         return (result * 100).toFixed(2);
     }
 
+    recursionTotal(array: any[]): number {
+        let result = 0;
+        for(let i=0; i<array.length; i++){
+            if(array[i].IsCorrect)
+                result++;
+            result += this.recursionTotal(array[i].ConclusionItems);
+        }
+        return result;
+    }
+
     get totalPercentage(): string {
         let countAll = 0;
         for(let i1=0; i1<this.blockData.length; i1++){
-            for(let i2=0; i2<this.blockData[i1].Questions.length; i2++){
-                for(let i3=0; i3<this.blockData[i1].Questions[i2].Resolvers.length; i3++) {
-                    countAll++;
+            if(this.blockData[i1].Conclusions != null){
+                countAll += this.recursionTotal(this.blockData[i1].Conclusions[0].ConclusionItems);
+            }
+            else {
+                for(let i2=0; i2<this.blockData[i1].Questions.length; i2++){
+                    for(let i3=0; i3<this.blockData[i1].Questions[i2].Resolvers.length; i3++) {
+                        countAll++;
+                    }
                 }
             }
         }
-        let result = this.successSelections / countAll;
+        let result = countAll > 0 ? this.successSelections / countAll : 0;
         return (result * 100).toFixed(2);
     }
 
@@ -99,7 +119,7 @@ export class ExecutionComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.adminService.getBlockData(this.block.ID, this.currentUser.Company)
         .subscribe(x => { 
-            this.blockData = x; 
+            this.blockData = x;
             this.currentEx = 0;
             this.start = new Date();
             Observable.timer(0, 1000).takeUntil(this._destroy$).subscribe(i => {
@@ -209,6 +229,23 @@ export class ExecutionComponent implements OnInit, OnDestroy {
 
     isSuccess(question: any): boolean {
         return question.Resolvers.filter((x: any) => !x.IsSuccess).length == 0;
+    }
+
+
+    conclusionItemSelected(item: any){
+        if(item.isSuccess || item.isFailed)
+            return;
+        if(item.IsCorrect){
+            item.isSuccess = true;
+            this.successSelections++;
+            if(item.IsBranch){
+                item.isExpanded = true;
+            }
+        }
+        else {
+            item.isFailed = true;
+            this.errorSelections++;
+        }
     }
 
     back() {

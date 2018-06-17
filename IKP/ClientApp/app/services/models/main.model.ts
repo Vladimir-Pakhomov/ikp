@@ -37,30 +37,29 @@ export class User {
     Role: UserRole;
     Remarks: string;
     IsDeleted: boolean;
-} 
+}
+
+export const UserKeyMap = {
+    FIO: 'ФИО',
+    Login: 'Логин',
+    Password: 'Пароль',
+    Remarks: 'Примечание'
+}
 
 export class Admin extends User {
     IsSA: boolean;
 }
 
-export const AdminKeyMap = {
-    FIO: 'ФИО',
-    Login: 'Логин',
-    Password: 'Пароль',
-    Remarks: 'Примечание',
-    IsSA: 'СА'
-}
+export const AdminKeyMap = Object.assign({}, UserKeyMap, { IsSA: 'СА'});
 
 export class Stuff extends User {
     Position: string;
 }
 
-export const StuffKeyMap = {
-    FIO: 'ФИО',
-    Login: 'Логин',
-    Password: 'Пароль',
-    Remarks: 'Примечание',
-    Position: 'Должность'
+export const StuffKeyMap =  Object.assign({}, UserKeyMap, { Position: 'Должность' });
+
+export const NamedObjectKeyMap = {
+    Name: 'Наименование'
 }
 
 export class Group {
@@ -70,22 +69,13 @@ export class Group {
     IsDeleted: boolean;
 }
 
-export const GroupKeyMap = {
-    Name: 'Наименование',
-    Lead: 'Руководитель'
-}
+export const GroupKeyMap = Object.assign({}, NamedObjectKeyMap, { Lead: 'Руководитель' });
 
 export class Student extends User {
     Group: Group;
 }
 
-export const StudentKeyMap = {
-    FIO: 'ФИО',
-    Login: 'Логин',
-    Password: 'Пароль',
-    Remarks: 'Примечание',
-    Group: 'Группа'
-}
+export const StudentKeyMap = Object.assign({}, UserKeyMap, { Group: 'Группа' });
 
 export class HistoryItem {
     Date: Date;
@@ -104,22 +94,18 @@ export class Block {
     Name: string;
 }
 
-export const NamedObjectKeyMap = {
-    Name: 'Наименование'
-}
-
 export class Program extends Block {
     Name: string;
     LicenseKey: LicenseKey;
 }
 
-export const ProgramKeyMap = Object.assign({ LicenseKey: 'Ключ' }, NamedObjectKeyMap);
+export const ProgramKeyMap = Object.assign({}, NamedObjectKeyMap, { LicenseKey: 'Ключ' });
 
 export class Exersize extends Block {
     GeneralQuestion: string;
 }
 
-export const ExersizeKeyMap = Object.assign({ GeneralQuestion: 'Главный вопрос' }, NamedObjectKeyMap);
+export const ExersizeKeyMap = Object.assign({}, NamedObjectKeyMap, { GeneralQuestion: 'Главный вопрос' });
 
 export class Question {
     ID: number;
@@ -134,6 +120,16 @@ export class Conclusion {
     ID: number;
     Name: string;
 }
+
+export class ConclusionItem {
+    ID: number;
+    Content: string;
+    IsBranch: boolean;
+    IsCorrect: boolean;
+}
+
+export const ConclusionItemKeyMap = Object.assign({}, ContentObjectKeyMap, 
+    { "IsBranch": "Является структурой", "IsCorrect": "Правильно" });
 
 export class Resolver {
     ID: number;

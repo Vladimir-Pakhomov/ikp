@@ -175,6 +175,17 @@ namespace IKP.Controllers
                         question.Add("Resolvers", resolvers);
                     }
                     exersize.Add("Questions", questions);
+
+                    DataSet ds5 = MySQLBridge.GetDescendants(exersize["ID"].ToString(), "2", "6", company);
+                    JArray conclusions = JArray.FromObject(ds5.Tables[0]);
+                    foreach(JObject conclusion in conclusions)
+                    {
+                        DataSet ds6 = MySQLBridge.GetDescendants(conclusion["ID"].ToString(), "6", "7", company);
+                        JArray conclusionItems = JArray.FromObject(ds6.Tables[0]);
+                        HandleRecursiveDescendants(conclusionItems, "7", "ConclusionItems", company);
+                        conclusion.Add("ConclusionItems", conclusionItems);
+                    }
+                    exersize.Add("Conclusions", conclusions);
                 }
                 return result;
             }
@@ -182,6 +193,17 @@ namespace IKP.Controllers
             {
                 _adminServiceLogger.Log($"GetBlockData exception: {ex}");
                 return new JArray();
+            }
+        }
+
+        private void HandleRecursiveDescendants(JArray source, string type, string propertyName, string company)
+        {
+            foreach (JObject descendant in source)
+            {
+                DataSet ds = MySQLBridge.GetDescendants(descendant["ID"].ToString(), type, type, company);
+                JArray next = JArray.FromObject(ds.Tables[0]);
+                descendant.Add(propertyName, next);
+                HandleRecursiveDescendants(descendant[propertyName] as JArray, type, propertyName, company);
             }
         }
     }

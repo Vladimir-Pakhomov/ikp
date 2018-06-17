@@ -9,29 +9,27 @@ import { AdminService } from '../../../services/admin/admin.service';
     styleUrls: ['./rt.component.css']
 })
 export class RtComponent implements OnInit {
-    @Input() level: any[] = [
-        {
-            Name: 'Root',
-            Children: [
-                {
-                    Name: 'Node1',
-                    Children: []
-                },
-                {
-                    Name: 'Node2',
-                    Children: []
-                },
-                {
-                    Name: 'Node3',
-                    Children: []
-                }
-            ]
-        }
-    ];
+    @Input() level: any[];
+    @Input() displayProperty: string = 'Name';
+    @Input() childrenProperty: string = 'Children';
+    @Input() isExpanded: boolean = false;
+    @Input() correctnessProperty: string = 'IsCorrect';
+
+    @Output() onItemSelected: EventEmitter<any> = new EventEmitter<any>();
 
     constructor() { }
 
     ngOnInit() {
+        
+    }
 
+    itemSelected(item: any){
+        this.onItemSelected.next(item);
+    }
+
+    isDisplayNotNeeded(item: any): boolean{
+        // Display not needed if item is incorrect and all its correct brothers are already succeeded
+        return !item[this.correctnessProperty] &&
+         this.level.filter((x: any) => !!x[this.correctnessProperty] && !x.isSuccess).length == 0;
     }
 }

@@ -1,7 +1,11 @@
 <div style="margin-left: 20px;">
-    <div *ngFor="let item of level">
-        <button class="btn btn-secondary">{{item.Name}}</button>
+    <div *ngFor="let item of level" [ngClass]="{'hidden': isDisplayNotNeeded(item)}">
+        <button style="margin: 5px 0;" class="btn btn-secondary"
+        (click)="itemSelected(item)"
+        [ngClass]="{'btn-success': item.isSuccess, 'btn-danger': item.isFailed}">{{item[displayProperty]}}</button>
         <br>
-        <rt [level]="item.Children"></rt>
+        <rt [ngClass]="{'hidden': !isExpanded && !item.isExpanded}" [displayProperty]="displayProperty" 
+            [childrenProperty]="childrenProperty" [level]="item[childrenProperty]"
+            [isExpanded]="isExpanded" (onItemSelected)="itemSelected($event)"></rt>
     </div>
 </div>

@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { User, UserRole, LicenseKeyKeyMap, AdminKeyMap, StuffKeyMap, StudentKeyMap, GroupKeyMap, HistoryItemKeyMap, LicenseKey, Admin, Stuff, Student, Group, HistoryItem, ProgramKeyMap, ResultKeyMap, Program, Block, Exersize, NamedObjectKeyMap, ResultKeyMapLite } from '../../../services/models/main.model';
 import { AdminService } from '../../../services/admin/admin.service';
 import { ActionService } from '../../../services/actions/action.service';
-import { checkProgram } from '../../misc/pipes/object.pipe';
+import { checkProgram, checkNamedObject } from '../../misc/pipes/object.pipe';
 
 @Component({
     selector: 'main-page',
@@ -56,6 +56,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     currentExersize: any;
     currentQuestion: any;
     currentConclusion: any;
+    currentConclusionItem: any;
     currentResolver: any;
 
     roleString: string;
@@ -265,7 +266,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         .subscribe(() => this.goToModule('ExersizeStructure'));
     }
 
-    addConclusionToExresize(data: any){
+    addConclusionToExersize(data: any){
         this.action.addConclusionAsDescendant(data.parentID, "2", data.Conclusion.Name, this.currentUser.Company)
         .subscribe(() => this.goToModule('ExersizeStructure'));
     }
@@ -276,7 +277,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     onViewConclusionStructure(data: any){
-        this.currentConclusion = data;
+        this.currentConclusionItem = data;
+        if(checkNamedObject(data))
+            this.currentConclusion = data;
         this.goToModule('ConclusionStructure');
     }
 
@@ -291,6 +294,12 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     onAddConclusionItem() {
         this.goToModule('AddConclusionItem');
+    }
+
+    addConclusionItemToParent(data: any){
+        let parentType = checkNamedObject(this.currentConclusionItem) ? "6" : "7";
+        this.action.addConclusionItemAsDescendant(data.parentID, parentType, data.ConclusionItem.Content, data.ConclusionItem.IsBranch, data.ConclusionItem.IsCorrect, this.currentUser.Company)
+        .subscribe(() => this.goToModule('ConclusionStructure'));
     }
 
     addResolverToQuestion(data: any){
@@ -330,6 +339,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
             case 'ResolverVideos':
                 this.currentResolver = null;
                 this.goToModule('QuestionResolvers');
+                break;
+            case 'ConclusionStructure':
+                this.currentConclusionItem = null;
+                this.goToModule('ExersizeStructure');
                 break;
         }
     }

@@ -1,0 +1,22 @@
+<div>
+        <h2 *ngIf="!editMode">Add Conclusion Item</h2>
+        <h2 *ngIf="editMode">Edit Conclusion Item</h2>
+        <div class="itemGroup">
+            <div class="itemCaption">Name</div>
+            <input class="itemInput" [ngClass]="{ 'invalid': !conclusionItem.Content }" [(ngModel)]="conclusionItem.Content" />
+            <div *ngIf="!conclusionItem.Content" class="validationMessage">This field is required</div>
+        </div>
+        <br>
+        <div class="itemGroup">
+            <div class="itemCaption">Is Branch</div>
+                <input type="checkbox" [(ngModel)]="isBranchChecked" />
+            </div>
+        <br>
+        <div class="itemGroup">
+            <div class="itemCaption">Is Correct</div>
+                <input type="checkbox" [(ngModel)]="isCorrectChecked" />
+            </div>
+        <br>
+        <button *ngIf="valid" class="btn btn-success" (click)="ok()">Submit</button>
+        <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </div>

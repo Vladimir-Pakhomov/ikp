@@ -275,6 +275,23 @@ namespace IKP.Controllers
         }
 
         [HttpGet("[action]")]
+        public JObject AddConclusionItemAsDescendant(string idParent, string parentType, string content, string isBranch, string isCorrect, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.AddConclusionItemAsDescendant(idParent, parentType, content, isBranch, isCorrect, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"AddConclusionItemAsDescendant exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
         public JObject AddResolverAsDescendant(string idParent, string parentType, string type, string content, string company)
         {
             JObject result = new JObject();

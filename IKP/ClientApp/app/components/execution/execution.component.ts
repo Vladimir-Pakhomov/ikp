@@ -69,7 +69,7 @@ export class ExecutionComponent implements OnInit, OnDestroy {
     get totalPercentage(): string {
         let countAll = 0;
         for(let i1=0; i1<this.blockData.length; i1++){
-            if(this.blockData[i1].Conclusions != null){
+            if(this.blockData[i1].Conclusions.length > 0){
                 countAll += this.recursionTotal(this.blockData[i1].Conclusions[0].ConclusionItems);
             }
             else {

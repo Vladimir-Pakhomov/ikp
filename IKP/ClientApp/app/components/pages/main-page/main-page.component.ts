@@ -14,6 +14,10 @@ export class MainPageComponent implements OnInit, OnDestroy {
     @Input() currentUser: User;
     role: UserRole;
 
+    get isSA(): boolean {
+        return this.currentUser.Role == UserRole.Admin && (this.currentUser as Admin).IsSA;
+    }
+
     destroy$: Subject<boolean> = new Subject<boolean>();
     updater$: Subject<string> = new Subject<string>();
 
@@ -44,6 +48,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     programs: any[] = [];
     myResults: any[] = [];
+    myStudents: any[] = [];
 
     currentModule: MainModule;
 
@@ -92,7 +97,8 @@ export class MainPageComponent implements OnInit, OnDestroy {
             if(m == 'Groups') return Observable.zip(Observable.of(m), this.admin.getGroups(this.currentUser.Company).map(r => <any[]>r));
             if(m == 'History') return Observable.zip(Observable.of(m), this.admin.getHistory(this.currentUser.Company, new Date(), new Date()).map(r => <any[]>r));
             if(m == 'MyGroups') return Observable.zip(Observable.of(m), this.admin.getMyGroups(this.currentUser).map(r => <any[]>r));
-            if(m == 'AllResults') return Observable.zip(Observable.of(m), this.admin.getAllResults(this.currentUser.Company).map(r => <any[]>r));
+            if(m == 'MyStudents') return Observable.zip(Observable.of(m), this.admin.getMyStudents(this.currentUser).map(r => <any[]>r));
+            if(m == 'AllResults') return Observable.zip(Observable.of(m), this.admin.getAllResults(this.currentUser).map(r => <any[]>r));
             if(m == 'Programs') return Observable.zip(Observable.of(m), this.admin.getPrograms(this.currentUser.Company).map(r => <any[]>r));
             if(m == 'MyResults') return Observable.zip(Observable.of(m), this.admin.getMyResults(this.currentUser).map(r => <any[]>r));
             return Observable.zip(Observable.of(m), Observable.of([]));
@@ -124,6 +130,9 @@ export class MainPageComponent implements OnInit, OnDestroy {
                 case 'AllResults':
                     this.allResults = data;
                     break;
+                case 'MyStudents':
+                    this.myStudents = data;
+                    break;
                 case 'Programs':
                     this.programs = data;
                     break;
@@ -137,10 +146,13 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.roleString = UserRole[this.role];
         switch(this.role){
             case UserRole.Admin:
-                this.goToModule('Keys');
+                if(this.isSA)
+                    this.goToModule('Programs');
+                else
+                    this.goToModule('Stuff');
                 break;
             case UserRole.Stuff:
-                this.goToModule('MyGroups');
+                this.goToModule('Programs');
                 break;
             case UserRole.Student:
                 this.goToModule('Programs');
@@ -186,6 +198,16 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.goToModule('EditStuff');
     }
 
+    performAddStuff(data: Stuff){
+        this.action.addStuff(this.currentUser.Company, data.FIO, data.Login, data.Password, 'Stuff')
+        .subscribe(() => this.goToModule('Stuff'));
+    }
+
+    performEditStuff(data: Stuff){
+        this.action.editUser(data.ID, this.currentUser.Company, data.FIO, data.Login, data.Password)
+        .subscribe(() => this.goToModule('Stuff'));
+    }
+
     onAddStudent() {
         this.goToModule('AddStudent');
     }
@@ -193,6 +215,16 @@ export class MainPageComponent implements OnInit, OnDestroy {
     onEditStudent(data: any){
         this.currentStudent = data;
         this.goToModule('EditStudent');
+    }
+
+    performAddStudent(data: Student){
+        this.action.addStudent(this.currentUser.Company, data.FIO, data.Login, data.Password, 0)
+        .subscribe(() => this.goToModule('Admins'));
+    }
+
+    performEditStudent(data: Student){
+        this.action.editUser(data.ID, this.currentUser.Company, data.FIO, data.Login, data.Password)
+        .subscribe(() => this.goToModule('Students'));
     }
 
     onDeleteUser(data: User){
@@ -212,12 +244,27 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.action.deleteGroup(data.ID, this.currentUser.Company).subscribe();
     }
 
+    performAddGroup(data: Group){
+        this.action.addGroup(data.Name, data.Lead.ID, this.currentUser.Company)
+        .subscribe(() => this.goToModule('Groups'));
+    }
+
+    performEditGroup(data: Group){
+        this.action.editGroup(data.Name, data.Lead.ID, data.ID, this.currentUser.Company)
+        .subscribe(() => this.goToModule('Groups'));
+    }
+
     onAddProgram() {
         this.goToModule('AddProgram');
     }
 
     performAddProgram(data: Program) {
         this.action.addProgram(data.Name, data.LicenseKey.ID, this.currentUser.Company)
+        .subscribe(() => this.goToModule('Programs'));
+    }
+
+    performEditProgram(data: Program){
+        this.action.editProgram(data.Name, data.LicenseKey.ID, data.ID, this.currentUser.Company)
         .subscribe(() => this.goToModule('Programs'));
     }
 
@@ -237,9 +284,19 @@ export class MainPageComponent implements OnInit, OnDestroy {
         .subscribe(() => this.goToModule('BlockStructure'));
     }
 
+    performEditBlock(data: any) {
+        this.action.editBlock(data.Block.Name, data.Block.ID, this.currentUser.Company)
+        .subscribe(() => this.goToModule('BlockStructure'));
+    }
+
     addExersizeToParent(data: any){
         let parentType = checkProgram(this.currentBlock) ? "0" : "1";
         this.action.addExersizeAsDescendant(data.parentID, parentType, data.Exersize.Name, data.Exersize.GeneralQuestion, this.currentUser.Company)
+        .subscribe(() => this.goToModule('BlockStructure'));
+    }
+
+    performEditExersize(data: any){
+        this.action.editExersize(data.Exersize.Name, data.Exersize.GeneralQuestion, data.Exersize.ID, this.currentUser.Company)
         .subscribe(() => this.goToModule('BlockStructure'));
     }
 
@@ -266,8 +323,18 @@ export class MainPageComponent implements OnInit, OnDestroy {
         .subscribe(() => this.goToModule('ExersizeStructure'));
     }
 
+    performEditQuestion(data: any) {
+        this.action.editQuestion(data.Question.Content, data.Question.ID, this.currentUser.Company)
+        .subscribe(() => this.goToModule('ExersizeStructure'));
+    }
+
     addConclusionToExersize(data: any){
         this.action.addConclusionAsDescendant(data.parentID, "2", data.Conclusion.Name, this.currentUser.Company)
+        .subscribe(() => this.goToModule('ExersizeStructure'));
+    }
+
+    performEditConclusion(data: any){
+        this.action.editConclusion(data.Conclusion.Name, data.Conclusion.ID, this.currentUser.Company)
         .subscribe(() => this.goToModule('ExersizeStructure'));
     }
 
@@ -302,8 +369,19 @@ export class MainPageComponent implements OnInit, OnDestroy {
         .subscribe(() => this.goToModule('ConclusionStructure'));
     }
 
+    performEditConclusionItem(data: any){
+        this.action.editConclusionItem(data.ConclusionItem.Content, data.ConclusionItem.IsBranch,
+             data.ConclusionItem.IsCorrect, data.ConclusionItem.ID, this.currentUser.Company)
+        .subscribe(() => this.goToModule('ConclusionStructure'));
+    }
+
     addResolverToQuestion(data: any){
         this.action.addResolverAsDescendant(data.parentID, "3", data.Resolver.Type, data.Resolver.Content, this.currentUser.Company)
+        .subscribe(() => this.goToModule('QuestionResolvers'));
+    }
+
+    performEditResolver(data: any){
+        this.action.editResolver(data.Resolver.Type, data.Resolver.Content, data.Resolver.ID, this.currentUser.Company)
         .subscribe(() => this.goToModule('QuestionResolvers'));
     }
 
@@ -313,6 +391,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     addVideoToResolver(data: any){
         this.action.addVideoAsDescendant(data.parentID, "4", data.Video.Content1, data.Video.Content2, data.Video.IsFirstCorrect, data.Video.PlaybackType, this.currentUser.Company)
+        .subscribe(() => this.goToModule('ResolverVideos'));
+    }
+
+    performEditVideo(data: any){
+        this.action.editVideo(data.Video.Content1, data.Video.Content2, data.Video.IsFirstCorrect, data.Video.PlaybackType, data.Video.ID, this.currentUser.Company)
         .subscribe(() => this.goToModule('ResolverVideos'));
     }
 
@@ -354,7 +437,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
         switch(event.key){
             case 'assignSA':
                 let targetAdmin = event.data as Admin;
-                this.action.assignSA(targetAdmin.ID, targetAdmin.Company)
+                this.action.changeSA(targetAdmin.ID, targetAdmin.Company)
                 .subscribe(() => this.updater$.next('Admins'));
                 break;
             case 'viewBlockStructure':
@@ -373,7 +456,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
 export type MainModule = 
 'Keys' | 'Admins' | 'Stuff' | 'Groups' | 'Students' | 'History'|
-'MyGroups' | 'AllResults' |
+'MyGroups' | 'AllResults' | 'MyStudents' |
 'Programs' | 'MyResults' |
 'AddAdmin' | 'AddStuff' | 'AddStudent' | 'AddGroup' |
 'EditAdmin' | 'EditStuff' | 'EditStudent' | 'EditGroup' |

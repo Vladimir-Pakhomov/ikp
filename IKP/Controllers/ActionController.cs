@@ -34,6 +34,40 @@ namespace IKP.Controllers
         }
 
         [HttpGet("[action]")]
+        public JObject AddGroup(string name, string lead_id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.AddGroup(company, name, lead_id);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"AddGroup exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject EditGroup(string name, string lead_id, string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.EditGroup(company, name, lead_id, id);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"EditGroup exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
         public JObject AddProgram(string name, string idLicenseKey, string company)
         {
             JObject result = new JObject();
@@ -45,6 +79,23 @@ namespace IKP.Controllers
             catch (Exception ex)
             {
                 _actionLogger.Log($"AddProgram exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject EditProgram(string name, string lk_id, string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.EditProgram(company, name, lk_id, id);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"EditProgram exception: {ex}");
                 result.Add("error", (int)ActionErrorCode.Other);
             }
             return result;
@@ -224,6 +275,23 @@ namespace IKP.Controllers
         }
 
         [HttpGet("[action]")]
+        public JObject EditBlock(string name, string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.EditBlock(name, id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"EditBlock exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
         public JObject AddExersizeAsDescendant(string idParent, string parentType, string name, string generalQuestion, string company)
         {
             JObject result = new JObject();
@@ -235,6 +303,23 @@ namespace IKP.Controllers
             catch (Exception ex)
             {
                 _actionLogger.Log($"AddExersizeAsDescendant exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject EditExersize(string name, string generalQuestion, string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.EditExersize(name, generalQuestion, id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"EditExersize exception: {ex}");
                 result.Add("error", (int)ActionErrorCode.Other);
             }
             return result;
@@ -258,6 +343,23 @@ namespace IKP.Controllers
         }
 
         [HttpGet("[action]")]
+        public JObject EditQuestion(string content, string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.EditQuestion(content, id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"EditQuestion exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
         public JObject AddConclusionAsDescendant(string idParent, string parentType, string name, string company)
         {
             JObject result = new JObject();
@@ -269,6 +371,23 @@ namespace IKP.Controllers
             catch (Exception ex)
             {
                 _actionLogger.Log($"AddConclusionAsDescendant exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject EditConclusion(string name, string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.EditConclusion(name, id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"EditConclusion exception: {ex}");
                 result.Add("error", (int)ActionErrorCode.Other);
             }
             return result;
@@ -292,6 +411,23 @@ namespace IKP.Controllers
         }
 
         [HttpGet("[action]")]
+        public JObject EditConclusionItem(string content, string isBranch, string isCorrect, string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.EditConclusionItem(content, isBranch, isCorrect, id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"EditConclusionItem exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
         public JObject AddResolverAsDescendant(string idParent, string parentType, string type, string content, string company)
         {
             JObject result = new JObject();
@@ -303,6 +439,23 @@ namespace IKP.Controllers
             catch (Exception ex)
             {
                 _actionLogger.Log($"AddResolverAsDescendant exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject EditResolver(string type, string content, string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.EditResolver(type, content, id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"EditResolver exception: {ex}");
                 result.Add("error", (int)ActionErrorCode.Other);
             }
             return result;
@@ -321,6 +474,23 @@ namespace IKP.Controllers
             catch (Exception ex)
             {
                 _actionLogger.Log($"AddVideoAsDescendant exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject EditVideo(string content1, string content2, string isFirstCorrect, string playbackType, string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.EditVideo(content1, content2, isFirstCorrect, playbackType, id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"EditVideo exception: {ex}");
                 result.Add("error", (int)ActionErrorCode.Other);
             }
             return result;

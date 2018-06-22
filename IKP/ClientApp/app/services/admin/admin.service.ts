@@ -45,8 +45,13 @@ export class AdminService {
         .map(r => r.json() as Group[]);
     }
 
-    getAllResults(company: string): Observable<Result[]> {
-        return this.http.get(this.baseUrl + 'api/AdminService/Results?company=' + company)
+    getMyStudents(user: User): Observable<Group[]> {
+        return this.http.get(this.baseUrl + `api/AdminService/MyStudents?company=${user.Company}&lead_id=${user.ID}`)
+        .map(r => r.json() as Group[]);
+    }
+
+    getAllResults(user: User): Observable<Result[]> {
+        return this.http.get(this.baseUrl + `api/AdminService/AllResults?company=${user.Company}&lead_id=${user.ID}`)
         .map(r => r.json() as Result[]);
     }
 

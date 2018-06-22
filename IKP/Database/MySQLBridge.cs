@@ -252,6 +252,30 @@ namespace IKP.Database
             }
         }
 
+        public static DataSet GetStudentsConditional(string company, string condition)
+        {
+            try
+            {
+                using (var conn = CreateConnectionByCompany(company))
+                {
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select u.*, s.IDGroup from (select * from Students where {condition}) s inner join (select * from Users where IsDeleted = 0) u on s.ID = u.ID", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _dbLogger.Log($"GetStudentsConditional exception: {ex}");
+                return null;
+            }
+        }
+
         public static DataSet GetPrograms(string company)
         {
             try
@@ -559,9 +583,27 @@ namespace IKP.Database
             }
         }
 
+        public static ActionErrorCode AddGroup(string company, string name, string idLead)
+        {
+            string cmd = $"insert into `Groups` (Name, IDLead) values ('{name}', {idLead});";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode EditGroup(string company, string name, string idLead, string id)
+        {
+            string cmd = $"update `Groups` set Name='{name}', IDLead={idLead} where ID={id}";
+            return PerformAction(company, cmd);
+        }
+
         public static ActionErrorCode AddProgram(string company, string name, string idLicenseKey)
         {
             string cmd = $"insert into `Programs` (Name, IDLicenseKey) values ('{name}', {idLicenseKey});";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode EditProgram(string company, string name, string idLicenseKey, string id)
+        {
+            string cmd = $"update `Programs` set Name='{name}', IDLicenseKey={idLicenseKey} where ID={id}";
             return PerformAction(company, cmd);
         }
 
@@ -664,6 +706,12 @@ namespace IKP.Database
             return PerformAction(company, cmd);
         }
 
+        public static ActionErrorCode EditBlock(string name, string id, string company)
+        {
+            string cmd = $"update `Blocks` set Name='{name}' where ID={id}";
+            return PerformAction(company, cmd);
+        }
+
         public static ActionErrorCode AddExersizeAsDescendant(string idParent, string parentType, string name, string generalQuestion, string company)
         {
             string cmd =
@@ -672,6 +720,12 @@ namespace IKP.Database
                 $"select @lastID := max(ID) from `Exersizes`;" +
                 $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values ({idParent}, {parentType}, @lastID, 2); " +
                 $"commit;";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode EditExersize(string name, string generalQuestion, string id, string company)
+        {
+            string cmd = $"update `Exersizes` set Name='{name}', GeneralQuestion=${generalQuestion} where ID={id}";
             return PerformAction(company, cmd);
         }
 
@@ -686,6 +740,12 @@ namespace IKP.Database
             return PerformAction(company, cmd);
         }
 
+        public static ActionErrorCode EditQuestion(string content, string id, string company)
+        {
+            string cmd = $"update `Questions` set Content='{content}' where ID={id}";
+            return PerformAction(company, cmd);
+        }
+
         public static ActionErrorCode AddConclusionAsDescendant(string idParent, string parentType, string name, string company)
         {
             string cmd =
@@ -694,6 +754,12 @@ namespace IKP.Database
                 $"select @lastID := max(ID) from `Conclusions`;" +
                 $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values ({idParent}, {parentType}, @lastID, 6); " +
                 $"commit;";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode EditConclusion(string name, string id, string company)
+        {
+            string cmd = $"update `Conclusions` set Name='{name}' where ID={id}";
             return PerformAction(company, cmd);
         }
 
@@ -708,6 +774,12 @@ namespace IKP.Database
             return PerformAction(company, cmd);
         }
 
+        public static ActionErrorCode EditConclusionItem(string content, string isBranch, string isCorrect, string id, string company)
+        {
+            string cmd = $"update `ConclusionItems` set Content='{content}', IsBranch={isBranch}, IsCorrect={isCorrect} where ID={id}";
+            return PerformAction(company, cmd);
+        }
+
         public static ActionErrorCode AddResolverAsDescendant(string idParent, string parentType, string type, string content, string company)
         {
             string cmd =
@@ -719,6 +791,12 @@ namespace IKP.Database
             return PerformAction(company, cmd);
         }
 
+        public static ActionErrorCode EditResolver(string type, string content, string id, string company)
+        {
+            string cmd = $"update `Resolvers` set Type={type}, Content={content} where ID={id}";
+            return PerformAction(company, cmd);
+        }
+
         public static ActionErrorCode AddVideoAsDescendant(string idParent, string parentType, string content1, string content2, string isFirstCorrect, string playbackType, string company)
         {
             string cmd =
@@ -727,6 +805,12 @@ namespace IKP.Database
                 $"select @lastID := max(ID) from `Videos`;" +
                 $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values ({idParent}, {parentType}, @lastID, 5); " +
                 $"commit;";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode EditVideo(string content1, string content2, string isFirstCorrect, string playbackType, string id, string company)
+        {
+            string cmd = $"update `Videos` set Content1='{content1}', Content2='{content2}', IsFirstCorrect={isFirstCorrect}, PlaybackType={playbackType} where ID={id}";
             return PerformAction(company, cmd);
         }
 

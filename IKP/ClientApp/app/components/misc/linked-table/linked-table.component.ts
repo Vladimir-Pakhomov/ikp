@@ -14,6 +14,12 @@ export class LinkedTableComponent implements OnInit {
     @Input() addEnabled: boolean = true;
     @Input() editEnabled: boolean = true;
     @Input() deleteEnabled: boolean = true;
+    @Input() set isReadonly (value: boolean) {
+        if(value)
+            this.addEnabled = false;
+            this.editEnabled = false;
+            this.deleteEnabled = false;
+    }
 
     @Input() extraActions: any[] = [];
     @Input() topActions: any[] = [];

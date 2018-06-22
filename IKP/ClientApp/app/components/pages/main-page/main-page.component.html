@@ -31,19 +31,23 @@
                 [data]="history" [addEnabled]="false" [editEnabled]="false" 
                 [deleteEnabled]="false"></linked-table>
 
-            <linked-table *ngSwitchCase="'MyGroups'" [title]="'Мои группы'" [keyMap]="groupsKeyMap" 
+            <linked-table *ngSwitchCase="'MyGroups'" [title]="'Мои группы'" [keyMap]="groupsKeyMap"
+                [isReadonly]="true" 
                 [data]="myGroups"></linked-table>
             <linked-table *ngSwitchCase="'AllResults'" [title]="'Все результаты'" [keyMap]="resultsKeyMap" 
+                [isReadonly]="true" 
                 [data]="allResults"></linked-table>
+            <linked-table *ngSwitchCase="'MyStudents'" [title]="'Мои учащиеся'" [keyMap]="studentsKeyMap" 
+                [isReadonly]="true" 
+                [data]="myStudents"></linked-table>
 
             <linked-table *ngSwitchCase="'Programs'" [title]="'Программы'" [keyMap]="programsKeyMap"
-                [addEnabled]="currentUser.Role == 0" [editEnabled]="currentUser.Role == 0"
-                [deleteEnabled]="currentUser.Role == 0" 
+                [isReadonly]="!isSA" 
                 [data]="programs" (onAdd)="onAddProgram()" [extraActions]="programExtraActions" 
                 (onExtraAction)="onExtraAction($event)"></linked-table>
             
             <linked-table *ngSwitchCase="'MyResults'" [title]="'Мои результаты'" [keyMap]="resultsKeyMap"
-                [addEnabled]="false" [editEnabled]="false" [deleteEnabled]="false" 
+                [isReadonly]="true" 
                 [data]="myResults"></linked-table>
 
             <user-form *ngSwitchCase="'AddAdmin'" [role]="0" (onFormCompleted)="performAddAdmin($event)" 
@@ -53,25 +57,34 @@
                 (onFormCancelled)="goToModule('Admins')"></user-form>
 
             <user-form *ngSwitchCase="'AddStuff'" [role]="1" 
+                (onFormCompleted)="performAddStuff($event)"
                 (onFormCancelled)="goToModule('Stuff')"></user-form>
-            <user-form *ngSwitchCase="'EditStuff'" [user]="currentStuff" [role]="1" 
+            <user-form *ngSwitchCase="'EditStuff'" [user]="currentStuff" [role]="1"
+                (onFormCompleted)="performEditStuff($event)" 
                 (onFormCancelled)="goToModule('Stuff')"></user-form>
 
-            <user-form *ngSwitchCase="'AddStudent'" [role]="2" 
+            <user-form *ngSwitchCase="'AddStudent'" [role]="2"
+                (onFormCompleted)="performAddStudent($event)" 
                 (onFormCancelled)="goToModule('Students')"></user-form>
-            <user-form *ngSwitchCase="'EditStudent'" [user]="currentStudent" [role]="2" 
+            <user-form *ngSwitchCase="'EditStudent'" [user]="currentStudent" [role]="2"
+                (onFormCompleted)="performEditStudent($event)" 
                 (onFormCancelled)="goToModule('Students')"></user-form>
 
             <group-form *ngSwitchCase="'AddGroup'" [company]="currentUser.Company"
+                (onFormCompleted)="performAddGroup($event)"
                 (onFormCancelled)="goToModule('Groups')"></group-form>
             <group-form *ngSwitchCase="'EditGroup'" [company]="currentUser.Company"
-                [group]="currentGroup" (onFormCancelled)="goToModule('Groups')"></group-form>
+                [group]="currentGroup"
+                (onFormCompleted)="performEditGroup($event)"
+                (onFormCancelled)="goToModule('Groups')"></group-form>
 
             <program-form *ngSwitchCase="'AddProgram'" [company]="currentUser.Company"
                 (onFormCompleted)="performAddProgram($event)" 
                 (onFormCancelled)="goToModule('Programs')"></program-form>
             <program-form *ngSwitchCase="'EditProgram'" [company]="currentUser.Company"
-                [program]="currentProgram" (onFormCancelled)="goToModule('Programs')"></program-form>
+                [program]="currentProgram"
+                (onFormCompleted)="performEditProgram($event)"
+                (onFormCancelled)="goToModule('Programs')"></program-form>
 
             <block-structure *ngSwitchCase="'BlockStructure'" [block]="currentBlock"
                 [role]="currentUser.Role" 

@@ -25,17 +25,32 @@
             </ul>
             <ul *ngIf="myRole == 'Stuff'" class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
+                    <a (click)="fire('Programs')">
+                        <span class='glyphicon glyphicon-education'></span> Учебные программы
+                     </a>
+                </li>
+                <li [routerLinkActive]="['link-active']">
                    <a (click)="fire('MyGroups')">
                         <span class='glyphicon glyphicon-list'></span> Мои группы
                     </a>
                 </li>
-                    <li [routerLinkActive]="['link-active']">
-                        <a (click)="fire('AllResults')">
-                            <span class='glyphicon glyphicon-stats'></span> Статистика
-                        </a>
+                <li [routerLinkActive]="['link-active']">
+                    <a (click)="fire('MyStudents')">
+                         <span class='glyphicon glyphicon-user'></span> Мои студенты
+                     </a>
+                 </li>
+                <li [routerLinkActive]="['link-active']">
+                    <a (click)="fire('AllResults')">
+                        <span class='glyphicon glyphicon-stats'></span> Статистика моих студентов
+                    </a>
                 </li>
             </ul>
-            <ul *ngIf="myRole == 'Admin'" class='nav navbar-nav'>
+            <ul *ngIf="isSA" class='nav navbar-nav'>
+                <li [routerLinkActive]="['link-active']">
+                    <a (click)="fire('Programs')">
+                        <span class='glyphicon glyphicon-education'></span> Учебные программы
+                     </a>
+                </li>
                 <li [routerLinkActive]="['link-active']">
                     <a (click)="fire('Keys')">
                         <span class='glyphicon glyphicon-arrow-right'></span> Лицензионные ключи
@@ -46,6 +61,14 @@
                         <span class='glyphicon glyphicon-user'></span> Администраторы
                     </a>
                 </li>
+                <li [routerLinkActive]="['link-active']">
+                    <a (click)="fire('History')">
+                        <span class='glyphicon glyphicon-calendar'></span> История изменений
+                    </a>
+                </li>
+            </ul>
+            <ul *ngIf="myRole == 'Admin'" class='nav navbar-nav'>
+                
                 <li [routerLinkActive]="['link-active']">
                     <a (click)="fire('Stuff')">
                         <span class='glyphicon glyphicon-user'></span> Сотрудники
@@ -59,16 +82,6 @@
                 <li [routerLinkActive]="['link-active']">
                     <a (click)="fire('Students')">
                         <span class='glyphicon glyphicon-user'></span> Учащиеся
-                    </a>
-                </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a (click)="fire('Programs')">
-                        <span class='glyphicon glyphicon-education'></span> Учебные программы
-                    </a>
-                </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a (click)="fire('History')">
-                        <span class='glyphicon glyphicon-calendar'></span> История изменений
                     </a>
                 </li>
             </ul>

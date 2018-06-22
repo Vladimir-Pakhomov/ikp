@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { MainModule } from '../../pages/main-page/main-page.component';
-import { UserRole, User } from '../../../services/models/main.model';
+import { UserRole, User, Admin } from '../../../services/models/main.model';
 
 @Component({
     selector: 'nav-menu',
@@ -12,6 +12,10 @@ export class NavMenuComponent implements OnInit {
     @Output() onSelected = new EventEmitter<MainModule>();
 
     myRole: string;
+
+    get isSA(): boolean {
+        return this.currentUser.Role == UserRole.Admin && (this.currentUser as Admin).IsSA;
+    }
 
     ngOnInit() {
         this.myRole = UserRole[this.currentUser.Role];

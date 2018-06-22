@@ -89,19 +89,19 @@ export class ActionService {
         .map(r => Number(r.json().error));
     }
 
-    assignSA(id: number, company: string): Observable<number> {
+    changeSA(id: number, company: string): Observable<number> {
         return this.http.get(this.baseUrl + 
             `api/Action/AssignSA?id=${id}&company=${company}`)
         .map(r => { console.log(r); return Number(r.json().error); });
     }
 
-    editPosition(id: number, company: string, position: string): Observable<number> {
+    changePosition(id: number, company: string, position: string): Observable<number> {
         return this.http.get(this.baseUrl + 
             `api/Action/EditPosition?id=${id}&company=${company}&position=${position}`)
         .map(r => Number(r.json().error));
     }
 
-    editGroup(id: number, company: string, idGroup: number): Observable<number> {
+    changeGroup(id: number, company: string, idGroup: number): Observable<number> {
         return this.http.get(this.baseUrl + 
             `api/Action/EditGroup?id=${id}&company=${company}&idGroup=${idGroup}`)
         .map(r => Number(r.json().error));
@@ -123,5 +123,65 @@ export class ActionService {
         rationality: string, totalPercentage: string, user: User): Observable<any> {
             return this.http.get(this.baseUrl + `api/Action/SendResult?start=${start}&end=${end}&idProgram=${idProgram}&idBlock=${idBlock}&idUser=${user.ID}&correctness=${correctness}&rationality=${rationality}&totalPercentage=${totalPercentage}&company=${user.Company}`)
         .map(r => r.json());
+    }
+
+    addGroup(name: string, lead_id: number, company: string): Observable<number> {
+        return this.http.get(this.baseUrl + 
+            `api/Action/AddGroup?company=${company}&name=${name}&lead_id=${lead_id}`)
+        .map(r => Number(r.json().error));
+    }
+
+    editGroup(name: string, lead_id: number, id: number, company: string): Observable<number> {
+        return this.http.get(this.baseUrl + 
+            `api/Action/EditGroup?company=${company}&name=${name}&lead_id=${lead_id}&id=${id}`)
+        .map(r => Number(r.json().error));
+    }
+
+    editProgram(name: string, lk_id: number, id: number, company: string): Observable<number> {
+        return this.http.get(this.baseUrl + 
+            `api/Action/EditProgram?company=${company}&name=${name}&lk_id=${lk_id}&id=${id}`)
+        .map(r => Number(r.json().error));
+    }
+
+    editBlock(name: string, id: number, company: string): Observable<number> {
+        return this.http.get(this.baseUrl + 
+            `api/Action/EditBlock?company=${company}&name=${name}&id=${id}`)
+        .map(r => Number(r.json().error));
+    }
+
+    editExersize(name: string, generalQuestion: string, id: number, company: string): Observable<number>{
+        return this.http.get(this.baseUrl + 
+            `api/Action/EditExersize?company=${company}&name=${name}&generalQuestion=${generalQuestion}&id=${id}`)
+        .map(r => Number(r.json().error));
+    }
+
+    editQuestion(content: string, id: number, company: string): Observable<number>{
+        return this.http.get(this.baseUrl + 
+            `api/Action/EditQuestion?company=${company}&name=${name}&id=${id}`)
+        .map(r => Number(r.json().error));
+    }
+
+    editConclusion(name: string, id: string, company: string): Observable<number> {
+        return this.http.get(this.baseUrl + 
+            `api/Action/EditConclusion?company=${company}&name=${name}&id=${id}`)
+        .map(r => Number(r.json().error));
+    }
+
+    editConclusionItem(content: string, isBranch: boolean, isCorrect: boolean, id: number, company: string) {
+        return this.http.get(this.baseUrl + 
+            `api/Action/EditConclusionItem?company=${company}&content=${content}&isBranch=${isBranch ? 1 : 0}&isCorrect=${isCorrect ? 1 : 0}&id=${id}`)
+        .map(r => Number(r.json().error));
+    }
+
+    editResolver(type: number, content: string, id: number, company: string){
+        return this.http.get(this.baseUrl + 
+            `api/Action/EditResolver?company=${company}&type=${type}&content=${content}&id=${id}`)
+        .map(r => Number(r.json().error));
+    }
+
+    editVideo(content1: string, content2: string, isFirstCorrect: boolean, playbackType: number, id: number, company: string){
+        return this.http.get(this.baseUrl + 
+            `api/Action/EditVideo?company=${company}&content1=${content1}&content2=${content2}&isFirstCorrect=${isFirstCorrect ? 1 : 0}&playbackType=${playbackType}&id=${id}`)
+        .map(r => Number(r.json().error));
     }
 }

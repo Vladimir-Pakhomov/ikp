@@ -127,6 +127,24 @@ namespace IKP.Controllers
         }
 
         [HttpGet("[action]")]
+        public JArray AllResults(string company, string lead_id)
+        {
+            JArray temp = GetDataByCondition(MySQLBridge.GetMyResults, company, $"IDUser in (select ID from `Students` where (IDGroup in (select ID from `Groups` where IDLead = {lead_id}))");
+            UseResolver(temp, "IDProgram", "Program", MySQLBridge.GetProgramByID, company);
+            UseResolver(temp, "IDBlock", "Block", MySQLBridge.GetBlockByID, company);
+            UseResolver(temp, "IDUser", "User", MySQLBridge.GetUserByID, company);
+            return temp;
+        }
+
+        [HttpGet("[action]")]
+        public JArray MyStudents(string company, string lead_id)
+        {
+            JArray temp = GetDataByCondition(MySQLBridge.GetStudentsConditional, company, $"IDGroup in (select ID from `Groups` where IDLead = {lead_id})");
+            UseResolver(temp, "IDGroup", "Group", MySQLBridge.GetGroupByID, company);
+            return temp;
+        }
+
+        [HttpGet("[action]")]
         public JArray Programs(string company)
         {
             JArray temp = GetData(MySQLBridge.GetPrograms, company);

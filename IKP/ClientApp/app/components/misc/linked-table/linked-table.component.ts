@@ -15,10 +15,11 @@ export class LinkedTableComponent implements OnInit {
     @Input() editEnabled: boolean = true;
     @Input() deleteEnabled: boolean = true;
     @Input() set isReadonly (value: boolean) {
-        if(value)
+        if(value) {
             this.addEnabled = false;
             this.editEnabled = false;
             this.deleteEnabled = false;
+        }
     }
 
     @Input() extraActions: any[] = [];

@@ -17,6 +17,8 @@ export class ConclusionStructureComponent implements OnInit, OnChanges {
     @Output() onViewDescendantConclusionItems: EventEmitter<any> = new EventEmitter<any>();
 
     @Output() onBack: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onEditConclusionItem: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onDeleteConclusionItem: EventEmitter<any> = new EventEmitter<any>();
 
     descendantConclusionItems: ConclusionItem[] = [];
     conclusionItemsKeyMap = ConclusionItemKeyMap;
@@ -53,5 +55,13 @@ export class ConclusionStructureComponent implements OnInit, OnChanges {
 
     back() {
         this.onBack.next();
+    }
+
+    editConclusionItem(data: any){
+        this.onEditConclusionItem.next(data);
+    }
+
+    deleteConclusionItem(data: any){
+        this.onDeleteConclusionItem.next(data);
     }
 }

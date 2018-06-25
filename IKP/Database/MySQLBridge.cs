@@ -725,7 +725,7 @@ namespace IKP.Database
 
         public static ActionErrorCode EditExersize(string name, string generalQuestion, string id, string company)
         {
-            string cmd = $"update `Exersizes` set Name='{name}', GeneralQuestion=${generalQuestion} where ID={id}";
+            string cmd = $"update `Exersizes` set Name='{name}', GeneralQuestion='{generalQuestion}' where ID={id}";
             return PerformAction(company, cmd);
         }
 
@@ -793,7 +793,7 @@ namespace IKP.Database
 
         public static ActionErrorCode EditResolver(string type, string content, string id, string company)
         {
-            string cmd = $"update `Resolvers` set Type={type}, Content={content} where ID={id}";
+            string cmd = $"update `Resolvers` set Type={type}, Content='{content}' where ID={id}";
             return PerformAction(company, cmd);
         }
 

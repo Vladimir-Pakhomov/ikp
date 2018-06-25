@@ -1,12 +1,12 @@
 <div>
-    <h2 *ngIf="!editMode">Add Block</h2>
-    <h2 *ngIf="editMode">Edit Block: {{block.Name}}</h2>
+    <h2 *ngIf="!editMode">Добавить блок</h2>
+    <h2 *ngIf="editMode">Редактировать блок: {{block.Name}}</h2>
     <div class="itemGroup">
-        <div class="itemCaption">Name</div>
+        <div class="itemCaption">Наименование</div>
         <input class="itemInput" [ngClass]="{ 'invalid': !block.Name }" [(ngModel)]="block.Name" />
-        <div *ngIf="!block.Name" class="validationMessage">This field is required</div>
+        <div *ngIf="!block.Name" class="validationMessage">Поле обязательно к заполнению</div>
     </div>
     <br>
-    <button *ngIf="valid" class="btn btn-success" (click)="ok()">Submit</button>
-    <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    <button *ngIf="valid" class="btn btn-success" (click)="ok()">Сохранить</button>
+    <button class="btn btn-secondary" (click)="cancel()">Отмена</button>
 </div>

@@ -16,6 +16,8 @@ export class QuestionResolversComponent implements OnInit {
     @Output() onViewResolverVideos: EventEmitter<any> = new EventEmitter<any>();
 
     @Output() onBack: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onEditResolver: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onDeleteResolver: EventEmitter<any> = new EventEmitter<any>();
 
     descendantResolvers: Resolver[] = [];
     resolversKeyMap = ContentObjectKeyMap;
@@ -45,5 +47,13 @@ export class QuestionResolversComponent implements OnInit {
 
     back() {
         this.onBack.next();
+    }
+
+    editResolver(data: any){
+        this.onEditResolver.next(data);
+    }
+
+    deleteResolver(data: any){
+        this.onDeleteResolver.next(data);
     }
 }

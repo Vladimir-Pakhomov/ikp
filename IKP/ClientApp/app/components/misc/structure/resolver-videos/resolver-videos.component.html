@@ -1,6 +1,7 @@
 <h2>Видео для материала</h2>
 <button class="btn btn-secondary" (click)="back()">Назад</button>
 <br>
-<linked-table (onAdd)="addVideo()" [title]="'Видео'" 
+<linked-table (onAdd)="addVideo()" [title]="'Видео'"
+    (onEdit)="editVideo($event)" (onDelete)="deleteVideo($event)"
     [data]="descendantVideos" [keyMap]="videosKeyMap"></linked-table>
 <br>

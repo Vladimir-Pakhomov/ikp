@@ -28,8 +28,7 @@
                 [data]="students" [extraActions]="studentExtraActions" (onAdd)="onAddStudent()" 
                 (onEdit)="onEditStudent($event)" (onDelete)="onDeleteUser($event)"></linked-table>
             <linked-table *ngSwitchCase="'History'" [title]="'История изменений'" [keyMap]="historyKeyMap"
-                [data]="history" [addEnabled]="false" [editEnabled]="false" 
-                [deleteEnabled]="false"></linked-table>
+                [data]="history" [isReadonly]="true"></linked-table>
 
             <linked-table *ngSwitchCase="'MyGroups'" [title]="'Мои группы'" [keyMap]="groupsKeyMap"
                 [isReadonly]="true" 
@@ -43,7 +42,9 @@
 
             <linked-table *ngSwitchCase="'Programs'" [title]="'Программы'" [keyMap]="programsKeyMap"
                 [isReadonly]="!isSA" 
-                [data]="programs" (onAdd)="onAddProgram()" [extraActions]="programExtraActions" 
+                [data]="programs" (onAdd)="onAddProgram()"
+                (onEdit)="onEditProgram($event)" (onDelete)="onDeleteProgram($event)"
+                [extraActions]="programExtraActions" 
                 (onExtraAction)="onExtraAction($event)"></linked-table>
             
             <linked-table *ngSwitchCase="'MyResults'" [title]="'Мои результаты'" [keyMap]="resultsKeyMap"
@@ -88,8 +89,10 @@
 
             <block-structure *ngSwitchCase="'BlockStructure'" [block]="currentBlock"
                 [role]="currentUser.Role" 
-                [company]="currentUser.Company" (onAddBlock)="onAddBlock($event)" 
+                [company]="currentUser.Company" (onAddBlock)="onAddBlock($event)"
+                (onEditBlock)="onEditBlock($event)" (onDeleteBlock)="onDeleteBlock($event)" 
                 (onAddExersize)="onAddExersize($event)"
+                (onEditExersize)="onEditExersize($event)" (onDeleteExersize)="onDeleteExersize($event)" 
                 (onViewDescendantBlock)="onViewDescendantBlock($event)" 
                 (onViewDescendantExersize)="onViewDescendantExersize($event)"
                 (onStartExecution)="onStartExecution($event)"
@@ -98,13 +101,21 @@
             <block-form *ngSwitchCase="'AddBlock'" [parentID]="currentBlock.ID" 
                 (onFormCompleted)="addBlockToParent($event)" 
                 (onFormCancelled)="goToModule('BlockStructure')"></block-form>
+            <block-form *ngSwitchCase="'EditBlock'" [block]="currentBlock" 
+                (onFormCompleted)="performEditBlock($event)" 
+                (onFormCancelled)="goToModule('BlockStructure')"></block-form>
             <exersize-form *ngSwitchCase="'AddExersize'" [parentID]="currentBlock.ID" 
                 (onFormCompleted)="addExersizeToParent($event)"
                 (onFormCancelled)="goToModule('BlockStructure')"></exersize-form>
+            <exersize-form *ngSwitchCase="'EditExersize'" [exersize]="currentExersize" 
+                (onFormCompleted)="performEditExersize($event)"
+                (onFormCancelled)="goToModule('BlockStructure')"></exersize-form>
 
             <exersize-structure *ngSwitchCase="'ExersizeStructure'" [exersize]="currentExersize" 
-                [company]="currentUser.Company" (onAddQuestion)="onAddQuestion()" 
-                (onAddConclusion)="onAddConclusion()" 
+                [company]="currentUser.Company" (onAddQuestion)="onAddQuestion()"
+                (onEditQuestion)="onEditQuestion($event)" (onDeleteQuestion)="onDeleteQuestion($event)" 
+                (onAddConclusion)="onAddConclusion()"
+                (onEditConclusion)="onEditConclusion($event)" (onDeleteConclusion)="onDeleteConclusion($event)"  
                 (onViewQuestionResolvers)="onViewQuestionResolvers($event)"
                 (onViewConclusionStructure)="onViewConclusionStructure($event)"
                 (onBack)="onBack()"></exersize-structure>
@@ -112,22 +123,28 @@
             <question-form *ngSwitchCase="'AddQuestion'" [parentID]="currentExersize.ID" 
                 (onFormCompleted)="addQuestionToExersize($event)" 
                 (onFormCancelled)="goToModule('ExersizeStructure')"></question-form>
-            <question-form *ngSwitchCase="'EditQuestion'" [parentID]="currentExersize.ID" 
+            <question-form *ngSwitchCase="'EditQuestion'" [parentID]="currentExersize.ID"
+                (onFormCompleted)="performEditQuestion($event)" 
+                (onFormCancelled)="goToModule('ExersizeStructure')" 
                 [question]="currentQuestion"></question-form>
 
             <conclusion-form *ngSwitchCase="'AddConclusion'" [parentID]="currentExersize.ID" 
                 (onFormCompleted)="addConclusionToExersize($event)" 
                 (onFormCancelled)="goToModule('ExersizeStructure')"></conclusion-form>
-            <conclusion-form *ngSwitchCase="'EditConclusion'" [parentID]="currentExersize.ID" 
+            <conclusion-form *ngSwitchCase="'EditConclusion'" [parentID]="currentExersize.ID"
+                (onFormCompleted)="performEditConclusion($event)"     
+                (onFormCancelled)="goToModule('ExersizeStructure')" 
                 [conclusion]="currentConclusion"></conclusion-form>
 
             <question-resolvers *ngSwitchCase="'QuestionResolvers'" [question]="currentQuestion"
                 [company]="currentUser.Company" (onAddResolver)="onAddResolver()"
+                (onEditResolver)="onEditResolver($event)" (onDeleteResolver)="onDeleteResolver($event)" 
                 (onViewResolverVideos)="onViewResolverVideos($event)"
                 (onBack)="onBack()"></question-resolvers>
 
             <conclusion-structure *ngSwitchCase="'ConclusionStructure'" [conclusionItem]="currentConclusionItem"
-                [company]="currentUser.Company" (onAddConclusionItem)="onAddConclusionItem()" 
+                [company]="currentUser.Company" (onAddConclusionItem)="onAddConclusionItem()"
+                (onEditConclusionItem)="onEditConclusionItem($event)" (onDeleteConclusionItem)="onDeleteConclusionItem($event)" 
                 (onViewDescendantConclusionItems)="onViewConclusionStructure($event)" (onBack)="onBack()">
             </conclusion-structure>
 
@@ -135,21 +152,30 @@
                 (onFormCompleted)="addConclusionItemToParent($event)"
                 (onFormCancelled)="goToModule('ConclusionStructure')"></conclusion-item-form>
             <conclusion-item-form  *ngSwitchCase="'EditConclusionItem'" [parentID]="currentConclusionItem.ID"
+                (onFormCompleted)="performEditConclusionItem($event)"
+                (onFormCancelled)="goToModule('ConclusionStructure')"
                 [conclusionItem]="currentConclusionItem"></conclusion-item-form>
 
             <resolver-form *ngSwitchCase="'AddResolver'" [parentID]="currentQuestion.ID"
                 (onFormCompleted)="addResolverToQuestion($event)"
                 (onFormCancelled)="goToModule('QuestionResolvers')"></resolver-form>
             <resolver-form *ngSwitchCase="'EditResolver'" [parentID]="currentQuestion.ID"
-                ></resolver-form>
+                (onFormCompleted)="performEditResolver($event)"
+                (onFormCancelled)="goToModule('QuestionResolvers')"
+                [resolver]="currentResolver"></resolver-form>
 
             <resolver-videos *ngSwitchCase="'ResolverVideos'" [resolver]="currentResolver"
                 [company]="currentUser.Company" (onAddVideo)="onAddVideo()"
+                (onEditVideo)="onEditVideo($event)" (onDeleteVideo)="onDeleteVideo($event)" 
                 (onBack)="onBack()"></resolver-videos>
 
             <video-form *ngSwitchCase="'AddVideo'" [parentID]="currentResolver.ID"
                 (onFormCompleted)="addVideoToResolver($event)"
                 (onFormCancelled)="goToModule('ResolverVideos')"></video-form>
+            <video-form *ngSwitchCase="'EditVideo'" [parentID]="currentResolver.ID"
+                (onFormCompleted)="performEditVideo($event)"
+                (onFormCancelled)="goToModule('ResolverVideos')"
+                [video]="currentVideo"></video-form>
             
             <execution *ngSwitchCase="'BlockExecution'" [programID]="currentProgram.ID" [block]="currentBlock"
                 [currentUser]="currentUser" (onBack)="onBack()"></execution>

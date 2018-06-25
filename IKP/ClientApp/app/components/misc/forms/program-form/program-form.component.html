@@ -1,18 +1,18 @@
 <div>
-    <h2 *ngIf="!editMode">Add Program</h2>
-    <h2 *ngIf="editMode">Edit Program: {{program.Name}}</h2>
+    <h2 *ngIf="!editMode">Добавить программу</h2>
+    <h2 *ngIf="editMode">Редактировать программу: {{program.Name}}</h2>
     <div class="itemGroup">
-        <div class="itemCaption">Name</div>
+        <div class="itemCaption">Наименование</div>
         <input class="itemInput" [ngClass]="{ 'invalid': !program.Name }" [(ngModel)]="program.Name" />
-        <div *ngIf="!program.Name" class="validationMessage">This field is required</div>
+        <div *ngIf="!program.Name" class="validationMessage">Поле обязательно к заполнению</div>
     </div>
     <br>
     <div class="itemGroup">
-        <div class="itemCaption">LicenseKey</div>
+        <div class="itemCaption">Лицензионный ключ</div>
         <lookup [type]="'LicenseKey'" [displayProperty]="'Guid'" [company]="company" (onOptionSelected)="keySelected($event)"></lookup>
-        <div *ngIf="!program.LicenseKey" class="validationMessage">This field is required</div>
+        <div *ngIf="!program.LicenseKey" class="validationMessage">Поле обязательно к заполнению</div>
     </div>
     <br>
-    <button *ngIf="valid" class="btn btn-success" (click)="ok()">Submit</button>
-    <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    <button *ngIf="valid" class="btn btn-success" (click)="ok()">Сохранить</button>
+    <button class="btn btn-secondary" (click)="cancel()">Отмена</button>
 </div>

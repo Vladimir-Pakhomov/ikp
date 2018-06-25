@@ -1,22 +1,22 @@
 <div>
-        <h2 *ngIf="!editMode">Add Conclusion Item</h2>
-        <h2 *ngIf="editMode">Edit Conclusion Item</h2>
+        <h2 *ngIf="!editMode">Добавить компонент заключения</h2>
+        <h2 *ngIf="editMode">Редактировать компонент заключения</h2>
         <div class="itemGroup">
-            <div class="itemCaption">Name</div>
+            <div class="itemCaption">Наименование</div>
             <input class="itemInput" [ngClass]="{ 'invalid': !conclusionItem.Content }" [(ngModel)]="conclusionItem.Content" />
-            <div *ngIf="!conclusionItem.Content" class="validationMessage">This field is required</div>
+            <div *ngIf="!conclusionItem.Content" class="validationMessage">Поле обязательно к заполнению</div>
         </div>
         <br>
         <div class="itemGroup">
-            <div class="itemCaption">Is Branch</div>
+            <div class="itemCaption">Является структурой?</div>
                 <input type="checkbox" [(ngModel)]="isBranchChecked" />
             </div>
         <br>
         <div class="itemGroup">
-            <div class="itemCaption">Is Correct</div>
+            <div class="itemCaption">Правильно?</div>
                 <input type="checkbox" [(ngModel)]="isCorrectChecked" />
             </div>
         <br>
-        <button *ngIf="valid" class="btn btn-success" (click)="ok()">Submit</button>
-        <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        <button *ngIf="valid" class="btn btn-success" (click)="ok()">Сохранить</button>
+        <button class="btn btn-secondary" (click)="cancel()">Отмена</button>
     </div>

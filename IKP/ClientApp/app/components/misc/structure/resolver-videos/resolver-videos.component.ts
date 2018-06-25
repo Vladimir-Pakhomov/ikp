@@ -14,6 +14,8 @@ export class ResolverVideosComponent implements OnInit {
     @Output() onAddVideo: EventEmitter<any> = new EventEmitter<any>();
 
     @Output() onBack: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onEditVideo: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onDeleteVideo: EventEmitter<any> = new EventEmitter<any>();
 
     descendantVideos: Video[] = [];
     videosKeyMap = VideoKeyMap;
@@ -33,5 +35,13 @@ export class ResolverVideosComponent implements OnInit {
 
     back() {
         this.onBack.next();
+    }
+
+    editVideo(data: any){
+        this.onEditVideo.next(data);
+    }
+
+    deleteVideo(data: any){
+        this.onDeleteVideo.next(data);
     }
 }

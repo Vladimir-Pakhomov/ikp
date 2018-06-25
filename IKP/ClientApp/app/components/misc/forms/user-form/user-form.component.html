@@ -1,29 +1,29 @@
 <div>
-    <h2 *ngIf="!editMode">Add User: {{user.Role | userRole}}</h2>
-    <h2 *ngIf="editMode">Edit User: {{user.FIO}}</h2>
+    <h2 *ngIf="!editMode">Добавить пользователя: {{user.Role | userRole}}</h2>
+    <h2 *ngIf="editMode">Редактировать пользователя: {{user.FIO}}</h2>
     <div class="itemGroup">
-        <div class="itemCaption">FIO</div>
+        <div class="itemCaption">ФИО</div>
         <input class="itemInput" [ngClass]="{ 'invalid': !user.FIO }" [(ngModel)]="user.FIO" />
-        <div *ngIf="!user.FIO" class="validationMessage">This field is required</div>
+        <div *ngIf="!user.FIO" class="validationMessage">Поле обязательно к заполнению</div>
     </div>
     <br>
     <div class="itemGroup">
-        <div class="itemCaption">Login</div>
+        <div class="itemCaption">Логин</div>
         <input class="itemInput" [ngClass]="{ 'invalid': !user.Login }" [(ngModel)]="user.Login" />
-        <div *ngIf="!user.Login" class="validationMessage">This field is required</div>
+        <div *ngIf="!user.Login" class="validationMessage">Поле обязательно к заполнению</div>
     </div>
     <br>
     <div class="itemGroup">
-        <div class="itemCaption">Password</div>
+        <div class="itemCaption">Пароль</div>
         <input class="itemInput" [ngClass]="{ 'invalid': !user.Password }" [(ngModel)]="user.Password" />
-        <div *ngIf="!user.Password" class="validationMessage">This field is required</div>
+        <div *ngIf="!user.Password" class="validationMessage">Поле обязательно к заполнению</div>
     </div>
     <br>
     <div class="itemGroup">
-        <div class="itemCaption">Remarks</div>
+        <div class="itemCaption">Примечание</div>
         <textarea class="itemInput" [(ngModel)]="user.Remarks"></textarea>
     </div>
     <br>
-    <button *ngIf="valid" class="btn btn-success" (click)="ok()">Submit</button>
-    <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    <button *ngIf="valid" class="btn btn-success" (click)="ok()">Сохранить</button>
+    <button class="btn btn-secondary" (click)="cancel()">Отмена</button>
 </div>

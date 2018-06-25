@@ -157,7 +157,7 @@ export class ActionService {
 
     editQuestion(content: string, id: number, company: string): Observable<number>{
         return this.http.get(this.baseUrl + 
-            `api/Action/EditQuestion?company=${company}&name=${name}&id=${id}`)
+            `api/Action/EditQuestion?company=${company}&content=${content}&id=${id}`)
         .map(r => Number(r.json().error));
     }
 

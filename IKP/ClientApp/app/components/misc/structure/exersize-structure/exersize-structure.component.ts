@@ -18,6 +18,10 @@ export class ExersizeStructureComponent implements OnInit {
     @Output() onViewConclusionStructure: EventEmitter<any> = new EventEmitter<any>();
 
     @Output() onBack: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onEditQuestion: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onDeleteQuestion: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onEditConclusion: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onDeleteConclusion: EventEmitter<any> = new EventEmitter<any>();
 
     descendantQuestions: Question[] = [];
     questionsKeyMap = ContentObjectKeyMap;
@@ -61,5 +65,21 @@ export class ExersizeStructureComponent implements OnInit {
 
     back() {
         this.onBack.next();
+    }
+
+    editQuestion(data: any){
+        this.onEditQuestion.next(data);
+    }
+
+    deleteQuestion(data: any){
+        this.onDeleteQuestion.next(data);
+    }
+
+    editConclusion(data: any){
+        this.onEditConclusion.next(data);
+    }
+
+    deleteConclusion(data: any){
+        this.onDeleteConclusion.next(data);
     }
 }

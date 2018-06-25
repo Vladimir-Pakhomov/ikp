@@ -63,6 +63,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     currentConclusion: any;
     currentConclusionItem: any;
     currentResolver: any;
+    currentVideo: any;
 
     roleString: string;
 
@@ -258,6 +259,15 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.goToModule('AddProgram');
     }
 
+    onEditProgram(data: any){
+        this.currentProgram = data;
+        this.goToModule('EditProgram');
+    }
+
+    onDeleteProgram(data: any){
+        
+    }
+
     performAddProgram(data: Program) {
         this.action.addProgram(data.Name, data.LicenseKey.ID, this.currentUser.Company)
         .subscribe(() => this.goToModule('Programs'));
@@ -273,9 +283,27 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.goToModule('AddBlock');
     }
 
+    onEditBlock(data: any){
+        this.currentBlock = data;
+        this.goToModule('EditBlock');
+    }
+
+    onDeleteBlock(Data: any){
+
+    }
+
     onAddExersize(data: Exersize){
         this.currentBlock = data;
         this.goToModule('AddExersize');
+    }
+
+    onEditExersize(data: any){
+        this.currentExersize = data;
+        this.goToModule('EditExersize');
+    }
+
+    onDeleteExersize(data: any){
+
     }
 
     addBlockToParent(data: any){
@@ -314,8 +342,26 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.goToModule('AddQuestion');
     }
 
+    onEditQuestion(data: any){
+        this.currentQuestion = data;
+        this.goToModule('EditQuestion');
+    }
+
+    onDeleteQuestion(data: any){
+
+    }
+
     onAddConclusion() {
         this.goToModule('AddConclusion');
+    }
+
+    onEditConclusion(data: any){
+        this.currentConclusion = data;
+        this.goToModule('EditConclusion');
+    }
+
+    onDeleteConclusion(data: any){
+
     }
 
     addQuestionToExersize(data: any){
@@ -354,6 +400,15 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.goToModule('AddResolver');
     }
 
+    onEditResolver(data: any){
+        this.currentResolver = data;
+        this.goToModule('EditResolver');
+    }
+
+    onDeleteResolver(data: any){
+
+    }
+
     onViewResolverVideos(data: any){
         this.currentResolver = data;
         this.goToModule('ResolverVideos');
@@ -361,6 +416,15 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     onAddConclusionItem() {
         this.goToModule('AddConclusionItem');
+    }
+
+    onEditConclusionItem(data: any){
+        this.currentConclusionItem = data;
+        this.goToModule('EditConclusionItem');
+    }
+
+    onDeleteConclusionItem(data: any){
+
     }
 
     addConclusionItemToParent(data: any){
@@ -387,6 +451,15 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     onAddVideo(){
         this.goToModule('AddVideo');
+    }
+
+    onEditVideo(data: any){
+        this.currentVideo = data;
+        this.goToModule('EditVideo');
+    }
+
+    onDeleteVideo(data: any){
+
     }
 
     addVideoToResolver(data: any){

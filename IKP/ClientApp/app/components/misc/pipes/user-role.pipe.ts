@@ -6,6 +6,15 @@ import { UserRole } from '../../../services/models/main.model';
 })
 export class UserRolePipe implements PipeTransform {
     transform(value: number){
-        return UserRole[value];
+        switch(value) {
+            case UserRole.Admin:
+                return 'Администратор';
+            case UserRole.Stuff:
+                return 'Сотрудник';
+            case UserRole.Student:
+                return 'Учащийся';
+            default:
+                return '';
+        }
     }
 }

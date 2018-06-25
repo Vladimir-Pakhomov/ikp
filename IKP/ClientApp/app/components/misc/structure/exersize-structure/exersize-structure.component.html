@@ -1,8 +1,10 @@
 <h2>Упражнение: {{exersize.Name}}</h2>
 <button class="btn btn-secondary" (click)="back()">Назад</button>
 <br>
-<linked-table (onAdd)="addQuestion()" [title]="'Направления'" 
+<linked-table (onAdd)="addQuestion()" [title]="'Направления'"
+    (onEdit)="editQuestion($event)" (onDelete)="deleteQuestion($event)"
     [data]="descendantQuestions" [keyMap]="questionsKeyMap" [extraActions]="questionExtraActions" (onExtraAction)="onExtraAction($event)"></linked-table>
 <br>
-<linked-table (onAdd)="addConclusion()" [title]="'Формирование заключения'" 
+<linked-table (onAdd)="addConclusion()" [title]="'Формирование заключения'"
+    (onEdit)="editConclusion($event)" (onDelete)="deleteConclusion($event)"
     [data]="descendantConclusions" [keyMap]="conclusionsKeyMap" [extraActions]="conclusionExtraActions" (onExtraAction)="onExtraAction($event)"></linked-table>

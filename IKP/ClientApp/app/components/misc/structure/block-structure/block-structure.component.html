@@ -3,11 +3,13 @@
 <br>
 <linked-table *ngIf="role == 0 || descendantBlocks.length" (onAdd)="addDescBlock()" [title]="'Блоки'" 
     [data]="descendantBlocks" [keyMap]="blocksKeyMap"
+    (onEdit)="editDescBlock($event)" (onDelete)="deleteDescBlock($event)"
     [addEnabled]="role == 0" [editEnabled]="role == 0" [deleteEnabled]="role == 0" 
     [extraActions]="blockExtraActions" (onExtraAction)="onExtraAction($event)"></linked-table>
 <br>
 <linked-table *ngIf="role == 0 || descendantExersizes.length" (onAdd)="addDescExersize()" [title]="'Упражнения'" 
     [data]="descendantExersizes" [keyMap]="exersizesKeyMap"
+    (onEdit)="editDescExersize($event)" (onDelete)="deleteDescExersize($event)"
     [addEnabled]="role == 0" [editEnabled]="role == 0" [deleteEnabled]="role == 0"
     [extraActions]="exersizeExtraActions" (onExtraAction)="onExtraAction($event)"
     [topActions]="topActions" (onTopAction)="onTopAction($event)"></linked-table>

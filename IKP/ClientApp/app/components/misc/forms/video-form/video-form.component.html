@@ -1,32 +1,32 @@
 <div>
-    <h2 *ngIf="!editMode">Add Video</h2>
-    <h2 *ngIf="editMode">Edit Video</h2>
+    <h2 *ngIf="!editMode">Добавить видео</h2>
+    <h2 *ngIf="editMode">Редактировать видео</h2>
     <div class="itemGroup">
-        <div class="itemCaption">Content1</div>
+        <div class="itemCaption">Видео 1</div>
         <input class="itemInput" [ngClass]="{ 'invalid': !video.Content1 }" [(ngModel)]="video.Content1" />
-        <div *ngIf="!video.Content1" class="validationMessage">This field is required</div>
+        <div *ngIf="!video.Content1" class="validationMessage">Поле обязательно к заполнению</div>
     </div>
     <br>
     <div class="itemGroup">
-        <div class="itemCaption">Content2</div>
+        <div class="itemCaption">Видео 2 (необязательно)</div>
         <input class="itemInput" [(ngModel)]="video.Content2" />
     </div>
     <br>
     <div class="itemGroup">
-        <div class="itemCaption">Is First Correct</div>
+        <div class="itemCaption">Видео 1 верное?</div>
         <input type="checkbox" [(ngModel)]="checked" />
     </div>
     <br>
     <div class="itemGroup">
-        <div class="itemCaption">PlaybackType</div>
+        <div class="itemCaption">Тип воспроизведения</div>
         <select (change)="onPlaybackTypeSelected()" [(ngModel)]="playbackTypeSelectedIndex">
             <option value="0">Звук и видео</option>
             <option value="1">Только видео</option>
             <option value="2">Только звук</option>
         </select>
-        <div *ngIf="!video.PlaybackType" class="validationMessage">This field is required</div>
+        <div *ngIf="!video.PlaybackType" class="validationMessage">Поле обязательно к заполнению</div>
     </div>
     <br>
-    <button *ngIf="valid" class="btn btn-success" (click)="ok()">Submit</button>
-    <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    <button *ngIf="valid" class="btn btn-success" (click)="ok()">Сохранить</button>
+    <button class="btn btn-secondary" (click)="cancel()">Отмена</button>
 </div>

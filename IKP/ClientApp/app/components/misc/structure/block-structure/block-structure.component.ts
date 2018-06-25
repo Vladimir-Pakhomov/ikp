@@ -21,6 +21,10 @@ export class BlockStructureComponent implements OnInit, OnChanges {
     @Output() onStartExecution: EventEmitter<any> = new EventEmitter<any>();
 
     @Output() onBack: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onEditBlock: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onDeleteBlock: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onEditExersize: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onDeleteExersize: EventEmitter<any> = new EventEmitter<any>();
 
     descendantBlocks: Block[] = [];
     blocksKeyMap = NamedObjectKeyMap;
@@ -86,5 +90,21 @@ export class BlockStructureComponent implements OnInit, OnChanges {
 
     back() {
         this.onBack.next();
+    }
+
+    editDescBlock(data: any){
+        this.onEditBlock.next(data);
+    }
+
+    editDescExersize(data: any){
+        this.onEditExersize.next(data);
+    }
+
+    deleteDescBlock(data: any){
+        this.onDeleteBlock.next(data);
+    }
+
+    deleteDescExersize(data: any){
+        this.onDeleteExersize.next(data);
     }
 }

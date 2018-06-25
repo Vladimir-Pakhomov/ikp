@@ -1,6 +1,7 @@
 <h2>Структура заключения</h2>
 <button class="btn btn-secondary" (click)="back()">Назад</button>
 <br>
-<linked-table (onAdd)="addConclusionItem()" [title]="'Компоненты заключения'" 
+<linked-table (onAdd)="addConclusionItem()" [title]="'Компоненты заключения'"
+    (onEdit)="editConclusionItem($event)" (onDelete)="deleteConclusionItem($event)"
     [data]="descendantConclusionItems" [keyMap]="conclusionItemsKeyMap" [extraActions]="conclusionItemExtraActions" (onExtraAction)="onExtraAction($event)"></linked-table>
 <br>

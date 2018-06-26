@@ -37,6 +37,22 @@ namespace IKP.Controllers
             }
         }
 
+        [HttpGet("[action]")]
+        public JArray GetFiles(string folder, string company)
+        {
+            try
+            {
+                return JArray.FromObject(Directory.EnumerateFiles($"assets/{company}/{folder}")
+                    .OrderByDescending(x => new FileInfo(x).LastWriteTime)
+                    .Select(x => new FileInfo(x).Name));
+            }
+            catch (Exception ex)
+            {
+                _fileServiceLogger.Log($"GetFiles Exception: {ex}");
+                return null;
+            }
+        }
+
         private void addBlocksRecurse(Node input, StringBuilder sb)
         {
             sb.AppendLine($"insert into `Blocks` (Name) values ('{input.Name}');");

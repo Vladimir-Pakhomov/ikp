@@ -7,6 +7,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
     styleUrls: ['./media-presenter.component.css']
 })
 export class MediaPresenterComponent implements OnInit, OnChanges {
+    @Input() width: number = 400;
+    @Input() height: number = 300;
     @Input() mediaSource: string;
 
     @ViewChild('video') video: ElementRef;

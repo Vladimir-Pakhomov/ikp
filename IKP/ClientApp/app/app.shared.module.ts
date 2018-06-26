@@ -41,6 +41,7 @@ import { ConclusionItemFormComponent } from './components/misc/forms/conclusion-
 import { ConclusionStructureComponent } from './components/misc/structure/conclusion-structure/conclusion-structure.component';
 import { PendingInterceptorService } from './services/interceptors/pending-interceptor.service';
 import { LoaderComponent } from './components/pages/loader/loader.component';
+import { MediaManagerComponent } from './components/media-manager/media-manager.component';
 
 @NgModule({
     declarations: [
@@ -74,6 +75,7 @@ import { LoaderComponent } from './components/pages/loader/loader.component';
         ResolverVideosComponent,
         ExecutionComponent,
         RtComponent,
+        MediaManagerComponent,
 
         ToolbarComponent,
         LoaderComponent,

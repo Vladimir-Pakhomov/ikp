@@ -179,6 +179,8 @@
             
             <execution *ngSwitchCase="'BlockExecution'" [programID]="currentProgram.ID" [block]="currentBlock"
                 [currentUser]="currentUser" (onBack)="onBack()"></execution>
+
+            <media-manager *ngSwitchCase="'Media'" [company]="currentUser.Company"></media-manager>
         </div>
     </div>
 </div>

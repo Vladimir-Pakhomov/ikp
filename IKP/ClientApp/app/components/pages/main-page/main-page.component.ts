@@ -542,4 +542,4 @@ export type MainModule =
 'AddResolver' | 'AddConclusionItem' |
 'EditResolver' | 'EditConclusionItem' |
 'ResolverVideos' | 'AddVideo' | 'EditVideo' |
-'BlockExecution';
+'BlockExecution' | 'Media';

@@ -1,0 +1,31 @@
+<h2>Медиа-менеджер</h2>
+<table class="table table-striped table-bordered">
+    <tr>
+        <th colspan="2">Выберите режим</th>
+    </tr>
+    <tr>
+        <td [ngClass]="{'current': currentMode == 'Video'}" (click)="modeChanged('Video')">Видео</td>
+        <td [ngClass]="{'current': currentMode == 'Image'}" (click)="modeChanged('Image')">Картинки</td>
+    </tr>
+</table>
+<div *ngIf="currentMode == 'Video'">
+    <div style="display: inline-block;">Показаны последние {{lastIndex}} видео из {{totalCount}}</div>
+    <div *ngIf="lastIndex < totalCount" style="display: inline-block; margin-left: 50%;">
+        <button class="btn btn-secondary" (click)="more10()">Показать еще 10</button>
+    </div>
+    <div style="margin-top: 30px;">
+        <div *ngFor="let video of videosSlice" class="video-item">
+            <media-presenter [mediaSource]="getVideoUrl(video)" [width]="200" [height]="150"></media-presenter>
+            <br>
+            <div>{{video}}</div>
+        </div>
+        
+    </div>
+</div>
+<div *ngIf="currentMode == 'Image'">
+    <div *ngFor="let image of images" class="item">
+        <img width="100" height="100" [src]="getImageSrc(image)" />
+        <br>
+        <div>{{image}}</div>
+    </div>
+</div>

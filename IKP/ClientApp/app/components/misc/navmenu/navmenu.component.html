@@ -52,6 +52,11 @@
                      </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
+                        <a (click)="fire('Media')">
+                            <span class='glyphicon glyphicon-video'></span> Медиа-менеджер
+                         </a>
+                    </li>
+                <li [routerLinkActive]="['link-active']">
                     <a (click)="fire('Keys')">
                         <span class='glyphicon glyphicon-arrow-right'></span> Лицензионные ключи
                     </a>

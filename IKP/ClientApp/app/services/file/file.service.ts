@@ -14,7 +14,7 @@ export class FileService {
     upload(files: FormData, company: string){
         let headers = new Headers();
         let options = new RequestOptions({ headers: headers });
-        return  this.http.post(this._baseURL + `api/FileService/Upload?company=${company}`, files)
+        return this.http.post(this._baseURL + `api/FileService/Upload?company=${company}`, files)
                  .map(response => response.json())
                  .catch(error => Observable.throw(error));
 
@@ -26,5 +26,17 @@ export class FileService {
 
     getImage(link: string, company: string): string {
         return this._baseURL + `api/FileService/GetFile?link=${link}&folder=images&company=${company}`;
+    }
+
+    getVideos(company: string): Observable<string[]> {
+        return this.http.get(
+            this._baseURL + `api/FileService/GetFiles?folder=videos&company=${company}`)
+            .map(response => response.json());
+    }
+
+    getImages(company: string): Observable<string[]> {
+        return this.http.get(
+            this._baseURL + `api/FileService/GetFiles?folder=images&company=${company}`)
+            .map(response => response.json());
     }
 }

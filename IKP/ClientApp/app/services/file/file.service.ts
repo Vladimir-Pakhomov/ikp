@@ -24,6 +24,10 @@ export class FileService {
         return this._baseURL + `api/FileService/GetFile?link=${link}&folder=videos&company=${company}`;
     }
 
+    getAction(){
+        return this._baseURL + `api/FileService/UploadFile`;
+    }
+
     getImage(link: string, company: string): string {
         return this._baseURL + `api/FileService/GetFile?link=${link}&folder=images&company=${company}`;
     }

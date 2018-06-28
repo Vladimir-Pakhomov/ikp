@@ -9,6 +9,16 @@ import { FileService } from '../../services/file/file.service';
 export class MediaManagerComponent implements OnInit {
     @Input() company: string;
 
+    get folder(): string {
+        if(this.currentMode == 'Video') return 'videos';
+        if(this.currentMode == 'Image') return 'images';
+        return '';
+    }
+
+    get action(): string {
+        return this.fileService.getAction();
+    }
+
     currentMode: string = '';
 
     lastIndex: number = 0;

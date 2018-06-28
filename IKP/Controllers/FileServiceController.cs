@@ -20,6 +20,33 @@ namespace IKP.Controllers
     {
         private Logger _fileServiceLogger = new Logger("FileService", "logs");
 
+        [HttpPost("[action]")]
+        public async void UploadFile(IFormFile uploadedFile, string folder, string company)
+        {
+            try
+            {
+                if (uploadedFile != null)
+                {
+                    string ext = uploadedFile.FileName.Substring(uploadedFile.FileName.LastIndexOf('.'));
+                    string fileName = folder == "videos" ? Guid.NewGuid().ToString() + ext : uploadedFile.FileName;
+                    string path = $"assets/{company}/{folder}/{fileName}";
+                    _fileServiceLogger.Log($"Uploading file {path}");
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await uploadedFile.CopyToAsync(fileStream);
+                    }
+                }
+                else
+                {
+                    _fileServiceLogger.Log($"Uploading file: uploadedFile is null");
+                }
+            }
+            catch(Exception ex)
+            {
+                _fileServiceLogger.Log($"UploadFile Exception: {ex}");
+            }
+        }
+
         [HttpGet("[action]")]
         public IActionResult GetFile(string link, string folder, string company)
         {

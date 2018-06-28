@@ -8,6 +8,15 @@
         <td [ngClass]="{'current': currentMode == 'Image'}" (click)="modeChanged('Image')">Картинки</td>
     </tr>
 </table>
+<div *ngIf="currentMode">
+    <h4>Загрузка на сервер</h4>
+    <form [action]="action" method="post" enctype="multipart/form-data">
+        <input type="file" name="uploadedFile" /><br>
+        <input name="folder" [value]="folder" class="hidden" /><br>
+        <input name="company" [value]="company" class="hidden" /><br>
+        <input type="submit" value="Загрузить" />
+    </form>
+</div>
 <div *ngIf="currentMode == 'Video'">
     <div style="display: inline-block;">Показаны последние {{lastIndex}} видео из {{totalCount}}</div>
     <div *ngIf="lastIndex < totalCount" style="display: inline-block; margin-left: 50%;">
@@ -22,7 +31,7 @@
         
     </div>
 </div>
-<div *ngIf="currentMode == 'Image'">
+<div *ngIf="currentMode == 'Image'" style="margin-top: 30px">
     <div *ngFor="let image of images" class="item">
         <img width="100" height="100" [src]="getImageSrc(image)" />
         <br>

@@ -4,6 +4,7 @@ import { User, UserRole, LicenseKeyKeyMap, AdminKeyMap, StuffKeyMap, StudentKeyM
 import { AdminService } from '../../../services/admin/admin.service';
 import { ActionService } from '../../../services/actions/action.service';
 import { checkProgram, checkNamedObject } from '../../misc/pipes/object.pipe';
+import { MessageService } from '../../../services/interceptors/message.service';
 
 @Component({
     selector: 'main-page',
@@ -75,7 +76,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
 
     programExtraActions: any[] = [{ key: 'viewBlockStructure', value: 'Структура...' }];
 
-    constructor(private admin: AdminService, private action: ActionService){
+    constructor(private admin: AdminService, private action: ActionService, private messageService: MessageService){
 
     }
 
@@ -265,7 +266,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     onDeleteProgram(data: any){
-        
+        this.messageService.onAns.takeUntil(this.destroy$).take(1).filter(x => x)
+        .concatMap(() => this.action.deleteProgram(data.ID, this.currentUser.Company))
+        .subscribe(() => this.goToModule('Programs'));
+        this.goToModule('Updater');
+        this.messageService.ask("Вы уверены?");
     }
 
     performAddProgram(data: Program) {
@@ -288,8 +293,12 @@ export class MainPageComponent implements OnInit, OnDestroy {
         this.goToModule('EditBlock');
     }
 
-    onDeleteBlock(Data: any){
-
+    onDeleteBlock(data: any){
+        this.messageService.onAns.takeUntil(this.destroy$).take(1).filter(x => x)
+        .concatMap(() => this.action.deleteBlock(data.ID, this.currentUser.Company))
+        .subscribe(() => this.goToModule('BlockStructure'));
+        this.goToModule('Updater');
+        this.messageService.ask("Вы уверены?");
     }
 
     onAddExersize(data: Exersize){
@@ -303,7 +312,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     onDeleteExersize(data: any){
-
+        this.messageService.onAns.takeUntil(this.destroy$).take(1).filter(x => x)
+        .concatMap(() => this.action.deleteExersize(data.ID, this.currentUser.Company))
+        .subscribe(() => this.goToModule('BlockStructure'));
+        this.goToModule('Updater');
+        this.messageService.ask("Вы уверены?");
     }
 
     addBlockToParent(data: any){
@@ -348,7 +361,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     onDeleteQuestion(data: any){
-
+        this.messageService.onAns.takeUntil(this.destroy$).take(1).filter(x => x)
+        .concatMap(() => this.action.deleteQuestion(data.ID, this.currentUser.Company))
+        .subscribe(() => this.goToModule('ExersizeStructure'));
+        this.goToModule('Updater');
+        this.messageService.ask("Вы уверены?");
     }
 
     onAddConclusion() {
@@ -361,7 +378,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     onDeleteConclusion(data: any){
-
+        this.messageService.onAns.takeUntil(this.destroy$).take(1).filter(x => x)
+        .concatMap(() => this.action.deleteConclusion(data.ID, this.currentUser.Company))
+        .subscribe(() => this.goToModule('ExersizeStructure'));
+        this.goToModule('Updater');
+        this.messageService.ask("Вы уверены?");
     }
 
     addQuestionToExersize(data: any){
@@ -406,7 +427,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     onDeleteResolver(data: any){
-
+        this.messageService.onAns.takeUntil(this.destroy$).take(1).filter(x => x)
+        .concatMap(() => this.action.deleteResolver(data.ID, this.currentUser.Company))
+        .subscribe(() => this.goToModule('QuestionResolvers'));
+        this.goToModule('Updater');
+        this.messageService.ask("Вы уверены?");
     }
 
     onViewResolverVideos(data: any){
@@ -424,7 +449,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     onDeleteConclusionItem(data: any){
-
+        this.messageService.onAns.takeUntil(this.destroy$).take(1).filter(x => x)
+        .concatMap(() => this.action.deleteConclusionItem(data.ID, this.currentUser.Company))
+        .subscribe(() => this.goToModule('ConclusionStructure'));
+        this.goToModule('Updater');
+        this.messageService.ask("Вы уверены?");
     }
 
     addConclusionItemToParent(data: any){
@@ -459,7 +488,11 @@ export class MainPageComponent implements OnInit, OnDestroy {
     }
 
     onDeleteVideo(data: any){
-
+        this.messageService.onAns.takeUntil(this.destroy$).take(1).filter(x => x)
+        .concatMap(() => this.action.deleteVideo(data.ID, this.currentUser.Company))
+        .subscribe(() => this.goToModule('ResolverVideos'));
+        this.goToModule('Updater');
+        this.messageService.ask("Вы уверены?");
     }
 
     addVideoToResolver(data: any){
@@ -542,4 +575,4 @@ export type MainModule =
 'AddResolver' | 'AddConclusionItem' |
 'EditResolver' | 'EditConclusionItem' |
 'ResolverVideos' | 'AddVideo' | 'EditVideo' |
-'BlockExecution' | 'Media';
+'BlockExecution' | 'Media' | 'Updater';

@@ -823,5 +823,56 @@ namespace IKP.Database
                 $"values ('{start}', '{end}', {(int)((_end - _start).TotalMinutes)}, {idUser}, {idProgram}, {idBlock}, '{correctness}', '{rationality}', '{totalPercentage}');";
             return PerformAction(company, cmd);
         }
+
+        /* Delete */
+        private static ActionErrorCode DeleteByID(string tableName, string type, string id, string company)
+        {
+            string cmd =
+                $"start transaction; " +
+                $"delete from `{tableName}` where ID={id}; " +
+                $"delete from `Links` where IDParent={id} and ParentType={type} or IDChild={id} and ChildType={type};" +
+                $"commit;";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode DeleteVideo(string id, string company)
+        {
+            return DeleteByID("Videos", "7", id, company);
+        }
+
+        public static ActionErrorCode DeleteConclusionItem(string id, string company)
+        {
+            return DeleteByID("ConclusionItems", "6", id, company);
+        }
+
+        public static ActionErrorCode DeleteConclusion(string id, string company)
+        {
+            return DeleteByID("Conclusions", "5", id, company);
+        }
+
+        public static ActionErrorCode DeleteResolver(string id, string company)
+        {
+            return DeleteByID("Resolvers", "4", id, company);
+        }
+
+        public static ActionErrorCode DeleteQuestion(string id, string company)
+        {
+            return DeleteByID("Questions", "3", id, company);
+        }
+
+        public static ActionErrorCode DeleteExersize(string id, string company)
+        {
+            return DeleteByID("Exersizes", "2", id, company);
+        }
+
+        public static ActionErrorCode DeleteBlock(string id, string company)
+        {
+            return DeleteByID("Blocks", "1", id, company);
+        }
+
+        public static ActionErrorCode DeleteProgram(string id, string company)
+        {
+            return DeleteByID("Programs", "0", id, company);
+        }
     }
 }

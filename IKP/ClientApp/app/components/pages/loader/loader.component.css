@@ -6,3 +6,11 @@
     background-color: rgba(128, 128, 128, 0.5);
     z-index: 1;
 }
+
+.content {
+    position: relative;
+    left: calc(50% - 110px);
+    top: calc(50% - 110px);
+    width: 221px;
+    height: 221px;
+}

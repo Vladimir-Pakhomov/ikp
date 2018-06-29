@@ -184,4 +184,53 @@ export class ActionService {
             `api/Action/EditVideo?company=${company}&content1=${content1}&content2=${content2}&isFirstCorrect=${isFirstCorrect ? 1 : 0}&playbackType=${playbackType}&id=${id}`)
         .map(r => Number(r.json().error));
     }
+
+    /* Delete */
+    deleteProgram(id: number, company: string): Observable<number> {
+        return this.http.get(this.baseUrl + 
+            `api/Action/DeleteProgram?id=${id}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
+    deleteBlock(id: number, company: string): Observable<number> {
+        return this.http.get(this.baseUrl + 
+            `api/Action/DeleteBlock?id=${id}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
+    deleteExersize(id: number, company: string): Observable<number> {
+        return this.http.get(this.baseUrl + 
+            `api/Action/DeleteExersize?id=${id}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
+    deleteQuestion(id: number, company: string): Observable<number> {
+        return this.http.get(this.baseUrl + 
+            `api/Action/DeleteQuestion?id=${id}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
+    deleteResolver(id: number, company: string): Observable<number> {
+        return this.http.get(this.baseUrl + 
+            `api/Action/DeleteResolver?id=${id}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
+    deleteConclusion(id: number, company: string): Observable<number> {
+        return this.http.get(this.baseUrl + 
+            `api/Action/DeleteConclusion?id=${id}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
+    deleteConclusionItem(id: number, company: string): Observable<number> {
+        return this.http.get(this.baseUrl + 
+            `api/Action/DeleteConclusionItem?id=${id}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
+
+    deleteVideo(id: number, company: string): Observable<number> {
+        return this.http.get(this.baseUrl + 
+            `api/Action/DeleteVideo?id=${id}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
 }

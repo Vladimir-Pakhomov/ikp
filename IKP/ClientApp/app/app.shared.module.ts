@@ -42,6 +42,7 @@ import { ConclusionStructureComponent } from './components/misc/structure/conclu
 import { PendingInterceptorService } from './services/interceptors/pending-interceptor.service';
 import { LoaderComponent } from './components/pages/loader/loader.component';
 import { MediaManagerComponent } from './components/media-manager/media-manager.component';
+import { MessageService } from './services/interceptors/message.service';
 
 @NgModule({
     declarations: [
@@ -103,7 +104,8 @@ import { MediaManagerComponent } from './components/media-manager/media-manager.
         LoginService,
         FileService,
         DatePipe,
-        PendingInterceptorService
+        PendingInterceptorService,
+        MessageService
     ]
 })
 export class AppModuleShared {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -491,6 +492,163 @@ namespace IKP.Controllers
             catch (Exception ex)
             {
                 _actionLogger.Log($"EditVideo exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject DeleteVideo(string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                ActionErrorCode error = MySQLBridge.DeleteVideo(id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"DeleteVideo exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        private void DeleteDescendants(string id, string type, string childrenType, string company, 
+            Func<string, string, JObject> executor)
+        {
+            DataSet ds = MySQLBridge.GetDescendants(id, type, childrenType, company);
+            JArray descendants = JArray.FromObject(ds.Tables[0]);
+            foreach(JToken token in descendants)
+            {
+                executor(token["ID"].ToString(), company);
+            }
+        }
+
+        [HttpGet("[action]")]
+        public JObject DeleteConclusionItem(string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                DeleteDescendants(id, "6", "6", company, DeleteConclusionItem);
+                ActionErrorCode error = MySQLBridge.DeleteConclusionItem(id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"DeleteConclusionItem exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject DeleteConclusion(string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                DeleteDescendants(id, "5", "6", company, DeleteConclusionItem);
+                ActionErrorCode error = MySQLBridge.DeleteConclusion(id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"DeleteConclusion exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject DeleteResolver(string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                DeleteDescendants(id, "4", "7", company, DeleteVideo);
+                ActionErrorCode error = MySQLBridge.DeleteResolver(id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"DeleteResolver exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject DeleteQuestion(string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                DeleteDescendants(id, "3", "4", company, DeleteResolver);
+                ActionErrorCode error = MySQLBridge.DeleteQuestion(id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"DeleteQuestion exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject DeleteExersize(string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                DeleteDescendants(id, "2", "3", company, DeleteQuestion);
+                DeleteDescendants(id, "2", "5", company, DeleteConclusion);
+                ActionErrorCode error = MySQLBridge.DeleteExersize(id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"DeleteExersize exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject DeleteBlock(string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                DeleteDescendants(id, "1", "1", company, DeleteBlock);
+                DeleteDescendants(id, "1", "2", company, DeleteExersize);
+                ActionErrorCode error = MySQLBridge.DeleteBlock(id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"DeleteBlock exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject DeleteProgram(string id, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                DeleteDescendants(id, "0", "1", company, DeleteBlock);
+                DeleteDescendants(id, "0", "2", company, DeleteExersize);
+                ActionErrorCode error = MySQLBridge.DeleteProgram(id, company);
+                result.Add("error", (int)error);
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"DeleteProgram exception: {ex}");
                 result.Add("error", (int)ActionErrorCode.Other);
             }
             return result;

@@ -32,7 +32,6 @@ import { QuestionFormComponent } from './components/misc/forms/question-form/que
 import { ConclusionFormComponent } from './components/misc/forms/conclusion-form/conclusion-form.conponent';
 import { ResolverFormComponent } from './components/misc/forms/resolver-form/resolver-form.component';
 import { QuestionResolversComponent } from './components/misc/structure/question-resolvers/question-resolvers.component';
-import { ImagePresenterComponent } from './components/misc/image-presenter/image-presenter.component';
 import { FileService } from './services/file/file.service';
 import { VideoFormComponent } from './components/misc/forms/video-form/video-form.component';
 import { ResolverVideosComponent } from './components/misc/structure/resolver-videos/resolver-videos.component';
@@ -43,6 +42,8 @@ import { PendingInterceptorService } from './services/interceptors/pending-inter
 import { LoaderComponent } from './components/pages/loader/loader.component';
 import { MediaManagerComponent } from './components/media-manager/media-manager.component';
 import { MessageService } from './services/interceptors/message.service';
+import { FileUploadComponent } from './components/misc/file-upload/file-upload.component';
+import { GalleryComponent } from './components/misc/gallery/gallery.component';
 
 @NgModule({
     declarations: [
@@ -71,12 +72,13 @@ import { MessageService } from './services/interceptors/message.service';
         ConclusionItemFormComponent,
         QuestionResolversComponent,
         ResolverFormComponent,
-        ImagePresenterComponent,
         VideoFormComponent,
         ResolverVideosComponent,
         ExecutionComponent,
         RtComponent,
         MediaManagerComponent,
+        FileUploadComponent,
+        GalleryComponent,
 
         ToolbarComponent,
         LoaderComponent,

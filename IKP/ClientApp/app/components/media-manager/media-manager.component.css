@@ -11,21 +11,3 @@ td.current {
     font-weight: bold;
     color: #fff;
 }
-
-.item {
-    width: 180px;
-    height: 180px;
-    float: left;
-    text-align: center;
-    border: 1px solid #ddd;
-    padding: 10px;
-}
-
-.video-item {
-    width: 220px;
-    height: 220px;
-    float: left;
-    text-align: center;
-    border: 1px solid #ddd;
-    padding: 10px;
-}

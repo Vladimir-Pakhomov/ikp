@@ -11,13 +11,8 @@ export class FileService {
         this._baseURL = baseUrl;
     }
 
-    upload(files: FormData, company: string){
-        let headers = new Headers();
-        let options = new RequestOptions({ headers: headers });
-        return this.http.post(this._baseURL + `api/FileService/Upload?company=${company}`, files)
-                 .map(response => response.json())
-                 .catch(error => Observable.throw(error));
-
+    upload(formData: FormData): Observable<any>{
+        return this.http.post(this._baseURL + 'api/FileService/UploadFile', formData);
     }
 
     getVideo(link: string, company: string): string {

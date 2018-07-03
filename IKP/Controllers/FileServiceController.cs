@@ -21,7 +21,7 @@ namespace IKP.Controllers
         private Logger _fileServiceLogger = new Logger("FileService", "logs");
 
         [HttpPost("[action]")]
-        public async void UploadFile(IFormFile uploadedFile, string folder, string company)
+        public void UploadFile(IFormFile uploadedFile, string folder, string company)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace IKP.Controllers
                     _fileServiceLogger.Log($"Uploading file {path}");
                     using (var fileStream = new FileStream(path, FileMode.Create))
                     {
-                        await uploadedFile.CopyToAsync(fileStream);
+                        uploadedFile.CopyTo(fileStream);
                     }
                 }
                 else

@@ -4,7 +4,7 @@
 </div>
 <div>
     <div style="display: inline-block;">Показаны последние {{lastIndex}} элементов из {{total}}</div>
-    <div *ngIf="lastIndex < totalCount" style="display: inline-block; margin-left: 50%;">
+    <div *ngIf="lastIndex < total" style="display: inline-block; margin-left: 50%;">
         <button class="btn btn-secondary" (click)="more10()">Показать еще 10</button>
     </div>
     <div style="margin-top: 30px;">
@@ -12,7 +12,7 @@
             <div *ngFor="let video of dataSlice" class="video-item">
                 <media-presenter [mediaSource]="getVideoUrl(video)" [width]="200" [height]="150"></media-presenter>
                 <br>
-                <div>{{video}}</div>
+                <div *ngIf="!selectionEnabled">{{video}}</div>
                 <button *ngIf="selectionEnabled" class="btn btn-secondary" (click)="onSelected(video)">Выбрать</button>
             </div>
         </div>
@@ -20,7 +20,7 @@
             <div *ngFor="let image of dataSlice" class="image-item">
                 <img width="100" height="100" [src]="getImageSrc(image)" />
                 <br>
-                <div>{{image}}</div>
+                <div *ngIf="!selectionEnabled">{{image}}</div>
                 <button *ngIf="selectionEnabled" class="btn btn-secondary" (click)="onSelected(image)">Выбрать</button>
             </div>
         </div>    

@@ -170,9 +170,11 @@
                 (onBack)="onBack()"></resolver-videos>
 
             <video-form *ngSwitchCase="'AddVideo'" [parentID]="currentResolver.ID"
+                [company]="currentUser.Company"
                 (onFormCompleted)="addVideoToResolver($event)"
                 (onFormCancelled)="goToModule('ResolverVideos')"></video-form>
             <video-form *ngSwitchCase="'EditVideo'" [parentID]="currentResolver.ID"
+                [company]="currentUser.Company"
                 (onFormCompleted)="performEditVideo($event)"
                 (onFormCancelled)="goToModule('ResolverVideos')"
                 [video]="currentVideo"></video-form>

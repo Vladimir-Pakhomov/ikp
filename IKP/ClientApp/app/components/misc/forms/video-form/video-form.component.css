@@ -1,1 +1,5 @@
 @import url(../form.css);
+
+.itemGroup {
+    margin-top: 10px;
+}

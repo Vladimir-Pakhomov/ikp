@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { MainModule } from '../../../pages/main-page/main-page.component';
 import { Video } from '../../../../services/models/main.model';
+import { FileService } from '../../../../services/file/file.service';
 
 @Component({
     selector: 'video-form',
@@ -9,6 +10,7 @@ import { Video } from '../../../../services/models/main.model';
 })
 export class VideoFormComponent implements OnInit {
     @Input() parentID: number;
+    @Input() company: string;
 
     @Output() onFormCompleted: EventEmitter<any> = new EventEmitter<any>();
     @Output() onFormCancelled: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -31,6 +33,20 @@ export class VideoFormComponent implements OnInit {
         return !!this.video.Content1 && !!this.video.PlaybackType;
     }
 
+    getVideoUrl(video: string){
+        return this.fileService.getVideo(video, this.company);
+    }
+
+    showGallery: boolean;
+    gallery1: boolean;
+    gallery2: boolean;
+    preview: boolean;
+    current: string;
+
+    constructor(private fileService: FileService){
+
+    }
+
     ngOnInit() {
         this.editMode = this.video != null;
         if(!this.editMode){
@@ -50,5 +66,45 @@ export class VideoFormComponent implements OnInit {
 
     onPlaybackTypeSelected() {
         this.video.PlaybackType = this.playbackTypeSelectedIndex;
+    }
+
+    showG1() {
+        this.showGallery = true;
+        this.gallery1 = true;
+        this.gallery2 = false;
+        this.preview = false;
+    }
+
+    setCurrent1() {
+        this.current = this.video.Content1;
+        this.preview = true;
+        this.showGallery = false;
+    }
+
+    showG2() {
+        this.showGallery = true;
+        this.gallery1 = false;
+        this.gallery2 = true;
+        this.preview = false;
+    }
+
+    setCurrent2() {
+        this.current = this.video.Content2;
+        this.preview = true;
+        this.showGallery = false;
+    }
+
+    onGallery1Selected(src: string){
+        this.video.Content1 = src;
+        this.showGallery = false;
+        this.gallery1 = false;
+        this.preview = false;
+    }
+
+    onGallery2Selected(src: string){
+        this.video.Content2 = src;
+        this.showGallery = false;
+        this.gallery2 = false;
+        this.preview = false;
     }
 }

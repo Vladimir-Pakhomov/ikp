@@ -2,14 +2,22 @@
     <h2 *ngIf="!editMode">Добавить видео</h2>
     <h2 *ngIf="editMode">Редактировать видео</h2>
     <div class="itemGroup">
+        <button *ngIf="valid" class="btn btn-success" (click)="ok()">Сохранить</button>
+        <button class="btn btn-secondary" (click)="cancel()">Отмена</button>
+    </div>
+    <div class="itemGroup">
         <div class="itemCaption">Видео 1</div>
         <input class="itemInput" [ngClass]="{ 'invalid': !video.Content1 }" [(ngModel)]="video.Content1" />
+        <button class="btn btn-secondary" (click)="showG1()">Выбрать видео</button>
+        <button class="btn btn-secondary" *ngIf="video.Content1" (click)="setCurrent1()">Просмотр</button>
         <div *ngIf="!video.Content1" class="validationMessage">Поле обязательно к заполнению</div>
     </div>
     <br>
     <div class="itemGroup">
         <div class="itemCaption">Видео 2 (необязательно)</div>
         <input class="itemInput" [(ngModel)]="video.Content2" />
+        <button class="btn btn-secondary" (click)="showG2()">Выбрать видео</button>
+        <button class="btn btn-secondary" *ngIf="video.Content2" (click)="setCurrent2()">Просмотр</button>
     </div>
     <br>
     <div class="itemGroup">
@@ -27,6 +35,9 @@
         <div *ngIf="!video.PlaybackType" class="validationMessage">Поле обязательно к заполнению</div>
     </div>
     <br>
-    <button *ngIf="valid" class="btn btn-success" (click)="ok()">Сохранить</button>
-    <button class="btn btn-secondary" (click)="cancel()">Отмена</button>
+    <gallery *ngIf="showGallery && gallery1 && !gallery2" [mode]="0" selectionEnabled="true" [company]="company" (onFileSelected)="onGallery1Selected($event)"></gallery>
+    <gallery *ngIf="showGallery && gallery2 && !gallery1" [mode]="0" selectionEnabled="true" [company]="company" (onFileSelected)="onGallery2Selected($event)"></gallery>
+    <div *ngIf="preview">
+        <media-presenter [mediaSource]="getVideoUrl(current)" [width]="200" [height]="150"></media-presenter>
+    </div>
 </div>

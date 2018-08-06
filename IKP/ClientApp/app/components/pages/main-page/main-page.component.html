@@ -157,9 +157,11 @@
                 [conclusionItem]="currentConclusionItem"></conclusion-item-form>
 
             <resolver-form *ngSwitchCase="'AddResolver'" [parentID]="currentQuestion.ID"
+                [company]="currentUser.Company"
                 (onFormCompleted)="addResolverToQuestion($event)"
                 (onFormCancelled)="goToModule('QuestionResolvers')"></resolver-form>
             <resolver-form *ngSwitchCase="'EditResolver'" [parentID]="currentQuestion.ID"
+                [company]="currentUser.Company"
                 (onFormCompleted)="performEditResolver($event)"
                 (onFormCancelled)="goToModule('QuestionResolvers')"
                 [resolver]="currentResolver"></resolver-form>

@@ -667,7 +667,54 @@ namespace IKP.Controllers
             }
             catch (Exception ex)
             {
-                _actionLogger.Log($"AddVideoAsDescendant exception: {ex}");
+                _actionLogger.Log($"SendResult exception: {ex}");
+                result.Add("error", (int)ActionErrorCode.Other);
+            }
+            return result;
+        }
+
+        [HttpGet("[action]")]
+        public JObject PasteExersize(string idtargetblock, string blocktype, string idsource, string company)
+        {
+            JObject result = new JObject();
+            try
+            {
+                DataSet ds = MySQLBridge.GetExersizeByID(company, idsource);
+                JObject exersize = JArray.FromObject(ds.Tables[0])[0] as JObject;
+                DataSet ds2 = MySQLBridge.GetDescendants(exersize["ID"].ToString(), "2", "3", company);
+                JArray questions = JArray.FromObject(ds2.Tables[0]);
+                foreach (JObject question in questions)
+                {
+                    DataSet ds3 = MySQLBridge.GetDescendants(question["ID"].ToString(), "3", "4", company);
+                    JArray resolvers = JArray.FromObject(ds3.Tables[0]);
+                    foreach (JObject resolver in resolvers)
+                    {
+                        DataSet ds4 = MySQLBridge.GetDescendants(resolver["ID"].ToString(), "4", "5", company);
+                        JArray videos = JArray.FromObject(ds4.Tables[0]);
+                        resolver.Add("Videos", videos);
+                    }
+                    question.Add("Resolvers", resolvers);
+                }
+                exersize.Add("Questions", questions);
+                DataSet ds5 = MySQLBridge.GetDescendants(exersize["ID"].ToString(), "2", "6", company);
+                JArray conclusions = JArray.FromObject(ds5.Tables[0]);
+                foreach (JObject conclusion in conclusions)
+                {
+                    DataSet ds6 = MySQLBridge.GetDescendants(conclusion["ID"].ToString(), "6", "7", company);
+                    JArray conclusionItems = JArray.FromObject(ds6.Tables[0]);
+                    AdminServiceController.HandleRecursiveDescendants(conclusionItems, "7", "ConclusionItems", company);
+                    conclusion.Add("ConclusionItems", conclusionItems);
+                }
+                exersize.Add("Conclusions", conclusions);
+
+                _actionLogger.Log($"Pasting exersize full data: targetBlock={idtargetblock}, blockType={blocktype}");
+                ActionErrorCode error = MySQLBridge.PasteExersize(exersize, idtargetblock, blocktype, company);
+                result.Add("error", (int)error);
+                _actionLogger.Log($"Paste exersize result: {(int)error}");
+            }
+            catch (Exception ex)
+            {
+                _actionLogger.Log($"PasteExersize exception: {ex}");
                 result.Add("error", (int)ActionErrorCode.Other);
             }
             return result;

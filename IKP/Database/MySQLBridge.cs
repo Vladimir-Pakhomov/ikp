@@ -348,6 +348,30 @@ namespace IKP.Database
             }
         }
 
+        public static DataSet GetExersizeByID(string company, string idEx)
+        {
+            try
+            {
+                using (var conn = CreateConnectionByCompany(company))
+                {
+                    if (conn != null)
+                    {
+                        DataSet ds = new DataSet();
+                        var cmd = new MySqlCommand($"select * from Exersizes where ID={idEx};", conn);
+                        MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(cmd);
+                        mySqlDataAdapter.Fill(ds);
+                        return ds;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _dbLogger.Log($"GetExersizeByID exception: {ex}");
+                return null;
+            }
+        }
+
         public static DataSet GetUserByID(string company, string idUser)
         {
             try
@@ -821,6 +845,52 @@ namespace IKP.Database
             DateTime _end = DateTime.Parse(end);
             string cmd = $"insert into `Results` (Start, End, Elapsed, IDUser, IDProgram, IDBlock, Correctness, Rationality, TotalPercentage)" +
                 $"values ('{start}', '{end}', {(int)((_end - _start).TotalMinutes)}, {idUser}, {idProgram}, {idBlock}, '{correctness}', '{rationality}', '{totalPercentage}');";
+            return PerformAction(company, cmd);
+        }
+
+        public static ActionErrorCode PasteExersize(Newtonsoft.Json.Linq.JObject exersize, string idTargetBlock, string blockType, string company)
+        {
+            string cmd =
+                $"start transaction; " +
+                $"insert into `Exersizes` (Name, GeneralQuestion) values ('Копия {exersize["Name"]}', '{exersize["GeneralQuestion"]}'); " +
+                $"select @lastExID := max(ID) from `Exersizes`;" +
+                $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values ({idTargetBlock}, {blockType}, @lastExID, 2); ";
+            foreach(Newtonsoft.Json.Linq.JToken question in exersize["Questions"])
+            {
+                cmd +=
+                $"insert into `Questions` (Content) values ('{question["Content"]}'); " +
+                $"select @lastQuestionID := max(ID) from `Questions`;" +
+                $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values (@lastExID, 2, @lastQuestionID, 3); ";
+                foreach(Newtonsoft.Json.Linq.JToken resolver in question["Resolvers"])
+                {
+                    cmd +=
+                    $"insert into `Resolvers` (Type, Content) values ({resolver["Type"]}, '{resolver["Content"]}'); " +
+                    $"select @lastResolverID := max(ID) from `Resolvers`;" +
+                    $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values (@lastQuestionID, 3, @lastResolverID, 4); ";
+                    foreach(Newtonsoft.Json.Linq.JToken video in resolver["Videos"])
+                    {
+                        cmd +=
+                        $"insert into `Videos` (Content1, Content2, IsFirstCorrect, PlaybackType) values ('{video["Content1"]}', '{video["Content2"]}', {video["IsFirstCorrect"]}, {video["PlaybackType"]}); " +
+                        $"select @lastVideoID := max(ID) from `Videos`;" +
+                        $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values (@lastResolverID, 4, @lastVideoID, 5); ";
+                    }
+                }
+            }
+            foreach(Newtonsoft.Json.Linq.JToken conclusion in exersize["Conclusions"])
+            {
+                cmd +=
+                $"insert into `Conclusions` (Name) values ('{conclusion["Name"]}'); " +
+                $"select @lastConclusionID := max(ID) from `Conclusions`;" +
+                $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values (@lastExID, 2, @lastConclusionID, 6); ";
+                foreach(Newtonsoft.Json.Linq.JToken conclusionItem in conclusion["ConclusionItems"])
+                {
+                    cmd +=
+                    $"insert into `ConclusionItems` (Content, IsBranch, IsCorrect) values ('{conclusionItem["Content"]}', {conclusionItem["IsBranch"]}, {conclusionItem["IsCorrect"]}); " +
+                    $"select @lastConclusionItemID := max(ID) from `ConclusionItems`;" +
+                    $"insert into `Links` (IDParent, ParentType, IDChild, ChildType) values (@lastConclusionID, 6, @lastConclusionItemID, 7); ";
+                }
+            }
+            cmd += "commit;";
             return PerformAction(company, cmd);
         }
 

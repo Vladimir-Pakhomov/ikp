@@ -233,4 +233,10 @@ export class ActionService {
             `api/Action/DeleteVideo?id=${id}&company=${company}`)
         .map(r => Number(r.json().error));
     }
+
+    pasteExersize(idTargetBlock: number, blockType: string, idSource: number, company: string): Observable<number> {
+        return this.http.get(this.baseUrl + 
+            `api/Action/PasteExersize?idtargetblock=${idTargetBlock}&blocktype=${blockType}&idsource=${idSource}&company=${company}`)
+        .map(r => Number(r.json().error));
+    }
 }

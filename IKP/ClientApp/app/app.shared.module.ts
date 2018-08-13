@@ -44,6 +44,7 @@ import { MediaManagerComponent } from './components/media-manager/media-manager.
 import { MessageService } from './services/interceptors/message.service';
 import { FileUploadComponent } from './components/misc/file-upload/file-upload.component';
 import { GalleryComponent } from './components/misc/gallery/gallery.component';
+import { ClipboardService } from './services/clipboard/clipboard.service';
 
 @NgModule({
     declarations: [
@@ -107,7 +108,8 @@ import { GalleryComponent } from './components/misc/gallery/gallery.component';
         FileService,
         DatePipe,
         PendingInterceptorService,
-        MessageService
+        MessageService,
+        ClipboardService
     ]
 })
 export class AppModuleShared {

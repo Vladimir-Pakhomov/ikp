@@ -214,7 +214,7 @@ namespace IKP.Controllers
             }
         }
 
-        private void HandleRecursiveDescendants(JArray source, string type, string propertyName, string company)
+        public static void HandleRecursiveDescendants(JArray source, string type, string propertyName, string company)
         {
             foreach (JObject descendant in source)
             {

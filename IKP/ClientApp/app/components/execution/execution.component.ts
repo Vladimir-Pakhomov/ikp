@@ -146,6 +146,18 @@ export class ExecutionComponent implements OnInit, OnDestroy {
         if(this.currentResolver != i) {
             this.currentResolver = i;
             this.resolverChanges++;
+
+            // Joker - фича подмены правильных ответов по рандому на интерфейсе.
+            let useJoker = Math.random() < 0.5;
+            if(useJoker) {
+                let c1 = this.blockData[this.currentEx].Questions[this.currentQuestion].Resolvers[this.currentResolver].Videos[0].Content1;
+                this.blockData[this.currentEx].Questions[this.currentQuestion].Resolvers[this.currentResolver].Videos[0].Content1 =
+                    this.blockData[this.currentEx].Questions[this.currentQuestion].Resolvers[this.currentResolver].Videos[0].Content2;
+                this.blockData[this.currentEx].Questions[this.currentQuestion].Resolvers[this.currentResolver].Videos[0].Content2 = c1;
+                this.blockData[this.currentEx].Questions[this.currentQuestion].Resolvers[this.currentResolver].Videos[0].IsFirstCorrect = 
+                    !this.blockData[this.currentEx].Questions[this.currentQuestion].Resolvers[this.currentResolver].Videos[0].IsFirstCorrect;
+            }
+
             this.media1 =
                 this.fileService.getVideo(
                 this.blockData[this.currentEx].Questions[this.currentQuestion].Resolvers[this.currentResolver].Videos[0].Content1,

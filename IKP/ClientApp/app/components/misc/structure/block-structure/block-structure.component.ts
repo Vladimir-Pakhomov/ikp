@@ -50,24 +50,23 @@ export class BlockStructureComponent implements OnInit, OnChanges, OnDestroy {
         this.blockExtraActions = [{ key: 'viewBlockStructure', value: 'Структура...' }];
         if(this.role == 0) {
             this.exersizeExtraActions.push({ key: 'viewQuestions', value: 'Состав упражнения..' });
+            this.exersizeExtraActions.push({ key: 'copyEx', value: 'Копировать' });
+            this.clip.canPasteChanged.takeUntil(this._destroy$).subscribe(canPaste => {
+                if(canPaste) {
+                    if(this.topActions.map(ta => ta.key).indexOf('pasteEx') < 0)
+                        this.topActions.push({ key: 'pasteEx', value: 'Вставить'});
+                    if(this.topActions.map(ta => ta.key).indexOf('dropEx') < 0)
+                        this.topActions.push({ key: 'dropEx', value: 'Очистить буфер'});
+                }
+                else {
+                    this.topActions = this.topActions.filter(x => x.key !== 'pasteEx' && x.key !== 'dropEx');
+                }
+            });
+            this.clip.request();
         }
-        this.exersizeExtraActions.push({ key: 'copyEx', value: 'Копировать' });
         if(this.role == 2)  {
             this.topActions.push({ key: 'startBlockExecution', value: 'Начать выполнение!' });
         }
-        this.clip.canPasteChanged.takeUntil(this._destroy$).subscribe(canPaste => {
-            if(canPaste) {
-                if(this.topActions.map(ta => ta.key).indexOf('pasteEx') < 0)
-                    this.topActions.push({ key: 'pasteEx', value: 'Вставить'});
-                if(this.topActions.map(ta => ta.key).indexOf('dropEx') < 0)
-                    this.topActions.push({ key: 'dropEx', value: 'Очистить буфер'});
-            }
-            else {
-                this.topActions = this.topActions.filter(x => x.key !== 'pasteEx' && x.key !== 'dropEx');
-            }
-        });
-        this.clip.request();
-        
     }
 
     ngOnDestroy() {

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, Subscription } from 'rxjs';
 import { User, ConclusionItem } from '../../services/models/main.model';
 import { LoginService } from '../../services/login/login.service';
 import { Block } from '../../services/models/main.model';
@@ -25,6 +25,20 @@ export class ExecutionComponent implements OnInit, OnDestroy {
     blockData: any;
 
     displayResults: boolean = false;
+
+    canAnswer: boolean = false;
+    videoPlaySubscription: Subscription;
+
+    media1Play: Subject<boolean> = new Subject<boolean>();
+    media2Play: Subject<boolean> = new Subject<boolean>();
+
+    onMedia1Play() {
+        this.media1Play.next(true);
+    }
+
+    onMedia2Play() {
+        this.media2Play.next(true);
+    }
 
     questionsCompletedCount(i: number){
         return this.blockData[i].Questions.filter((x: any) => this.isSuccess(x)).length;
@@ -171,6 +185,15 @@ export class ExecutionComponent implements OnInit, OnDestroy {
                 this.blockData[this.currentEx].Questions[this.currentQuestion].Resolvers[this.currentResolver].Videos[0].Content2,
                 this.currentUser.Company);
             }
+            this.canAnswer = false;
+            if(this.videoPlaySubscription)
+                this.videoPlaySubscription.unsubscribe();
+            this.videoPlaySubscription = Observable.zip(
+                this.media1Play,
+                this.media2Play
+            ).take(1).subscribe(() => {
+                this.canAnswer = true;
+            });
         }
     }
 

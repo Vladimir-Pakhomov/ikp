@@ -53,20 +53,21 @@
     <h2>{{blockData[currentEx].GeneralQuestion}}</h2>
     <br>
     <div class="videoContainer">
+    <div *ngIf="conclusionMode" style="text-align: center; padding: 10px;">Определите сами направления обследования и его порядок, выберите необходимый речевой материал.</div>
     <div *ngIf="currentResolver >= 0">
         <div style="float: left;">
-            <media-presenter [mediaSource]="media1"></media-presenter>
-            <div *ngIf="media2 && !conclusionMode">
+            <media-presenter [mediaSource]="media1" (onPlay)="onMedia1Play()"></media-presenter>
+            <div *ngIf="media2 && canAnswer && !conclusionMode">
                 <button *ngIf="media2State == ''" [ngClass]="{ 'success': media1State == 'success', 'error': media1State == 'error'}" class="btn btn-secoundary" style="width: 400px; margin-top: 5px;" (click)="selectMedia1()">Выбрать</button>
             </div>
-            <div *ngIf="!media2 && !conclusionMode">
-                    <button *ngIf="abuseState == ''" [ngClass]="{ 'success': normalState == 'success', 'error': normalState == 'error'}" class="btn btn-secoundary" style="float: left; width: 190px; margin: 5px;" (click)="selectNormal()">Норма</button>
-                    <button *ngIf="normalState == ''" [ngClass]="{ 'success': abuseState == 'success', 'error': abuseState == 'error'}" class="btn btn-secoundary" style="float: right; width: 190px; margin: 5px;" (click)="selectAbuse()">Нарушение</button>
+            <div *ngIf="!media2 && canAnswer && !conclusionMode">
+                <button *ngIf="abuseState == ''" [ngClass]="{ 'success': normalState == 'success', 'error': normalState == 'error'}" class="btn btn-secoundary" style="float: left; width: 190px; margin: 5px;" (click)="selectNormal()">Норма</button>
+                <button *ngIf="normalState == ''" [ngClass]="{ 'success': abuseState == 'success', 'error': abuseState == 'error'}" class="btn btn-secoundary" style="float: right; width: 190px; margin: 5px;" (click)="selectAbuse()">Нарушение</button>
             </div>
         </div>
         <div *ngIf="media2 && !conclusionMode" style="float: right;">
-            <media-presenter [mediaSource]="media2"></media-presenter>
-            <div>
+            <media-presenter [mediaSource]="media2" (onPlay)="onMedia2Play()"></media-presenter>
+            <div *ngIf="canAnswer">
                 <button *ngIf="media1State == ''" [ngClass]="{ 'success': media2State == 'success', 'error': media2State == 'error'}" class="btn btn-secoundary" style="width: 400px; margin-top: 5px;" (click)="selectMedia2()">Выбрать</button>
             </div>
         </div>
@@ -76,7 +77,7 @@
         [childrenProperty]="'ConclusionItems'" (onItemSelected)="conclusionItemSelected($event)"></rt>
     </div>
     <div style="text-align: center; line-height: 350px;" *ngIf="currentResolver < 0 && !conclusionMode">
-        Выберите направление обследования и материал для просмотра соответствующих видео.
+        Последовательно выбирайте направление обследования и так же последовательно - весь речевой материал.
     </div>
     </div>
     <br>

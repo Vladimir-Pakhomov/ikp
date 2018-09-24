@@ -1,4 +1,4 @@
-<div style="margin-left: 20px;">
+<!--div style="margin-left: 20px;">
     <div *ngFor="let item of level" [ngClass]="{'hidden': isDisplayNotNeeded(item)}">
         <button style="margin: 5px 0;" class="btn btn-secondary"
         (click)="itemSelected(item)"
@@ -8,4 +8,14 @@
             [childrenProperty]="childrenProperty" [level]="item[childrenProperty]"
             [isExpanded]="isExpanded" (onItemSelected)="itemSelected($event)"></rt>
     </div>
-</div>
+</div-->
+<table class="table table-striped table-bordered">
+    <tr *ngFor="let hblock of hblocks;" [ngClass]="{'hidden': hblock.levelIndex > currentIndex }">
+        <td>{{hblock.key}}</td>
+        <td>
+            <button [ngClass]="{'btn-success': value.isSuccess, 'btn-danger': value.isFailed, 'hidden': isDisplayNotNeeded(hblock, value)}"
+             (click)="itemSelected(value)" class="btn btn-default" style="display: block;" 
+             *ngFor="let value of hblock.values">{{value[displayProperty]}}</button>
+        </td>
+    </tr>
+</table>

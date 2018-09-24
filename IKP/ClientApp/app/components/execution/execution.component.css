@@ -37,7 +37,6 @@ td.current {
     width: calc(100% - 410px);
     height: 300px;
     overflow: auto;
-    background-color: darkgray;
 }
 
 .videoContainer {

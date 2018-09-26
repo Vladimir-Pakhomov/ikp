@@ -65,6 +65,21 @@ namespace IKP.Controllers
         }
 
         [HttpGet("[action]")]
+        public IActionResult GetSwfFile(string link, string folder, string company)
+        {
+            try
+            {
+                Stream s = System.IO.File.OpenRead($"assets/{company}/{folder}/{link}");
+                return File(s, "application/x-shockwave-flash");
+            }
+            catch (Exception ex)
+            {
+                _fileServiceLogger.Log($"GetSwfFile Exception: {ex}");
+                return null;
+            }
+        }
+
+        [HttpGet("[action]")]
         public JArray GetFiles(string folder, string company)
         {
             try

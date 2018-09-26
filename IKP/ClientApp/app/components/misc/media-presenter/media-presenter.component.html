@@ -1,6 +1,6 @@
 <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 <script src="https://unpkg.com/video.js/dist/video.js"></script>
-<div class="videoWrapper">    
+<div class="videoWrapper" *ngIf="mediaSource && !this.isSwf()">    
     <video #video
     id="my-player" 
     class="video-js"
@@ -21,3 +21,4 @@
   </p>
 </video>
 </div>
+<embed #embed *ngIf="isSwf()" type="application/x-shockwave-flash" [width]="width" [height]="height" />
